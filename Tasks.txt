@@ -1,0 +1,9 @@
+TOP PRIORITY:
+	
+
+URGENT:
+	- refactor dust.m for isolated-wing case
+	- implement a script to compare dust force output with: openVSP, euler (and maybe more as xflr5)
+	
+MAYBE:
+	- refactor and complete dust validation for NACA0012_AR10 wing (AVL,xflr5,dust)
