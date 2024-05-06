@@ -1,0 +1,46 @@
+
+DOMANDE:
+
+	1)	Perchè i dati con la nuova condizione di kutta non convergono?
+			see: > issue-DUST > outputAnalysis_DUST.m > WING
+
+	2) 	Come calcola i carichi fusoliera (NOTA: scia è soppressa)?
+		Considero solo carichi su ala nel caso "fuslelage+wing" per quanto riguarda forze aerodinamiche?
+			
+	3)	Mesh fusoliera: va bene così o meglio farla strutturata?
+		Scaling dato in nell'input di DUST scala anche i carichi calcolati giusto?
+		Portata massica fusoliera non definita è un problema? si può definire?
+			see: > issue-DUST > fuselage > fuselage.stl
+
+	4)	Risultati non divergenti anche nel caso di intersezione ala fusoliera, perchè?
+		vortex_stretch, diffusion, non_penetration? attivi o no?
+			see: > issue-DUST > outputAnalysis_DUST.m > WING + FUSELAGE
+			see: > issue-DUST > outputAnalysis_DUST.m > WING + TANK
+			see: > issue-DUST > outputAnalysis_DUST.m > COMPARE
+			see: > issue-DUST > wing+tank > paraview
+			see: > issue-DUST > wing+fuselage > paraview
+
+
+	5)	Come gestire wake panel enormi quando alzo la velocità del flusso?
+			see: > issue-DUST > wing > wingBigWake.vtu
+
+	6)	Lerx modificati dall'idea iniziale, come gestire il loro design?
+		Seguo sempre un approccio canard o unifico con ala?
+		Faccio affidamento a integral loads + cp(visual)?	[vedi paper]
+		Funzione flowfield di DUST, vale la pena?		
+			see: > issue-DUST > Lerx&Wingtip-Issue.pdf
+			see: > MEGA > Progetto > DUST_paper_reference.pdf
+
+	7)	Analisi effetto cambiamento forma wingtip?
+			see: > issue-DUST >
+
+	8)	Team di progetto velivoli sta studiando attacco ala fusoliera con formule semiempiriche
+		Attacco deve garantire determinate caratteristiche sulle derivate di stabilità
+		Ha senso utilizzare dust per validare tutto questo sull'intero velivolo?
+			see: > MEGA > Progetto > DUST_paper_reference.pdf
+
+
+COSE DA GUARDARE:	Fenomeni di pitch-break? CAPIRE
+
+
+
