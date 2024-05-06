@@ -11,8 +11,6 @@
 clearvars;  close all;  clc
 
 % Path with all DUST output data
-%addpath("src/");
-%addpath(genpath("data-repo/"));
 addpath(genpath("./"));
 
 % Set default interpreter for text
@@ -22,48 +20,41 @@ set(0,'defaultLegendInterpreter','latex');
 
 
 %% INPUT
-
 plotFlag = struct;
     plotFlag.wing = true;           % plot wing only data
-    plotFlag.wingFuselage = false;   % plot wing-fuselage interaction data
-    plotFlag.wingTank = false;       % plot wing-tank interaction data
+    plotFlag.wingFuselage = true;   % plot wing-fuselage interaction data
+    plotFlag.wingTank = true;       % plot wing-tank interaction data
     
-    plotFlag.convergence = false;    % plot convergence over time for previous selected plot
-    plotFlag.compare = false;        % plot compare between different cases
+    plotFlag.convergence = true;    % plot convergence over time for previous selected plot
+    plotFlag.compare = true;        % plot compare between different cases
 
 
 %% DATA IMPORT
 
 % fuselage force
-[fuselage.a0 ] = readDataDUST('fuselage/fuselage_a0.dat' ,'integral_loads');
+[fuselage.a0 ] = readDataDUST('fuselage/fuselage_a0.dat' ,'integral_loads');    % wake suppressed
 [fuselage.a5 ] = readDataDUST('fuselage/fuselage_a5.dat' ,'integral_loads');
 [fuselage.a10] = readDataDUST('fuselage/fuselage_a10.dat','integral_loads');
 [fuselage.am5] = readDataDUST('fuselage/fuselage_a-5.dat','integral_loads');
 
 % wing force
-[wing.a0 ] = readDataDUST('wing/wing_a0.dat' ,'integral_loads');
+[wing.a0 ] = readDataDUST('wing/wing_a0.dat' ,'integral_loads');    % standard settings
 [wing.a5 ] = readDataDUST('wing/wing_a5.dat' ,'integral_loads');
 [wing.a10] = readDataDUST('wing/wing_a10.dat','integral_loads');
 [wing.am5] = readDataDUST('wing/wing_a-5.dat','integral_loads');
 
-[wing.ka0 ] = readDataDUST('wing/wing_ka0.dat' ,'integral_loads');
+[wing.ka0 ] = readDataDUST('wing/wing_ka0.dat' ,'integral_loads');  % new kutta condition
 [wing.ka5 ] = readDataDUST('wing/wing_ka5.dat' ,'integral_loads');
 [wing.ka10] = readDataDUST('wing/wing_ka10.dat','integral_loads');
 [wing.kam5] = readDataDUST('wing/wing_ka-5.dat','integral_loads');
 
-% wing+fuselage influence on wing force
-[wingFuselage.wing.d175] = readDataDUST('wing-fuselage/wing_a5d175.dat','integral_loads');
+% wing+fuselage influence on wing force (fuselage scaled)
+[wingFuselage.wing.d100] = readDataDUST('wing-fuselage/wing_a5d100.dat','integral_loads');  % intersec
+[wingFuselage.wing.d175] = readDataDUST('wing-fuselage/wing_a5d175.dat','integral_loads');  
 [wingFuselage.wing.d200] = readDataDUST('wing-fuselage/wing_a5d200.dat','integral_loads');
 [wingFuselage.wing.d225] = readDataDUST('wing-fuselage/wing_a5d225.dat','integral_loads');
 [wingFuselage.wing.d250] = readDataDUST('wing-fuselage/wing_a5d250.dat','integral_loads');
 [wingFuselage.wing.d300] = readDataDUST('wing-fuselage/wing_a5d300.dat','integral_loads');
-
-% wink+fuselage force data suppressed for the moment
-% [wingFuselage.couple.d175] = readDataDUST('wing-fuselage/couple_a5d175.dat','integral_loads');
-% [wingFuselage.couple.d200] = readDataDUST('wing-fuselage/couple_a5d200.dat','integral_loads');
-% [wingFuselage.couple.d225] = readDataDUST('wing-fuselage/couple_a5d225.dat','integral_loads');
-% [wingFuselage.couple.d250] = readDataDUST('wing-fuselage/couple_a5d250.dat','integral_loads');
-% [wingFuselage.couple.d300] = readDataDUST('wing-fuselage/couple_a5d300.dat','integral_loads');
 
 % wing+tank influence on wing force
 [wingTank.wing.default.d25 ] = readDataDUST('wing-tank/default/wing_a5d25.dat','integral_loads');
@@ -73,7 +64,7 @@ plotFlag = struct;
 [wingTank.wing.default.d200] = readDataDUST('wing-tank/default/wing_a5d200.dat','integral_loads');
 
 % wing+tank influence on wing force no penetration
-[wingTank.wing.NP.d25 ] = readDataDUST('wing-tank/NP/wing_a5d25.dat','integral_loads');
+[wingTank.wing.NP.d25 ] = readDataDUST('wing-tank/NP/wing_a5d25.dat','integral_loads');     % intersec
 [wingTank.wing.NP.d50 ] = readDataDUST('wing-tank/NP/wing_a5d50.dat','integral_loads');
 [wingTank.wing.NP.d75 ] = readDataDUST('wing-tank/NP/wing_a5d75.dat','integral_loads');
 [wingTank.wing.NP.d100] = readDataDUST('wing-tank/NP/wing_a5d100.dat','integral_loads');
@@ -86,20 +77,29 @@ plotFlag = struct;
 [wingTank.wing.SDP.d100] = readDataDUST('wing-tank/SDP/wing_a5d100.dat','integral_loads');
 [wingTank.wing.SDP.d200] = readDataDUST('wing-tank/SDP/wing_a5d200.dat','integral_loads');
 
+%%% COUPLED LOAD
+% wink+fuselage force data suppressed for the moment
+% [wingFuselage.couple.d175] = readDataDUST('wing-fuselage/couple_a5d175.dat','integral_loads');
+% [wingFuselage.couple.d200] = readDataDUST('wing-fuselage/couple_a5d200.dat','integral_loads');
+% [wingFuselage.couple.d225] = readDataDUST('wing-fuselage/couple_a5d225.dat','integral_loads');
+% [wingFuselage.couple.d250] = readDataDUST('wing-fuselage/couple_a5d250.dat','integral_loads');
+% [wingFuselage.couple.d300] = readDataDUST('wing-fuselage/couple_a5d300.dat','integral_loads');
+
 % wink+tank force data suppressed for the moment
 % [wingTank.couple.d25 ] = readDataDUST('wing-tank/couple_a5d25.dat','integral_loads');
 % [wingTank.couple.d50 ] = readDataDUST('wing-tank/couple_a5d50.dat','integral_loads');
 % [wingTank.couple.d75 ] = readDataDUST('wing-tank/couple_a5d75.dat','integral_loads');
 % [wingTank.couple.d100] = readDataDUST('wing-tank/couple_a5d100.dat','integral_loads');
 
+
 % Angle considered
 alphaDeg = [-5, 0, 5, 10];
 alphaRad = deg2rad(alphaDeg);
 
 % Distance considered
-fuselageGap = [175 200 225 250 300];
+fuselageGap = [100 175 200 225 250 300];
 tankGap = [25 50 75 100 200];
-compareGap = [1 2 3 4 5];   % could be done bettere by adimentionalize
+compareGap = [1 2 3 4 5 6];   % could be done bettere by adimentionalize
                             % the gaps over a meaningful reference value
 
 %% WING
@@ -163,6 +163,26 @@ if plotFlag.wing == true
         plot(wing.am5.time, wing.am5.Fx);
         xlabel('$time$');      ylabel('$F_{x}$');
         legend('$\alpha = 0^{\circ}$','$\alpha = 5^{\circ}$','$\alpha =10^{\circ}$','$\alpha = -5^{\circ}$')
+
+        figure("Name",'FzKutta vs time')
+        title('wing $F_{z}$ Kutta convergence')
+        hold on;    grid on;    axis padded;
+        plot(wing.ka0.time , wing.ka0.Fz );
+        plot(wing.ka5.time , wing.ka5.Fz );
+        plot(wing.ka10.time, wing.ka10.Fz);
+        plot(wing.kam5.time, wing.kam5.Fz);
+        xlabel('$time$');      ylabel('$F_{z}$ Kutta');
+        legend('$\alpha = 0^{\circ}$','$\alpha = 5^{\circ}$','$\alpha = 10^{\circ}$','$\alpha = -5^{\circ}$')
+
+        figure("Name",'FxKutta vs time')
+        title('wing $F_{x}$ Kutta convergence')
+        hold on;    grid on;    axis padded;
+        plot(wing.ka0.time , wing.ka0.Fx );
+        plot(wing.ka5.time , wing.ka5.Fx );
+        plot(wing.ka10.time, wing.ka10.Fx);
+        plot(wing.kam5.time, wing.kam5.Fx);
+        xlabel('$time$');      ylabel('$F_{x}$ Kutta');
+        legend('$\alpha = 0^{\circ}$','$\alpha = 5^{\circ}$','$\alpha =10^{\circ}$','$\alpha = -5^{\circ}$')
     end
 end
 
@@ -170,9 +190,9 @@ end
 %% WING + FUSELAGE  (only wing contribute)
 
 %%% Aerodynamic force computation
-wingFuselage.FzVec = [wingFuselage.wing.d175.Fz(end), wingFuselage.wing.d200.Fz(end), ...
+wingFuselage.FzVec = [wingFuselage.wing.d100.Fz(end), wingFuselage.wing.d175.Fz(end), wingFuselage.wing.d200.Fz(end), ...
                       wingFuselage.wing.d225.Fz(end), wingFuselage.wing.d250.Fz(end), wingFuselage.wing.d300.Fz(end)];
-wingFuselage.FxVec = [wingFuselage.wing.d175.Fx(end), wingFuselage.wing.d200.Fx(end), ...
+wingFuselage.FxVec = [wingFuselage.wing.d100.Fx(end), wingFuselage.wing.d175.Fx(end), wingFuselage.wing.d200.Fx(end), ...
                       wingFuselage.wing.d225.Fx(end), wingFuselage.wing.d250.Fx(end), wingFuselage.wing.d300.Fx(end)];
 
 wingFuselage.liftVec = - wingFuselage.FxVec.*sin(alphaRad(3)) + wingFuselage.FzVec.*cos(alphaRad(3));
@@ -202,24 +222,26 @@ if plotFlag.wingFuselage == true
         figure("Name",'Fz vs time')
         title('wing+fuselage $F_{z}$ convergence')
         hold on;    grid on;    axis padded;
+        plot(wingFuselage.wing.d100.time, wingFuselage.wing.d100.Fz);
         plot(wingFuselage.wing.d175.time, wingFuselage.wing.d175.Fz);
         plot(wingFuselage.wing.d200.time, wingFuselage.wing.d200.Fz);
         plot(wingFuselage.wing.d225.time, wingFuselage.wing.d225.Fz);
         plot(wingFuselage.wing.d250.time, wingFuselage.wing.d250.Fz);
         plot(wingFuselage.wing.d300.time, wingFuselage.wing.d300.Fz);
         xlabel('$time$');      ylabel('$F_{z}$');
-        legend('d=1.75','d=2.0','d=2.25','d=2.50','d=3.0')
+        legend('d=1.0','d=1.75','d=2.0','d=2.25','d=2.50','d=3.0')
 
         figure("Name",'Fx vs time')
         title('wing+fuselage $F_{x}$ convergence')
         hold on;    grid on;    axis padded;
+        plot(wingFuselage.wing.d100.time, wingFuselage.wing.d100.Fx);
         plot(wingFuselage.wing.d175.time, wingFuselage.wing.d175.Fx);
         plot(wingFuselage.wing.d200.time, wingFuselage.wing.d200.Fx);
         plot(wingFuselage.wing.d225.time, wingFuselage.wing.d225.Fx);
         plot(wingFuselage.wing.d250.time, wingFuselage.wing.d250.Fx);
         plot(wingFuselage.wing.d300.time, wingFuselage.wing.d300.Fx);
         xlabel('$time$');      ylabel('$F_{x}$');
-        legend('d=1.75','d=2.0','d=2.25','d=2.50','d=3.0')
+        legend('d=1.0','d=1.75','d=2.0','d=2.25','d=2.50','d=3.0')
     end
 end
 
@@ -347,7 +369,7 @@ if plotFlag.compare == true
     figure("Name",'lift vs gap')
     title('wing-fuselage lift')
     hold on;    grid on;    axis padded;
-    plot(compareGap(1:5) , wingFuselage.liftVec); 
+    plot(compareGap(1:6) , wingFuselage.liftVec); 
     plot(compareGap(1:5) , wingTank.default.liftVec);
     plot(compareGap(1:5) , wingTank.NP.liftVec);
     plot(compareGap(1:5) , wingTank.SDP.liftVec);
@@ -355,11 +377,10 @@ if plotFlag.compare == true
     xlabel('gap');      ylabel('L');
     legend('fuselage-wing L(gap)','tanks-wing default L(gap)','tanks-wing NP L(gap)','tanks-wing SDP L(gap)','wing L(inf)',Location='best')
     
-
     figure("Name",'drag vs gap')
     title('wing-fuselage drag')
     hold on;    grid on;    axis padded;
-    plot(compareGap(1:5) , wingFuselage.dragVec); 
+    plot(compareGap(1:6) , wingFuselage.dragVec); 
     plot(compareGap(1:5) , wingTank.default.dragVec);
     plot(compareGap(1:5) , wingTank.NP.dragVec);
     plot(compareGap(1:5) , wingTank.SDP.dragVec);
