@@ -5,35 +5,47 @@ clearvars;  close all;  clc
 addpath(genpath("./"));
 currentPath = pwd;
 
-aoaVector = {  'u_inf = (/50.0000, 0.0000, 0.0000/)'; ...   % aoa = 0
-               'u_inf = (/49.8097, 0.0000, 4.3578/)'; ...   % aoa = 5
-               'u_inf = (/49.2404, 0.0000, 8.6824/)'; ...   % aoa = 10
-               'u_inf = (/48.2963, 0.0000, 12.9410/)'; ...  % aoa = 15
-               'u_inf = (/46.9846, 0.0000, 17.1010/)'};     % aoa = 20
+%% INPUT
 
 % Angle considered
 aoaValueDeg = 0:5:20;
 aoaValueRad = deg2rad(aoaValueDeg);
 
 % Analysis name
-analysisName = 'wing2';             % change DUST output folder 
 analysisType = 'integral_loads';    % DUST analysis type
-
-% wing1 -> panel method
-% wing2 -> vlm
+analysisName = 'wing1';             % change DUST output folder 
+    % wing1 -> panel method
+    % wing2 -> vlm
 
 % Constant
-absU = 50;
+absU   = 50;
 rhoInf = 1.225;
-Sref = 16.3;
+Sref   = 16.3;
+
+% Flag and settings
+plotFlag = struct;
+    plotFlag.wing = true;           % plot wing only data  
+    plotFlag.convergence = true;    % plot convergence over time for previous selected plot
+    plotFlag.compare = true;        % plot compare between different cases
+runDUST = false;                    % set if run DUST or use data already saved
+
+% Graphic settings
+set(0,'defaulttextinterpreter','latex');  
+set(0,'defaultAxesTickLabelInterpreter','latex');  
+set(0,'defaultLegendInterpreter','latex');
+
+
+%% TO MAKE IT AUTOMATIC USING: computeVelVec.m
+aoaVector = {  'u_inf = (/50.0000, 0.0000, 0.0000/)'; ...   % aoa = 0
+               'u_inf = (/49.8097, 0.0000, 4.3578/)'; ...   % aoa = 5
+               'u_inf = (/49.2404, 0.0000, 8.6824/)'; ...   % aoa = 10
+               'u_inf = (/48.2963, 0.0000, 12.9410/)'; ...  % aoa = 15
+               'u_inf = (/46.9846, 0.0000, 17.1010/)'};     % aoa = 20
 
 
 %% Dust iteration
-% set if run DUST or use data already saved
-runDUST = false;
 
 runNameCell = cell(size(aoaVector,1),1);
-
 for i = 1:size(aoaVector,1)
 
     runNameCell{i} = sprintf('%s_a%.0f',analysisName,aoaValueDeg(i));
@@ -65,17 +77,6 @@ end
 
 
 %% Dust data analysis
-
-%%% Flag and settings
-set(0,'defaulttextinterpreter','latex');  
-set(0,'defaultAxesTickLabelInterpreter','latex');  
-set(0,'defaultLegendInterpreter','latex');
-
-plotFlag = struct;
-    plotFlag.wing = true;           % plot wing only data  
-    plotFlag.convergence = true;    % plot convergence over time for previous selected plot
-    plotFlag.compare = true;        % plot compare between different cases
-
 
 %% function -> data import
 
