@@ -1,0 +1,37 @@
+! PRESET FIXED INPUT
+
+analysis = {
+  name = visual
+  type = Viz
+  format = vtk
+
+  start_res = 1
+  end_res = 30
+  step_res = 1
+  wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+
+}
+
+analysis = {
+
+  type = integral_loads
+  name = loads
+  start_res = 1 
+  end_res   = 30
+  step_res  = 1
+  format   = dat
+
+  reference_tag = 0
+
+}
+
+
+! VARIABLE INPUT
+
+data_basename = /home/matteo/MEGA/Progetto_Aerodinamico/Progetto/DUST-project-Aero/component-repo/wing-design/output-DUST/wing1_a15/run
+basename = /home/matteo/MEGA/Progetto_Aerodinamico/Progetto/DUST-project-Aero/component-repo/wing-design/pp-DUST/wing1_a15/pp

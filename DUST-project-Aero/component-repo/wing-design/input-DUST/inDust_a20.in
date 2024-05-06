@@ -1,0 +1,28 @@
+! PRESET FIXED INPUT
+! - Timings -
+tstart = 0.0
+tend = 30.0
+dt = 1.0
+dt_out = 1.0
+output_start = T
+
+! - Geometry input -
+geometry_file = geo_input.h5
+reference_file = references.in
+
+! - Model parameters -
+fmm = F
+vortstretch = F
+diffusion = F
+kutta_correction = F
+kutta_maxiter = 1000
+
+! - Wake parameters -
+n_wake_panels = 1
+n_wake_particles = 100000
+
+
+! VARIABLE INPUT
+
+u_inf = (/0.9397, 0.0000,  0.3420/)
+basename = /home/matteo/Desktop/dust_onedrive_data/output-DUST/a20/run

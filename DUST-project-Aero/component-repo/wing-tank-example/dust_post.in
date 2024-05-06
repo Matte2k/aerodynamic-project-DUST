@@ -1,0 +1,84 @@
+basename = Postprocessing/SDP-a5-d25/post
+data_basename = Output/SDP-a5-d25/coupling
+
+analysis = {
+  name = visual
+  type = Viz
+
+  format = vtk !tecplot
+
+  start_res = 1
+  end_res = 60
+  step_res = 1
+  wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+
+}
+
+
+analysis = {
+
+type = integral_loads
+name = loads_right
+start_res = 1 
+end_res   = 60
+step_res  = 1
+format   = dat
+
+component = right_wing  
+reference_tag = 0
+
+}
+
+
+analysis = {
+
+type = integral_loads
+name = loads_tot
+start_res = 1 
+end_res   = 60
+step_res  = 1
+format   = dat
+
+reference_tag = 0
+
+}
+
+!analysis = {
+
+type = flow_field
+name = flow
+start_res = 1 
+end_res   = 60
+step_res  = 1
+format   = vtk
+average = F
+
+variable = Velocity  
+
+n_xyz = (/ 10, 10, 5/)
+min_xyz = (/ 0.0, 0.0, -0.5 /)
+max_xyz = (/ 5.0,  5.0, 0.5 /)
+
+}
+
+
+!analysis = {
+  type = chordwise_loads
+  name = cl01
+  start_res = 1
+  end_res = 60
+  step_res = 1
+  format = dat
+  average = F
+  component = right_wing  
+  n_station = 3
+  span_station = (/1., 2., 3.0/)
+  axis_nod = (/ 0.0, 0.0, 0.0 /)
+  axis_dir = (/ 0.0, 1.0, 0.0 /)
+
+}

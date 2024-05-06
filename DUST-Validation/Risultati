@@ -1,0 +1,5 @@
+risultati allineati sia per VLM che per PANEL_METHOD con AVL e XFLR5
+
+Necessario fare mesh analysis su modello del papaer DAER su DUST con flying wing
+
+ISSUE:	Usando correzione Kutta il risultato perde di senso

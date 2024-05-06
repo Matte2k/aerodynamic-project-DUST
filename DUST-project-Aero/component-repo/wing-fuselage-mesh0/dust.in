@@ -1,0 +1,27 @@
+! Simulation names
+basename       = ./Output/a5-d300/coupling
+
+! Timings ---------------------
+tstart = 0.0
+tend = 30.0
+dt = 0.5
+dt_out = 0.5
+output_start = T
+
+! reference values ---------------------
+u_inf = (/0.9962, 0.0, 0.0872/)  ! to check the unit
+
+! geometry input -----------------
+geometry_file = geo_input.h5
+reference_file = References.in
+
+! Model parameters -------------------
+fmm = F
+vortstretch = F
+diffusion = F
+
+! wake parameters  -------------
+n_wake_panels = 1
+n_wake_particles = 100000
+
+

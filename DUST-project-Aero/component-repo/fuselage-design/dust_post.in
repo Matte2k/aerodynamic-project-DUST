@@ -1,0 +1,71 @@
+basename = ./Postprocessing/a0/post
+data_basename = ./Output/a0/fuselage
+
+analysis = {
+  name = visual
+  type = Viz
+
+  format = vtk
+
+  start_res = 1
+  end_res = 60
+  step_res = 1
+  wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+
+}
+
+analysis = {
+
+  type = integral_loads
+  name = loads_right
+  start_res = 1 
+  end_res   = 60
+  step_res  = 1
+  format   = dat
+
+  component = fuselage
+  reference_tag = 0
+
+}
+
+
+!analysis = {
+
+  type = flow_field
+  name = flow
+  start_res = 1 
+  end_res   = 60
+  step_res  = 1
+  format   = vtk
+  average = F
+
+  variable = Velocity  
+
+  n_xyz = (/ 10, 10, 5/)
+  min_xyz = (/ 0.0, 0.0, -0.5 /)
+  max_xyz = (/ 5.0,  5.0, 0.5 /)
+
+}
+
+
+!analysis = {
+
+  type = chordwise_loads
+  name = chord_right
+  start_res = 1
+  end_res = 60
+  step_res = 1
+  format = dat
+  average = F
+  component = fuselage  
+  n_station = 3
+  span_station = (/1., 2., 3.0/)
+  axis_nod = (/ 0.0, 0.0, 0.0 /)
+  axis_dir = (/ 0.0, 1.0, 0.0 /)
+
+}
