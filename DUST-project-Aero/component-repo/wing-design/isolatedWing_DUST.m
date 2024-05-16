@@ -1,7 +1,7 @@
 % Isolated wing analysis at different angle of attack
 % - TO DO A REFACTOR SPLITTING SECTIONS IN FUNCTION-
 
-clearvars;  close all;  clc
+%clearvars;  close all;  clc
 addpath(genpath("./"));
 currentPath = pwd;
 
@@ -13,12 +13,12 @@ aoaValueRad = deg2rad(aoaValueDeg);
 
 % Analysis name
 analysisType = 'integral_loads';    % DUST analysis type
-analysisName = 'wing1';             % change DUST output folder 
+analysisName = 'wing2';             % change DUST output folder 
     % wing1 -> panel method
     % wing2 -> vlm
 
 % Constant
-absU   = 50;
+absU   = 5;
 rhoInf = 1.225;
 Sref   = 16.3;
 
@@ -36,11 +36,11 @@ set(0,'defaultLegendInterpreter','latex');
 
 
 %% TO MAKE IT AUTOMATIC USING: computeVelVec.m
-aoaVector = {  'u_inf = (/50.0000, 0.0000, 0.0000/)'; ...   % aoa = 0
-               'u_inf = (/49.8097, 0.0000, 4.3578/)'; ...   % aoa = 5
-               'u_inf = (/49.2404, 0.0000, 8.6824/)'; ...   % aoa = 10
-               'u_inf = (/48.2963, 0.0000, 12.9410/)'; ...  % aoa = 15
-               'u_inf = (/46.9846, 0.0000, 17.1010/)'};     % aoa = 20
+aoaVector = {  'u_inf = (/5.0000, 0.0000, 0.0000/)'; ...   % aoa = 0
+               'u_inf = (/4.9810, 0.0000, 0.4358/)'; ...   % aoa = 5
+               'u_inf = (/4.9240, 0.0000, 0.8682/)'; ...   % aoa = 10
+               'u_inf = (/4.8296, 0.0000, 1.2941/)'; ...  % aoa = 15
+               'u_inf = (/4.6985, 0.0000, 1.7101/)'};     % aoa = 20
 
 
 %% Dust iteration

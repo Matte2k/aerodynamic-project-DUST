@@ -5,9 +5,9 @@ analysis = {
   type = Viz
   format = vtk
 
-  start_res = 1
-  end_res = 30
-  step_res = 1
+  start_res = 0
+  end_res = 20.0
+  step_res = 0.5
   wake = T
 
   variable = Vorticity
@@ -21,9 +21,9 @@ analysis = {
 
   type = integral_loads
   name = loads
-  start_res = 1 
-  end_res   = 30
-  step_res  = 1
+  start_res = 0
+  end_res   = 20.0
+  step_res  = 0.5
   format   = dat
 
   reference_tag = 0
@@ -33,5 +33,5 @@ analysis = {
 
 ! VARIABLE INPUT
 
-data_basename = /home/matteo/MEGA/Progetto_Aerodinamico/Progetto/DUST-project-Aero/component-repo/wing-design/output-DUST/wing1_a5/run
-basename = /home/matteo/MEGA/Progetto_Aerodinamico/Progetto/DUST-project-Aero/component-repo/wing-design/pp-DUST/wing1_a5/pp
+data_basename = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-project-Aero/component-repo/wing-design/output-DUST/wing1_a5/run
+basename = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-project-Aero/component-repo/wing-design/pp-DUST/wing1_a5/pp

@@ -17,7 +17,7 @@ addpath(genpath("data-repo/"));
 
 alphaDeg = 20;
 betaDeg  = 0;
-absU = 50;
+absU = 5;
 
 [speedVector,u_inf] = computeVelVec(alphaDeg,betaDeg,absU);
 

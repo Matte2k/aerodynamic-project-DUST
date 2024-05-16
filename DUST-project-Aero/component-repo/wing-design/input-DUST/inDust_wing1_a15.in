@@ -1,9 +1,9 @@
 ! PRESET FIXED INPUT
 ! - Timings -
 tstart = 0.0
-tend = 30.0
-dt = 1.0
-dt_out = 1.0
+tend = 20.0
+dt = 0.5
+dt_out = 0.1
 output_start = T
 
 ! - Geometry input -
@@ -12,10 +12,9 @@ reference_file = references.in
 
 ! - Model parameters -
 fmm = F
-vortstretch = F
-diffusion = F
+vortstretch = T
+diffusion = T
 kutta_correction = F
-kutta_maxiter = 1000
 
 ! - Wake parameters -
 n_wake_panels = 1
@@ -24,5 +23,5 @@ n_wake_particles = 100000
 
 ! VARIABLE INPUT
 
-u_inf = (/48.2963, 0.0000, 12.9410/)
-basename = /home/matteo/MEGA/Progetto_Aerodinamico/Progetto/DUST-project-Aero/component-repo/wing-design/output-DUST/wing1_a15/run
+u_inf = (/4.8296, 0.0000, 1.2941/)
+basename = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-project-Aero/component-repo/wing-design/output-DUST/wing1_a15/run
