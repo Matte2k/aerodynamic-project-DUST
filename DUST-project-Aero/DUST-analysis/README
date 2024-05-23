@@ -1,0 +1,28 @@
+This folder contains the entire DUST project connected to "Progetto Aerodinamico AA2023/24"
+
+The project is composed by different analysis and parts all divided.
+In this document the organization of the different subfolder is presented:
+	- sensitivity-box:	input, output and post process DUST file for "box length" sensitivity analysis (see DUST_user_manual user guide and DUST_paper_reference)
+	- sensitivity-gap:	input, output and post process DUST file for "gap" sensitivity analysis (gap between wing and fuselage that modelize the connection)
+	- sensitivity-mesh:	input, output and post process DUST file for "mesh" sensitivity analysis (see DUST_user_manual user guide and DUST_paper_reference)
+	- src:			all matlab function produced and used in this project
+
+
+
+
+| SENSITIVITY ANALYSIS PACK |
+
+Using this MATLAB + DUST project can be tested different mesh and configuration to solve wing+fuselage configuration
+Each sensitivity analysis consider as data the integral loads of the wing (in particular Cz and Cm).
+For each output the time cost in term of CPU time is computed using MATLAB function 'tic' 'toc' (results may be different by changing hardware)
+
+The scope of this analysis is to define the ideal configuration to run an iterative study to design LERX of the wing+fuselage configuration considered
+For each sensitivity analysis the corresponding script enters in the correct folder and operate the following procedure:
+	1) writes all the needed input files inside the folder ">/sensitivity-X/input-DUST/.."
+	2) execute DUST in the folder ">/sensitivity-X/input-DUST/.." using the settings prepared in step 1
+	3) saves all the output files in the folder ">/sensitivity-X/output-DUST/.."
+	4) saves all the post process files in the folder ">/sensitivity-X/pp-DUST/.."
+	5) import the integral loads of all the simulation in matlab
+	6) post-process all the data imported and produce some nice plots showing the results
+	7) repeat the procedure for the next sensitivity analysis
+	

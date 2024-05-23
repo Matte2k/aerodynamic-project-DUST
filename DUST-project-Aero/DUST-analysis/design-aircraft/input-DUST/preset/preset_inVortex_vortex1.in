@@ -1,0 +1,31 @@
+! CONFIG INPUT
+mesh_file_type = parametric
+el_type = l
+
+starting_point = (/0.0,0.0,0.0/)
+reference_chord_fraction = 0.0
+
+! Inner wing
+chord = 0.5	
+twist = 0.0		
+airfoil_table = ./geometry-data/airfoil-table/naca0012.c81
+
+! Section1-Section2 region
+span = 4            
+sweep = 40.0         
+dihed = 0.0          
+nelem_span = 5       
+type_span = uniform 
+
+! Section1
+chord = 0.5	
+twist = 0.0		
+airfoil_table = ./geometry-data/airfoil-table/naca0012.c81
+
+
+! VARIABLE TO ADD
+! mesh_mirror = F for right wing and T for left wing
+! mirror_point = (/0.0,-yGap,0.0/)
+! mirror_normal = (/0.0,1.0,0.0/)
+
+! VARIABLE INPUT
