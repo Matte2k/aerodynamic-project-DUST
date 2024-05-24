@@ -34,7 +34,8 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-resolutionFactor = [1 2 3]';
+%resolutionFactor = [1 2 3]';
+resolutionFactor =  1;
 analysisName = 'mesh';
 
 % Reference values:

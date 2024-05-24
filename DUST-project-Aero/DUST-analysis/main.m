@@ -32,6 +32,26 @@ clearvars;  close all;  clc
 addpath(genpath("./src"));
 
 
+%% ONERA VALIDATION
+
+% INPUT Flag
+dataDelete = true;
+runScript  = false;
+
+
+% delete aircraft design output data loaded in memory
+if dataDelete == true
+    mainPath = pwd;
+    oneraValidationPath = sprintf('%s/validation-onera',mainPath);
+    resetOneraValidationData(oneraValidationPath);
+end
+
+% exectue the aircraft design
+if runScript == true
+    run oneraValidation_DUST.m;
+end
+
+
 %% GAP sensitivity ANALYSIS
 
 % INPUT Flag

@@ -1,0 +1,31 @@
+! CONFIG INPUT
+mesh_file_type = parametric
+el_type = p
+
+nelem_chord = 20
+type_chord = uniform
+starting_point = (/0.0,0.0,0.0/)
+reference_chord_fraction = 0.0
+
+! Section1
+chord = 0.8059
+twist = 0.0
+airfoil = ./geometry-data/airfoil-lib/DUST-oneraM6.dat
+
+! Section1-Section2 region
+span = 1.1963
+sweep = 30.0
+dihed = 0.0
+nelem_span = 50
+type_span = uniform
+
+! Section2
+chord = 0.4529158
+twist = 0.0
+airfoil = ./geometry-data/airfoil-lib/DUST-oneraM6.dat
+
+
+! Mirroring
+mesh_mirror = F
+mirror_normal = (/0.0,0.0,0.0/)
+mirror_point  = (/0.0,0.0,0.0/)  ! MUST BE CHANGED MANUALLY ACCORDING TO FUSELAGE GAP
