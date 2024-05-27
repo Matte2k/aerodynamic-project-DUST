@@ -41,7 +41,7 @@ function [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec
 
     % Data import
     analysisType = 'integral_loads';
-    paramRunData = cell(size(variableVec,1),5);
+    paramRunData = cell(size(variableVec,1),6);
     legendCell   = cell(size(variableVec,1),1);
     for i = 1:size(variableVec,1)
 
@@ -55,7 +55,7 @@ function [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec
         paramRunData{i,5} = variableVec(i);
         paramRunData{i,6} = timeCostVec(i);
 
-        legendCell{i} = sprintf('%s = %.0f',variableName,variableVec(i));
+        legendCell{i} = sprintf('%s = %.4f',variableName,variableVec(i));
 
     end
 

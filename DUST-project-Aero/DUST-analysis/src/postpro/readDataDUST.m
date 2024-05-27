@@ -19,7 +19,7 @@ function [loadsTable] = readDataDUST(filepath,type)
 
     switch type
         case 'integral_loads'
-            loadsTable = readtable(filepath,NumHeaderLines = 4, ExpectedNumVariables = 7);
+            loadsTable = readtable(filepath,CommentStyle='#', ExpectedNumVariables = 7,ReadVariableNames=false);
                 loadsTable.Properties.VariableNames = {'time','Fx','Fy','Fz','Mx','My','Mz'};
     
         case 'chordwise_loads'
