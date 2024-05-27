@@ -1,7 +1,7 @@
 ! PRESET FIXED INPUT
 ! - Timings -
 tstart = 1.0
-tend = 2.0
+tend = 1.5
 dt = 0.025
 dt_out = 0.025
 output_start = T
@@ -18,11 +18,15 @@ n_wake_particles = 10000000
 
 
 ! VARIABLE TO ADD
+! u_inf          = output from computeVelVec.m
+! P_inf   = output form inDustInit.m
+! rho_inf = output form inDustInit.m
+! a_inf   = output form inDustInit.m
+! mu_inf  = output form inDustInit.m
+! particles_box_min = (/%f,%f,%f/) output di computeWakeBox.m
+! particles_box_min = (/%f,%f,%f/) output di computeWakeBox.m
 ! geometry_file  = output from preFileMaker_DUST.m
 ! reference_file = output from refFileMaker_DUST.m
-! u_inf          = output from computeVelVec.m
-! particles_box_min = (/%f,%f,%f/) output di computeWakeBox.m
-! particles_box_min = (/%f,%f,%f/) output di computeWakeBox.m
 
 
 ! VARIABLE INPUT

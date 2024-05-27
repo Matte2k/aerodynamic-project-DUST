@@ -1,0 +1,26 @@
+# M03_aoaX_symConfig_leftWing #
+Means that the DUST run has been done considering a symmetric wing geometry BUT loads and visual has been done only on half a wing.
+In this way the results allign with the half wing domain of the Euler CFD with SU2.
+Reference Values has been retrived from the output file of SU2 and has been set in Dust.in
+The following variables has been considered:
+	rho  = 1.22498	kg/m^3	density
+	v    = 102.089	m/s	abs velocity
+	a    = 340.2966	m/s	speed of sound	-->	computed to match Ma=0.3
+	L    = 1.0000	m	ref chord
+	S    = 0.7586	m^2	ref surface
+	Pref = 12767 	Pa	ref pressure
+	mu   = ?
+
+	
+# M03_aoaX_leftConfig_leftWing #
+Means that the DUST run has been done considering only left wing... This causes some difference between DUST and CFD results.
+In this way the results DON'T allign with the half wing domain of the Euler CFD with SU2.
+Reference Values has been retrived from the output file of SU2 and has been set in Dust.in
+The following variables has been considered:
+	rho  = 1.22498	kg/m^3	density
+	v    = 102.089	m/s	abs velocity
+	a    = 340.2966	m/s	speed of sound	-->	computed to match Ma=0.3
+	L    = 1.0000	m	ref chord
+	S    = 0.7586	m^2	ref surface
+	Pref = 12767 	Pa	ref pressure
+	mu   = ?		
