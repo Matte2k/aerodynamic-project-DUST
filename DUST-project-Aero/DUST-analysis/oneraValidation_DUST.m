@@ -110,7 +110,7 @@ for i = 1:size(alphaDegVec,1)
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
         reference_file = sprintf('reference_file = %s',refFilePath);
-        inDustRefVars  = inDustInit(PInf,rhoInf,aInf,muInf);
+        inDustRefVars  = inDustRefInit(PInf,rhoInf,aInf,muInf);
         inDustWakeVars = {wakeBox_min, wakeBox_max};
         inDustGeomVars = {geometry_file, reference_file};
         inDustVars = [u_inf{i},inDustRefVars,inDustWakeVars,inDustGeomVars];
