@@ -7,22 +7,27 @@ currentPath = pwd;
 
 % Parametric analysis input:
 analysisName = 'aoa';
-%alphaDegVec  = [0 3.06 5]';
-alphaDegVec  = [3.06]';
+%alphaDegVec  = [0 3.06]';
+alphaDegVec  = [6]';
 
 % Geometry settings  
-wingConfig = 'right';               % 'right'  |  'left'  | 'sym'
+wingConfig = 'sym';                 % 'right'  |  'left'  | 'sym'
+wingLoad   = 'left';                % 'right'  |  'left'  | 'sym'           
 wingOrigin = [0.0, 0.0, 0.0];
 
 % Reference values:
-Sref = 0.75320;  
-Cref = 0.64607;
-rhoInf = 1.225;
+Sref   = 0.7586;    % 0.75320;  
+Cref   = 1;         % 0.64607;
+PInf   = 12767;
+rhoInf = 1.22498;
+aInf   = 340.2966;  % Ma = 0.3
+muInf  = [];
 betaDeg  = 0;
-absVelocity = 5;
+absVelocity = 102.089;
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
+clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -5;
 xBoxEnd   = 10;
 yBoxLimit = 10;
@@ -34,7 +39,7 @@ plotFlag = initGraphic();
     plotFlag.text = false;          % print some results in command window
     plotFlag.convergence = true;    % plot convergence over time for previous selected plot
     plotFlag.aero = false;          % plot aero loads data over different angle of attack
-    plotFlag.struct = true;         % plot structural loads data over different parametric input
+    plotFlag.struct = false;        % plot structural loads data over different parametric input
 
 
 %% ONERA VALIDATION
@@ -53,14 +58,16 @@ startingPath = cd;      cd("./validation-onera");   % move to aircraft design pa
 oneraValidationPath = cd;
 wingRightFilePath  = sprintf('%s/input-DUST/geometry-data/rightWing.in', oneraValidationPath);       
 wingLeftFilePath   = sprintf('%s/input-DUST/geometry-data/leftWing.in',  oneraValidationPath);
-postPresetPath     = sprintf('%s/input-DUST/preset/preset_inDustPost.in',oneraValidationPath);
+postPresetPath     = sprintf('%s/input-DUST/preset/preset_inDustPost_%s.in',oneraValidationPath,wingLoad);
 
 % Geometry initialization
 wingDesign = 'oneraM6';
-configurationName = sprintf('%s_%s',wingDesign,wingConfig);
+configurationName = sprintf('%s_%s_%s',wingDesign,wingConfig,wingLoad);
 if runDUST == true
     % Delete old run data in memory
-    resetOneraValidationData(oneraValidationPath)
+    if clearData == true
+        resetOneraValidationData(oneraValidationPath);
+    end
 
     % References.in generation
     [inWingRefVars] = inRefInit('Wing',wingOrigin);
@@ -92,9 +99,9 @@ if runDUST == true
         otherwise
             error('insert a valid configuration between: left, right or sym');
     end
-    [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,configurationName); 
-end
+    [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,configurationName);
 
+end
 
 % Aircraft design main loop
 for i = 1:size(alphaDegVec,1)
@@ -103,7 +110,10 @@ for i = 1:size(alphaDegVec,1)
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
         reference_file = sprintf('reference_file = %s',refFilePath);
-        inDustVars  = {u_inf{i}, wakeBox_min, wakeBox_max, geometry_file, reference_file};
+        inDustRefVars  = inDustInit(PInf,rhoInf,aInf,muInf);
+        inDustWakeVars = {wakeBox_min, wakeBox_max};
+        inDustGeomVars = {geometry_file, reference_file};
+        inDustVars = [u_inf{i},inDustRefVars,inDustWakeVars,inDustGeomVars];
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation

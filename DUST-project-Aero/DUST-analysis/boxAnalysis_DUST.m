@@ -45,6 +45,7 @@ absVelocity = 5;
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
+clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 nelem_chord = 5;                    % set nelem_chord for the top and nelem_chord for the bottom
 xBoxStart = -5;
 yBoxLimit = 10;
@@ -75,7 +76,9 @@ fuselageFilePath = sprintf('%s/input-DUST/geometry-data/fuselage.in',boxAnalysis
 
 if runDUST == true
     % Delete old run data in memory
-    resetBoxAnalysisData(boxAnalysisPath);
+    if clearData == true
+        resetBoxAnalysisData(boxAnalysisPath);
+    end
 
     % WingR.in generation
     [inWingRightVars] = inSymPartInit(nelem_chord,gapWingFuselage,'R');

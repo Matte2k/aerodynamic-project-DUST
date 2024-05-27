@@ -48,6 +48,7 @@ absVelocity = 5;
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
+clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 nelem_chord = 5;                    % set nelem_chord for the top and nelem_chord for the bottom
 xBoxStart = -5;
 xBoxEnd   = 10;
@@ -74,7 +75,7 @@ startingPath = cd;                  cd("./sensitivity-mesh");
 
 % Delete old run data in memory
 meshAnalysisPath = cd;
-if runDUST == true
+if runDUST == true && clearData == true
     resetMeshAnalysisData(meshAnalysisPath);
 end
 

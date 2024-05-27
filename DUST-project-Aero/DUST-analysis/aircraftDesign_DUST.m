@@ -24,6 +24,13 @@
 %   NOTE:   by setting 'lerxDesign = lerx0' or 'vortexDesign = vortex0' the
 %           correspondent part won't be generated
 %
+%   TIP:    once the set of the input has been defined... 
+%           to have a better visual output is suggested to edit:
+%           >   "./input-DUST/preset/preset_inDustPost_X.in"
+%           and produce different visualization analysis for each component.
+%           In this way the color map can be splitted and the data will be
+%           more readable 
+%
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
 
@@ -51,7 +58,7 @@ lerxOrigin     = [-9, 1.0, 0.1];
 lerxChordRes   = 5;
 
 % Vortex geometry settings
-vortexDesign   = 'vortex1';         % 'vortex0' | 'vortex1'   | 'vortex2'   | 'vortex3'
+vortexDesign   = 'vortex0';         % 'vortex0' | 'vortex1'   | 'vortex2'   | 'vortex3'
 vortexOrigin   = [-10.5, 1.0, 0.1];
 vortexChordRes = 1;
 
@@ -67,6 +74,7 @@ absVelocity = 1;
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
+clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -10;
 xBoxEnd   = 15;
 yBoxLimit = 10;
@@ -105,7 +113,9 @@ postPresetPath   = sprintf('%s/input-DUST/preset/preset_inDustPost_%s.in',aircra
 configurationName = sprintf('%s_%s_%s',wingDesign,lerxDesign,vortexDesign);
 if runDUST == true
     % Delete old run data in memory
-    resetAircraftDesignData(aircraftDesignPath);
+    if clearData == true
+        resetAircraftDesignData(aircraftDesignPath);
+    end
 
     % WingR.in generation
     [inWingRightVars] = inSymPartInit(wingChordRes,wingOrigin(2),'R');

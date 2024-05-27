@@ -45,6 +45,7 @@ absVelocity = 5;
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
+clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 nelem_chord = 5;                    % set nelem_chord for the top and nelem_chord for the bottom
 xBoxStart = -5;
 xBoxEnd   = 10;
@@ -71,7 +72,7 @@ startingPath = cd;      cd("./sensitivity-gap");    % Move to gap sensitivity an
 
 % Delete old run data in memory
 gapAnalysisPath = cd;
-if runDUST == true
+if runDUST == true && clearData == true
     resetGapAnalysisData(gapAnalysisPath);
 end
 
