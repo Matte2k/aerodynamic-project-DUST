@@ -1,8 +1,8 @@
-function [inDustVars] = inDustInit(PInf,rhoInf,aInf,muInf)
+function [inDustVars] = inDustRefInit(PInf,rhoInf,aInf,muInf)
 %INPUT DUST INITIALIZATOR - Write strings to set dust.in file
 %
 %   Syntax:
-%       [inDustVars] = inDustInit(PInf,rhoInf,aInf,muInf)
+%       [inDustVars] = inDustRefInit(PInf,rhoInf,aInf,muInf)
 %
 %   Input:
 %       PInf,   double:  reference value for static pressure [Cp]
