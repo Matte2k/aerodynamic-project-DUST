@@ -1,0 +1,42 @@
+! PRESET FIXED INPUT
+
+analysis = {
+  name = visual
+  type = Viz
+  format = vtk
+
+  start_res = 1
+  end_res = 4
+  step_res = 1
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+
+}
+
+analysis = {
+
+  type = integral_loads
+  name = loads
+  start_res = 1 
+  end_res   = 4
+  step_res  = 1
+  format   = dat
+
+  component = wing_right
+  component = wing_left
+  reference_tag = 0
+
+}
+
+
+! VARIABLE TO ADD
+! data_basename = name defined INTERNALLY in ppFileMaker_DUST.m
+! basename      = name defined INTERNALLY in ppFileMaker_DUST.m
+
+
+! VARIABLE INPUT

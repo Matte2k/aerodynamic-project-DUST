@@ -112,6 +112,26 @@ if runScript == true
 end
 
 
+%% TIME-STEP sensitivity ANALYSIS
+
+% INPUT Flag
+dataDelete = true;
+runScript  = false;
+
+
+% delete box sensitivity analysis output data loaded in memory
+if dataDelete == true
+    mainPath = pwd;
+    timestepAnalysisPath = sprintf('%s/sensitivity-timestep',mainPath);
+    resetTimestepAnalysisData(timestepAnalysisPath);
+end
+
+% exectue the box sensitivity analysis
+if runScript == true
+    run timestepAnalysis_DUST.m;
+end
+
+
 %% AIRCRAFT DESIGN
 
 % INPUT Flag
