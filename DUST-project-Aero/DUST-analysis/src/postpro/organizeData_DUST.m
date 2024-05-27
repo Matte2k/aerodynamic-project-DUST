@@ -74,7 +74,7 @@ function [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec
             title('wing $F_{x}$ convergence')
             hold on;    grid on;    axis padded;
             for i = 1:size(variableVec,1)
-                plot(paramRunData{i,1}.time , paramRunData{i,1}.Fz);
+                plot(paramRunData{i,1}.time , paramRunData{i,1}.Fx);
             end
             xlabel('$time$');      ylabel('$F_{x}$');
             legend(legendCell)
