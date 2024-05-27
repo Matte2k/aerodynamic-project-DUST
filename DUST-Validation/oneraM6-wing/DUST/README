@@ -23,4 +23,33 @@ The following variables has been considered:
 	L    = 1.0000	m	ref chord
 	S    = 0.7586	m^2	ref surface
 	Pref = 12767 	Pa	ref pressure
-	mu   = ?		
+	mu   = ?	
+	
+-------------------------------------------------------------------------------------------------	
+
+# M08_aoaX_symConfig_leftWing #
+Means that the DUST run has been done considering a symmetric wing geometry BUT loads and visual has been done only on half a wing.
+In this way the results allign with the half wing domain of the Euler CFD with SU2.
+Reference Values has been retrived from the output file of SU2 and has been set in Dust.in
+The following variables has been considered:
+	rho  = TBD	kg/m^3	density
+	v    = TBD	m/s	abs velocity
+	a    = TBD	m/s	speed of sound	-->	computed to match Ma=0.8
+	L    = 1.0000	m	ref chord
+	S    = 0.7586	m^2	ref surface
+	Pref = TBD 	Pa	ref pressure
+	mu   = ?
+
+	
+# M08_aoaX_leftConfig_leftWing #
+Means that the DUST run has been done considering only left wing... This causes some difference between DUST and CFD results.
+In this way the results DON'T allign with the half wing domain of the Euler CFD with SU2.
+Reference Values has been retrived from the output file of SU2 and has been set in Dust.in
+The following variables has been considered:
+	rho  = TBD	kg/m^3	density
+	v    = TBD	m/s	abs velocity
+	a    = TBD	m/s	speed of sound	-->	computed to match Ma=0.8
+	L    = 1.0000	m	ref chord
+	S    = 0.7586	m^2	ref surface
+	Pref = TBD 	Pa	ref pressure
+	mu   = ?

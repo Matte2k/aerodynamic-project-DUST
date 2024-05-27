@@ -7,8 +7,7 @@ currentPath = pwd;
 
 % Parametric analysis input:
 analysisName = 'aoa';
-%alphaDegVec  = [0 3.06]';
-alphaDegVec  = [6]';
+alphaDegVec  = [0 3.06]';
 
 % Geometry settings  
 wingConfig = 'sym';                 % 'right'  |  'left'  | 'sym'

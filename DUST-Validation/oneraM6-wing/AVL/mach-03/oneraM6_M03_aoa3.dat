@@ -1,6 +1,6 @@
 
  ---------------------------------------------
- Run case  1:   -unnamed-                              
+ Run case  2:  oneraM6_M03_aoa3                        
 
  alpha        ->  alpha       =   3.06000    
  beta         ->  beta        =   0.00000    
@@ -38,3 +38,4 @@
  visc CL_u =   0.00000                                     
  visc CM_a =   0.00000                                     
  visc CM_u =   0.00000                                     
+ 
