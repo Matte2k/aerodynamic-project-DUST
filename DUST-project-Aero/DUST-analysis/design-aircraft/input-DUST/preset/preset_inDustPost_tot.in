@@ -1,28 +1,11 @@
 ! PRESET FIXED INPUT
 
+! load computation
 analysis = {
-  name = visual
-  type = Viz
-  format = vtk
-
-  start_res = 1
-  end_res = 30
-  step_res = 1
-  wake = T
-
-  variable = Vorticity
-  variable = Pressure
-  variable = Cp
-  variable = Force
-
-}
-
-analysis = {
-
   type = integral_loads
   name = loads
   start_res = 1 
-  end_res   = 30
+  end_res   = 20
   step_res  = 1
   format   = dat
 
@@ -34,6 +17,100 @@ analysis = {
 
 }
 
+
+! fuselage visual
+analysis = {
+  name = visual_fuselage
+  type = Viz
+  format = vtk
+  
+  component = fuselage
+
+  start_res = 1
+  end_res = 20
+  step_res = 1
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_wing
+  type = Viz
+  format = vtk
+  
+  component = wing_right
+  component = wing_left
+
+  start_res = 1
+  end_res = 20
+  step_res = 1
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! lerx visual
+analysis = {
+  name = visual_lerx
+  type = Viz
+  format = vtk
+  
+  component = lerx_right
+  component = lerx_left
+
+  start_res = 1
+  end_res = 20
+  step_res = 1
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! vortex visual
+analysis = {
+  name = visual_vortex
+  type = Viz
+  format = vtk
+  
+  component = vortex_right
+  component = vortex_left
+
+  start_res = 1
+  end_res = 20
+  step_res = 1
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
 
 ! VARIABLE TO ADD
 ! data_basename = name defined INTERNALLY in ppFileMaker_DUST.m

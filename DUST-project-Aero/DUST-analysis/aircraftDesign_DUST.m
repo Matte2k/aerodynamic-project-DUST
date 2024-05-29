@@ -44,22 +44,23 @@ currentPath = pwd;
 
 % Parametric analysis input:        # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = [0 5 10 15]';
-componentsLoad = 'tot';             % 'wing'    | 'lerx'      | 'tot' (*)
+%alphaDegVec = [0 5 10 15]';
+alphaDegVec = 5;
+componentsLoad = 'wing';             % 'wing'    | 'lerx'      | 'tot' (*)
 
 % Wing geometry settings                 
 wingDesign     = 'wing1';           %  _____    | 'wing1'     | 'wing2'     | 'wing3'
-wingOrigin     = [0.0, 1.0, 0.0];
+wingOrigin     = [-0.5, 0.6, 0.0];
 wingChordRes   = 15;
 
 % Lerx geometry settings 
 lerxDesign     = 'lerx1';           % 'lerx0'   | 'lerx1'     | 'lerx2'     | 'lerx3'
-lerxOrigin     = [-9, 1.0, 0.1];
+lerxOrigin     = [-1.5, 0.6, 0.1];
 lerxChordRes   = 5;
 
 % Vortex geometry settings
 vortexDesign   = 'vortex0';         % 'vortex0' | 'vortex1'   | 'vortex2'   | 'vortex3'
-vortexOrigin   = [-10.5, 1.0, 0.1];
+vortexOrigin   = [-2.5, 0.6, 0.1];
 vortexChordRes = 1;
 
 % Fuselage geometry settings 
@@ -87,6 +88,12 @@ plotFlag = initGraphic();
     plotFlag.convergence = true;    % plot convergence over time for previous selected plot
     plotFlag.aero = false;          % plot aero loads data over different angle of attack
     plotFlag.struct = false;        % plot structural loads data over different parametric input
+
+
+%% prova
+vortexRad = 0.6;
+rankineRad = 0.4;
+cutoffRad = 0.006;
 
 
 %% AIRCRAFT DESIGN 
@@ -188,6 +195,12 @@ for i = 1:size(alphaDegVec,1)
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
         reference_file = sprintf('reference_file = %s',refFilePath);
+        
+        %vortex_rad  = sprintf('vortex_rad = %s', vortexRad);
+        %rankine_rad = sprintf('rankine_rad = %s',rankineRad);
+        %cutoff_rad  = sprintf('cutoff_rad = %s', cutoffRad);
+        %inDustVars  = {u_inf{i}, vortex_rad, rankine_rad, cutoff_rad, wakeBox_min, wakeBox_max, geometry_file, reference_file};
+        
         inDustVars  = {u_inf{i}, wakeBox_min, wakeBox_max, geometry_file, reference_file};
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
