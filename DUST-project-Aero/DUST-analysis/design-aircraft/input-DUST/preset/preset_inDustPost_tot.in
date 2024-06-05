@@ -13,7 +13,7 @@ analysis = {
   component = wing_left
   component = lerx_right
   component = lerx_left
-  reference_tag = 0
+  reference_tag = Stability
 
 }
 

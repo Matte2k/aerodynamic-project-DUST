@@ -11,7 +11,7 @@ analysis = {
 
   component = wing_right
   component = wing_left
-  reference_tag = 0
+  reference_tag = Stability
 
 }
 

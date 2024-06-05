@@ -44,9 +44,9 @@ currentPath = pwd;
 
 % Parametric analysis input:        # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = [0 5 10 15]';
-alphaDegVec = 5;
-componentsLoad = 'wing';             % 'wing'    | 'lerx'      | 'tot' (*)
+alphaDegVec = [0 5 10 15]';
+%alphaDegVec = 5;
+componentsLoad = 'tot';             % 'wing'    | 'lerx'      | 'tot' (*)
 
 % Wing geometry settings                 
 wingDesign     = 'wing1';           %  _____    | 'wing1'     | 'wing2'     | 'wing3'
@@ -67,7 +67,7 @@ vortexChordRes = 1;
 fuselageDesign = 'fuselage1';       %  _______  | 'fuselage1' | 'fuselage2'
 
 % Reference values:
-Sref = 26.3;  
+Sref = 26.56;  
 Cref = 5;
 rhoInf = 1.225;
 betaDeg  = 0;
@@ -195,12 +195,6 @@ for i = 1:size(alphaDegVec,1)
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
         reference_file = sprintf('reference_file = %s',refFilePath);
-        
-        %vortex_rad  = sprintf('vortex_rad = %s', vortexRad);
-        %rankine_rad = sprintf('rankine_rad = %s',rankineRad);
-        %cutoff_rad  = sprintf('cutoff_rad = %s', cutoffRad);
-        %inDustVars  = {u_inf{i}, vortex_rad, rankine_rad, cutoff_rad, wakeBox_min, wakeBox_max, geometry_file, reference_file};
-        
         inDustVars  = {u_inf{i}, wakeBox_min, wakeBox_max, geometry_file, reference_file};
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 

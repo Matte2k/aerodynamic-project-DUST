@@ -42,11 +42,12 @@ function [aeroLoads] = aeroLoads_DUST(paramRunData,absVelocity,rhoInf,Sref,plotF
         aeroLoads.aoaDeg(i) = paramRunData{i,2};
         aeroLoads.Fz(i)  = paramRunData{i,1}.Fz(end);
         aeroLoads.Fx(i)  = paramRunData{i,1}.Fx(end);
+        aeroLoads.My(i)  = paramRunData{i,1}.My(end);
     end
     aeroLoads.aoaRad = deg2rad(aeroLoads.aoaDeg);
 
-    aeroLoads.L = - aeroLoads.Fx.*sin(aeroLoads.aoaRad) + aeroLoads.Fz.*cos(aeroLoads.aoaRad);
-    aeroLoads.D =   aeroLoads.Fx.*cos(aeroLoads.aoaRad) + aeroLoads.Fz.*sin(aeroLoads.aoaRad);
+    aeroLoads.L  = - aeroLoads.Fx.*sin(aeroLoads.aoaRad) + aeroLoads.Fz.*cos(aeroLoads.aoaRad);
+    aeroLoads.D  =   aeroLoads.Fx.*cos(aeroLoads.aoaRad) + aeroLoads.Fz.*sin(aeroLoads.aoaRad);
     aeroLoads.Cl = aeroLoads.L ./ (0.5* absVelocity^2 * Sref * rhoInf);
     aeroLoads.Cd = aeroLoads.D ./ (0.5* absVelocity^2 * Sref * rhoInf);
 
