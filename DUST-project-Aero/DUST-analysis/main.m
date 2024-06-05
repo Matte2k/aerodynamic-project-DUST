@@ -21,7 +21,7 @@
 %               This means that to delete current output file in memory
 %               this script must be executed with the flags:
 %                   - 'runScript = false'
-%                   -'dataDelete = true'
+%                   - 'dataDelete = true'
 %               Otherwise the current file will be deleted but soon after
 %               the new output file will be saved in memory
 %
