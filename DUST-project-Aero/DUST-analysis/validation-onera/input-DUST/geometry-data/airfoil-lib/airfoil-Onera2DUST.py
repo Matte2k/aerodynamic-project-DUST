@@ -2,7 +2,7 @@ import os
 import copy
 
 # INPUT: insert Onera airfoil .dat file
-filePath = 'oneraM6.dat'
+filePath = 'oneraM6_mod.dat'
 
 # MAIN
 scriptDir = os.path.dirname('airfoil-Onera2DUST.py')

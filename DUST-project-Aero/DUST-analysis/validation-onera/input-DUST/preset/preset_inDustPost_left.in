@@ -1,12 +1,28 @@
 ! PRESET FIXED INPUT
 
+! load computation
 analysis = {
-  name = visual
+  type = integral_loads
+  name = loads
+  start_res = 1 
+  end_res   = 150
+  step_res  = 1
+  format   = dat
+
+  component = wing_left
+  reference_tag = 0
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_wing
   type = Viz
   format = vtk
 
   start_res = 1
-  end_res = 20
+  end_res = 30
   step_res = 1
   wake = T
   separate_wake = T
@@ -17,21 +33,30 @@ analysis = {
   variable = Pressure
   variable = Cp
   variable = Force
+  variable = surface_velocity
 
 }
 
+
+! fuselage visual
 analysis = {
+  name = visual_fuselage
+  type = Viz
+  format = vtk
 
-  type = integral_loads
-  name = loads
-  start_res = 1 
-  end_res   = 20
-  step_res  = 1
-  format   = dat
+  start_res = 1
+  end_res = 30
+  step_res = 1
+  wake = T
+  separate_wake = T
   
-  component = wing_left
+  component = fuselage
 
-  reference_tag = 0
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
 
 }
 
