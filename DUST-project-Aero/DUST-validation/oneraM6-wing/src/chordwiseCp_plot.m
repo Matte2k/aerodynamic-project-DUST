@@ -27,9 +27,11 @@ cp_pp_CFD = readtable(filepath_CFD,ReadVariableNames=false);
 
 %%% Plot
 hold on;    grid on;    axis padded;
-plot(cp_pp_DUST(1,1:(end-1)),cp_pp_DUST(end,2:end))     % DUST
-plot(cp_pp_CFD{1:end,13},cp_pp_CFD{1:end,8},'o')        % CFD
-legend('DUST','CFD')                                    % legend
+plot(cp_pp_DUST(1,1:(end-1)),-cp_pp_DUST(end,2:end))    % DUST
+plot(cp_pp_CFD{1:end,13},-cp_pp_CFD{1:end,8},'o')       % CFD
+legend('DUST','CFD')                                    % 
+xlabel('$$x/l$$')
+ylabel('$$-C_p$$')
 
 end
 
