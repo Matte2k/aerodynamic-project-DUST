@@ -12,9 +12,9 @@ twist = 0.0
 airfoil = NACA0012
 
 ! Section1-Section2 region
-span = 1.5            
+span = 0.5       ! computed wrt to local y axis      
 sweep = 20.0         
-dihed = 0.0          
+dihed = 60.0          
 nelem_span = 5       
 type_span = uniform 
 

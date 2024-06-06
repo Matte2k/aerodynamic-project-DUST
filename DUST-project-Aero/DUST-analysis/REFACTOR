@@ -1,0 +1,8 @@
+
+## REFACTOR ##
+split different post processing analysis in different file
+	this will allow more flexibility to the code and configuration testable
+	
+review all 'io' function in order to make them totally parametric and avoid pre costrained settings
+
+review all the analysis on the model of 'design-aircraft' to make them more polished

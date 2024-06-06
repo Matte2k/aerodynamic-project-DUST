@@ -44,8 +44,8 @@ currentPath = pwd;
 
 % Parametric analysis input:        # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = [0 5 10 15]';
-alphaDegVec = 5;
+alphaDegVec = [0 5 10 15]';
+%alphaDegVec = 5;
 componentsLoad = 'tot';             % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 
 % Wing geometry settings                 
@@ -67,8 +67,9 @@ vortexChordRes = 1;
 tailDesign   = 'tail1';             % 'tail0'   | 'tail1'     | 'tail2'     | 'tail3'
 tailOrigin   = [2.5, 0.3, 0.5];
 tailChordRes = 5;
-%tailRotation = eye(3);      %   ### to be written a function that compute this matrix ###
-tailRotation = [1, 0, 0; 0, 0.5, -0.866; 0, 0.866, 0.5]';
+%tailRotation = [ 1.000, 0.000, 0.000; ...      can use to define a rotate
+%                 0.000, 0.500,-0.866; ...      reference system for the tail
+%                 0.000, 0.866, 0.500]' ;       INPUT in []: rotation_tensor --> R 
 
 % Fuselage geometry settings 
 fuselageDesign = 'fuselage1';       %  _______  | 'fuselage1' | 'fuselage2'
@@ -111,7 +112,7 @@ startingPath = cd;      cd("./design-aircraft");    % move to aircraft design pa
 
 % Geometry preset path selection (based on the user input)
 aircraftDesignPath = cd;
-fuselageFilePath = sprintf('%s/input-DUST/geometry-data/%s.in',aircraftDesignPath,fuselageDesign);
+fuselageFilePath = sprintf('%s/input-DUST/geometry-data/%s.in',           aircraftDesignPath,fuselageDesign);
 wingPresetPath   = sprintf('%s/input-DUST/preset/preset_inWing_%s.in',    aircraftDesignPath,wingDesign);       
 lerxPresetPath   = sprintf('%s/input-DUST/preset/preset_inLerx_%s.in',    aircraftDesignPath,lerxDesign);
 vortexPresetPath = sprintf('%s/input-DUST/preset/preset_inVortex_%s.in',  aircraftDesignPath,vortexDesign);
@@ -125,9 +126,8 @@ lerxSymPoint   = [0 -lerxOrigin(2) 0];
 lerxSymNorm    = [0 1 0];
 vortexSymPoint = [0 -vortexOrigin(2) 0];
 vortexSymNorm  = [0 1 0];
-tailSymPoint   = tailRotation * [0 -tailOrigin(2) 0]';
-tailSymNorm    = tailRotation * [0 1 0]';
-
+tailSymPoint   = [0 -tailOrigin(2) 0]';     % if rotate reference used:  tailRotation*[0,-tailOrigin(2),0]';
+tailSymNorm    = [0 1 0]';                  % if rotate reference used:  tailRotation*[0, 1, 0]';
 
 % Geometry initialization
 configurationName = sprintf('%s_%s_%s_%s',wingDesign,lerxDesign,vortexDesign,tailDesign);
@@ -202,7 +202,7 @@ if runDUST == true
         [tailLeftFilePath] = wingFileMaker_DUST(inTailLeftVars,tailDesign,'L',tailPresetPath);
        
         % Write variables to generate tail reference and geometry
-        [inTailRefVars] = inRefInit('Tail',tailOrigin,tailRotation);     
+        [inTailRefVars] = inRefInit('Tail',tailOrigin);     % if rotate reference used add:  tailRotation     
         [inTailPreVars] = inPreTailInit(tailRightFilePath,tailLeftFilePath);
     
     else
