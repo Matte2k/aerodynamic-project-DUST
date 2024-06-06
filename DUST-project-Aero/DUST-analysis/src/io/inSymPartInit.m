@@ -1,13 +1,14 @@
-function [inSymPartVars] = inSymPartInit(nelem_chord,yMirrorPoint,partSide)
+function [inSymPartVars] = inSymPartInit(nelem_chord,mirrorPoint,mirrorNormal,partSide)
 %INPUT SYMMETRIC PART INITIALIZATOR - Write strings to set a symmetric geometric part for dust
 %
 %   Syntax:
-%       [inSymPartVars] = inSymPartInit(nelem_chord,yMirrorPoint,partSide)
+%       [inSymPartVars] = inSymPartInit(nelem_chord,mirrorPoint,mirrorNormal,partSide)
 %
 %   Input:
-%       nelem_chord,  double: number of panel chordwise
-%       yMirrorPoint, double: y-axis distance between wing and fuselage
-%       partSide,       char: 'R' for right wing preset or 'L' for left wing preset
+%       nelem_chord,       double: number of panel chordwise
+%       mirrorPoint,  double(1,3): xyz-axis distance between wing and fuselage in local reference
+%       mirrorNormal, double(1,3): xyz-axis normal vector of the plane of symmetry in local reference
+%       partSide,            char: 'R' for right wing preset or 'L' for left wing preset
 %
 %   Output:
 %       inSymPartVars,  cell:  contains all the strings that have to be printed in the
@@ -24,8 +25,8 @@ function [inSymPartVars] = inSymPartInit(nelem_chord,yMirrorPoint,partSide)
             inSymPartVars = nelem_chord;
         case 'L'
             mesh_mirror   = sprintf('mesh_mirror = T');
-            mirror_point  = sprintf('mirror_point = (/0.0,-%f,0.0/)',yMirrorPoint);
-            mirror_normal = sprintf('mirror_normal = (/0.0,1.0,0.0/)');
+            mirror_point  = sprintf('mirror_point = (/%f,%f,%f/)',mirrorPoint(1),mirrorPoint(2),mirrorPoint(3));
+            mirror_normal = sprintf('mirror_normal = (/%f,%f,%f/)',mirrorNormal(1),mirrorNormal(2),mirrorNormal(3));
             inSymPartVars = {mesh_mirror, mirror_point, mirror_normal, nelem_chord};
         otherwise
             error('insert a valid wing side: Left (L) or Right(R)')

@@ -44,9 +44,9 @@ currentPath = pwd;
 
 % Parametric analysis input:        # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = [0 5 10 15]';
-%alphaDegVec = 5;
-componentsLoad = 'tot';             % 'wing'    | 'lerx'      | 'tot' (*)
+%alphaDegVec = [0 5 10 15]';
+alphaDegVec = 5;
+componentsLoad = 'tot';             % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 
 % Wing geometry settings                 
 wingDesign     = 'wing1';           %  _____    | 'wing1'     | 'wing2'     | 'wing3'
@@ -62,6 +62,13 @@ lerxChordRes   = 5;
 vortexDesign   = 'vortex0';         % 'vortex0' | 'vortex1'   | 'vortex2'   | 'vortex3'
 vortexOrigin   = [-2.5, 0.6, 0.1];
 vortexChordRes = 1;
+
+% Tail geometry settings
+tailDesign   = 'tail1';             % 'tail0'   | 'tail1'     | 'tail2'     | 'tail3'
+tailOrigin   = [2.5, 0.3, 0.5];
+tailChordRes = 5;
+%tailRotation = eye(3);      %   ### to be written a function that compute this matrix ###
+tailRotation = [1, 0, 0; 0, 0.5, -0.866; 0, 0.866, 0.5]';
 
 % Fuselage geometry settings 
 fuselageDesign = 'fuselage1';       %  _______  | 'fuselage1' | 'fuselage2'
@@ -90,12 +97,6 @@ plotFlag = initGraphic();
     plotFlag.struct = false;        % plot structural loads data over different parametric input
 
 
-%% prova
-vortexRad = 0.6;
-rankineRad = 0.4;
-cutoffRad = 0.006;
-
-
 %% AIRCRAFT DESIGN 
 
 % Preprocessing of some input values
@@ -114,10 +115,22 @@ fuselageFilePath = sprintf('%s/input-DUST/geometry-data/%s.in',aircraftDesignPat
 wingPresetPath   = sprintf('%s/input-DUST/preset/preset_inWing_%s.in',    aircraftDesignPath,wingDesign);       
 lerxPresetPath   = sprintf('%s/input-DUST/preset/preset_inLerx_%s.in',    aircraftDesignPath,lerxDesign);
 vortexPresetPath = sprintf('%s/input-DUST/preset/preset_inVortex_%s.in',  aircraftDesignPath,vortexDesign);
+tailPresetPath   = sprintf('%s/input-DUST/preset/preset_inTail_%s.in',    aircraftDesignPath,tailDesign); 
 postPresetPath   = sprintf('%s/input-DUST/preset/preset_inDustPost_%s.in',aircraftDesignPath,componentsLoad);
 
+% Symmetry plane definition
+wingSymPoint   = [0 -wingOrigin(2) 0];
+wingSymNorm    = [0 1 0];
+lerxSymPoint   = [0 -lerxOrigin(2) 0];
+lerxSymNorm    = [0 1 0];
+vortexSymPoint = [0 -vortexOrigin(2) 0];
+vortexSymNorm  = [0 1 0];
+tailSymPoint   = tailRotation * [0 -tailOrigin(2) 0]';
+tailSymNorm    = tailRotation * [0 1 0]';
+
+
 % Geometry initialization
-configurationName = sprintf('%s_%s_%s',wingDesign,lerxDesign,vortexDesign);
+configurationName = sprintf('%s_%s_%s_%s',wingDesign,lerxDesign,vortexDesign,tailDesign);
 if runDUST == true
     % Delete old run data in memory
     if clearData == true
@@ -125,11 +138,11 @@ if runDUST == true
     end
 
     % WingR.in generation
-    [inWingRightVars] = inSymPartInit(wingChordRes,wingOrigin(2),'R');
+    [inWingRightVars] = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'R');
     [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,wingDesign,'R',wingPresetPath);
     
     % WingL.in generation
-    [inWingLeftVars] = inSymPartInit(wingChordRes,wingOrigin(2),'L');
+    [inWingLeftVars] = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'L');
     [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,wingDesign,'L',wingPresetPath);
 
     % Write variables to generate Wing reference
@@ -139,11 +152,11 @@ if runDUST == true
     % Lerx generation section
     if ~isequal(lerxDesign,'lerx0')
         % LerxR.in generation
-        [inLerxRightVars] = inSymPartInit(lerxChordRes,lerxOrigin(2),'R');
+        [inLerxRightVars] = inSymPartInit(lerxChordRes,lerxSymPoint,lerxSymNorm,'R');
         [lerxRightFilePath] = lerxFileMaker_DUST(inLerxRightVars,lerxDesign,'R',lerxPresetPath);
     
         % LerxL.in generation
-        [inLerxLeftVars] = inSymPartInit(lerxChordRes,lerxOrigin(2),'L');
+        [inLerxLeftVars] = inSymPartInit(lerxChordRes,lerxSymPoint,lerxSymNorm,'L');
         [lerxLeftFilePath] = lerxFileMaker_DUST(inLerxLeftVars,lerxDesign,'L',lerxPresetPath);
         
         % Write variables to generate Lerx reference and geometry
@@ -160,11 +173,11 @@ if runDUST == true
     % Vortex generation section 
     if ~isequal(vortexDesign,'vortex0')
         % VortexR.in generation
-        [inVortexRightVars] = inSymPartInit(vortexChordRes,vortexOrigin(2),'R');
+        [inVortexRightVars] = inSymPartInit(vortexChordRes,vortexSymPoint,vortexSymNorm,'R');
         [vortexRightFilePath] = vortexFileMaker_DUST(inVortexRightVars,vortexDesign,'R',vortexPresetPath);
 
         % VortexL.in generation
-        [inVortexLeftVars] = inSymPartInit(vortexChordRes,vortexOrigin(2),'L');
+        [inVortexLeftVars] = inSymPartInit(vortexChordRes,vortexSymPoint,vortexSymNorm,'L');
         [vortexLeftFilePath] = vortexFileMaker_DUST(inVortexLeftVars,vortexDesign,'L',vortexPresetPath);
        
         % Write variables to generate Vortex reference and geometry
@@ -177,13 +190,34 @@ if runDUST == true
         inVortexPreVars = '! no vortex geometry created';
         
     end 
+
+    % Tail generation section 
+    if ~isequal(tailDesign,'tail0')
+        % TailR.in generation
+        [inTailRightVars] = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'R');
+        [tailRightFilePath] = wingFileMaker_DUST(inTailRightVars,tailDesign,'R',tailPresetPath);
+
+        % TailL.in generation
+        [inTailLeftVars] = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'L');
+        [tailLeftFilePath] = wingFileMaker_DUST(inTailLeftVars,tailDesign,'L',tailPresetPath);
+       
+        % Write variables to generate tail reference and geometry
+        [inTailRefVars] = inRefInit('Tail',tailOrigin,tailRotation);     
+        [inTailPreVars] = inPreTailInit(tailRightFilePath,tailLeftFilePath);
+    
+    else
+        % No leading edge tail reference notification
+        inTailRefVars = '! no tail reference created';
+        inTailPreVars = '! no tail geometry created';
+        
+    end 
     
     % References.in generation
-    inRefVars = [inWingRefVars,inLerxRefVars,inVortexRefVars];
+    inRefVars = [inWingRefVars,inLerxRefVars,inVortexRefVars,inTailRefVars];
     [refFilePath] = refFileMaker_DUST(inRefVars,configurationName);                
     
     % Dust_pre.in generation
-    inPreVars = [inWingPreVars, inLerxPreVars,inVortexPreVars];
+    inPreVars = [inWingPreVars, inLerxPreVars,inVortexPreVars,inTailPreVars];
     [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,configurationName);  
 end
 

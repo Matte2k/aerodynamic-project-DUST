@@ -76,17 +76,22 @@ if runDUST == true && clearData == true
     resetGapAnalysisData(gapAnalysisPath);
 end
 
+
 % Gap analysis main loop
 fuselageFilePath = sprintf('%s/input-DUST/geometry-data/fuselage.in',gapAnalysisPath);  % fuselage path definition
 for i = 1:size(gapVector,1)
     runNameCell{i} = sprintf('%s%.0f',analysisName,gapRunName(i));                      % parametric run name definition
     if runDUST == true
+        % Symmetry plane definition
+        wingSymPoint   = [0 -gapVector(i) 0];
+        wingSymNorm    = [0 1 0];
+
         % WingR.in generation
-        [inWingRightVars] = inSymPartInit(nelem_chord,gapVector(i),'R');
+        [inWingRightVars] = inSymPartInit(nelem_chord,wingSymPoint,wingSymNorm,'R');
         [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,runNameCell{i},'R');
 
         % WingL.in generation
-        [inWingLeftVars] = inSymPartInit(nelem_chord,gapVector(i),'L');
+        [inWingLeftVars] = inSymPartInit(nelem_chord,wingSymPoint,wingSymNorm,'L');
         [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,runNameCell{i},'L');
 
         % References.in generation

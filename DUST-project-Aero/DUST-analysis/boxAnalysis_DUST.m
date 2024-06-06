@@ -80,12 +80,16 @@ if runDUST == true
         resetBoxAnalysisData(boxAnalysisPath);
     end
 
+    % Symmetry plane definition
+    wingSymPoint   = [0 -gapWingFuselage 0];
+    wingSymNorm    = [0 1 0];
+
     % WingR.in generation
-    [inWingRightVars] = inSymPartInit(nelem_chord,gapWingFuselage,'R');
+    [inWingRightVars] = inSymPartInit(nelem_chord,wingSymPoint,wingSymNorm,'R');
     [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,inFixedFileName,'R');
 
     % WingL.in generation
-    [inWingLeftVars] = inSymPartInit(nelem_chord,gapWingFuselage,'L');
+    [inWingLeftVars] = inSymPartInit(nelem_chord,wingSymPoint,wingSymNorm,'L');
     [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,inFixedFileName,'L');
 
     % References.in generation

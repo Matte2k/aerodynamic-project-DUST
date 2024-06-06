@@ -11,8 +11,8 @@ analysis = {
 
   component = wing_right
   component = wing_left
-  component = lerx_right
-  component = lerx_left
+  component = tail_right
+  component = tail_left
   reference_tag = Stability
 
 }
@@ -135,6 +135,7 @@ analysis = {
   variable = surface_velocity
 
 }
+
 
 ! VARIABLE TO ADD
 ! data_basename = name defined INTERNALLY in ppFileMaker_DUST.m

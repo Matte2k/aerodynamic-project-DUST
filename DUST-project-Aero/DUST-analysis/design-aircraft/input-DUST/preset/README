@@ -1,0 +1,10 @@
+## WARNING ##
+
+In the current version of the code the post-processor is lunched one time and execute all the analysis in order
+Due to this achitectural approach there are some limitation on the different configuration testable
+
+In particular when the tail is disabled:	TAIL0
+the leading edge vortex modelized as a LL cannot be used
+
+Future release and refactor will fix this issue and will allow for a full parametric study of the aircraft
+
