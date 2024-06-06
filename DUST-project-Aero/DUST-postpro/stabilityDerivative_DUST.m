@@ -3,10 +3,37 @@ addpath(genpath("./src"));
 addpath(genpath("./data"));
 currentPath = pwd;
 
-fullPlane = load("data/wing1_lerx1_vortex0_aeroLoads",'-mat','aeroLoads');
+% Data import
+load("data/wing1_lerx1_vortex0_aeroLoads",'-mat','aeroLoads');
+case1 = aeroLoads;  clear('aeroLoads');
 
-Clalpha =   (fullPlane.aeroLoads.Cl(3)     - fullPlane.aeroLoads.Cl(2)) / ...
-            (fullPlane.aeroLoads.aoaDeg(3) - fullPlane.aeroLoads.aoaDeg(2));
+%% Polar plots
 
-Cmalpha =   (fullPlane.aeroLoads.My(3)     - fullPlane.aeroLoads.My(2)) / ...
-            (fullPlane.aeroLoads.aoaDeg(3) - fullPlane.aeroLoads.aoaDeg(2));
+figure(Name='Cl vs aoa')
+hold on;    grid on;    axis padded;
+plot(case1.aoaDeg,case1.Cl);
+xlabel('$${\alpha}$$',interpreter='latex')
+ylabel('$$C_l$$',interpreter='latex')
+
+figure(Name='Cd vs aoa')
+hold on;    grid on;    axis padded;
+plot(case1.aoaDeg,case1.Cd);
+xlabel('$${\alpha}$$',interpreter='latex')
+ylabel('$$C_l$$',interpreter='latex')
+
+figure(Name='Cm vs aoa')
+hold on;    grid on;    axis padded;
+plot(case1.aoaDeg,case1.Cm);
+xlabel('$${\alpha}$$',interpreter='latex')
+ylabel('$$C_l$$',interpreter='latex')
+
+
+%% Stability derivative
+
+Clalpha =   (case1.Cl(3)     - case1.Cl(2)) / ...
+            (case1.aoaDeg(3) - case1.aoaDeg(2));
+fprintf('Cl_alpha = %f',Clalpha);
+
+Cmalpha =   (case1.Cm(3)     - case1.Cm(2)) / ...
+            (case1.aoaDeg(3) - case1.aoaDeg(2));
+fprintf('Cm_alpha = %f',Cmalpha);

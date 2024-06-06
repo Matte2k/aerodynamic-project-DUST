@@ -122,7 +122,7 @@ end
 % Postprocessing of the dust output
 aoaDegVec = alphaDeg * ones(1,length(gapVector));
 [analysisData_gap] = organizeData_DUST(runNameCell, aoaDegVec, gapVector, analysisName, timeCostVec, plotFlag.convergence);
-[aeroLoads_gap]    = aeroLoads_DUST   (analysisData_gap, absVelocity, rhoInf, Sref, plotFlag.aero);
+[aeroLoads_gap]    = aeroLoads_DUST   (analysisData_gap, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads_gap]  = structLoads_DUST (analysisData_gap, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 
 if saveOutput == true

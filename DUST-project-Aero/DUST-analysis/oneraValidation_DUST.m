@@ -127,7 +127,7 @@ end
 
 % Postprocessing of the dust output
 [designData]   = organizeData_DUST(runNameCell, alphaDegVec, alphaDegVec, analysisName, timeCostVec, plotFlag.convergence);
-[aeroLoads]    = aeroLoads_DUST   (designData, absVelocity, rhoInf, Sref, plotFlag.aero);
+[aeroLoads]    = aeroLoads_DUST   (designData, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads]  = structLoads_DUST (designData, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 
 % Save poostprocessing result in design folder

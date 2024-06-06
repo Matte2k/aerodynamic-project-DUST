@@ -120,7 +120,7 @@ end
 % Postprocessing of the dust output
 aoaDegVec = alphaDeg * ones(1,length(resolutionFactor));
 [analysisData_mesh] = organizeData_DUST(runNameCell, aoaDegVec, resolutionFactor, analysisName, timeCostVec, plotFlag.convergence);
-[aeroLoads_mesh]    = aeroLoads_DUST   (analysisData_mesh, absVelocity, rhoInf, Sref, plotFlag.aero);
+[aeroLoads_mesh]    = aeroLoads_DUST   (analysisData_mesh, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads_mesh]  = structLoads_DUST (analysisData_mesh, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 
 if saveOutput == true

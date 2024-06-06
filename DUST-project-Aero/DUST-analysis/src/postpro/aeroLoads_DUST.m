@@ -1,4 +1,4 @@
-function [aeroLoads] = aeroLoads_DUST(paramRunData,absVelocity,rhoInf,Sref,plotFlag)
+function [aeroLoads] = aeroLoads_DUST(paramRunData,absVelocity,rhoInf,Sref,Cref,plotFlag)
 %AERO LOADS DUST - Compute loads in aero frame from a dust run
 %
 %   Syntax:
@@ -50,6 +50,7 @@ function [aeroLoads] = aeroLoads_DUST(paramRunData,absVelocity,rhoInf,Sref,plotF
     aeroLoads.D  =   aeroLoads.Fx.*cos(aeroLoads.aoaRad) + aeroLoads.Fz.*sin(aeroLoads.aoaRad);
     aeroLoads.Cl = aeroLoads.L ./ (0.5* absVelocity^2 * Sref * rhoInf);
     aeroLoads.Cd = aeroLoads.D ./ (0.5* absVelocity^2 * Sref * rhoInf);
+    aeroLoads.Cm = aeroLoads.My./ (0.5* absVelocity^2 * Sref * Cref * rhoInf);
 
     % aerodynamic force plot
     if plotFlag == true

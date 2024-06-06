@@ -125,7 +125,7 @@ end
 
 aoaDegVec = alphaDeg * ones(1,length(boxLenghtVector));
 [analysisData_box] = organizeData_DUST(runNameCell, aoaDegVec, boxLenghtVector, analysisName, timeCostVec, plotFlag.convergence);
-[aeroLoads_box]    = aeroLoads_DUST   (analysisData_box, absVelocity, rhoInf, Sref, plotFlag.aero);
+[aeroLoads_box]    = aeroLoads_DUST   (analysisData_box, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads_box]  = structLoads_DUST (analysisData_box, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 
 if saveOutput == true
