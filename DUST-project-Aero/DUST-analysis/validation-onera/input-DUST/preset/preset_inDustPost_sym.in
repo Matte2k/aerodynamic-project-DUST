@@ -26,9 +26,9 @@ analysis = {
   format   = dat
   average = F
   
-  component = wing_right
+  component = wing_left
   n_station = 3
-  span_station = (/ 0.239260, 0.777595, 1.136485 /)
+  span_station = (/ -0.239260, -0.777595, -1.136485 /)
   axis_nod = (/ 0.0, 0.0, 0.0 /)
   axis_dir = (/ 0.0, 0.1, 0.0 /)
 

@@ -11,24 +11,24 @@ alphaDegVec  = [0 3.06 6.12]';
 
 % Geometry settings  
 wingConfig = 'sym';                  % 'right'  |  'left'  | 'sym'
-wingLoad   = 'right';                % 'right'  |  'left'  | 'sym'           
+wingLoad   = 'left';                 % 'right'  |  'left'  | 'sym'           
 wingOrigin = [0.0, 0.0, 0.0];
 
 % Reference values:       % Ma 0.3000   |   Ma 0.8395
 Sref   = 0.7586;      
 Cref   = 1;         
-PInf   = 12767;           % 12767       |   ___
+PInf   = 12767;           % 12767       |   99973.8
 rhoInf = 1.22498;  
 aInf   = 340.2966;        % 340.2966    |   ___
 muInf  = [];
 betaDeg  = 0;
-absVelocity = 102.089;    % 102.089   |  285.679
+absVelocity = 285.679;    % 102.089     |  285.679
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
-clearData = false;                  % 'true' = clear current data  |  'false' = leaves old run data in memory
+clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -5;
-xBoxEnd   = 10;
+xBoxEnd   = 20;
 yBoxLimit = 10;
 zBoxLimit = 10;
 
