@@ -26,3 +26,10 @@ n_wake_particles = 10000000
 
 
 ! VARIABLE INPUT
+
+u_inf = (/4.9810, -0.0000, 0.4358/)
+particles_box_min = (/-5.000000,-10.000000,-10.000000/)
+particles_box_max = (/10.000000,10.000000,10.000000/)
+geometry_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/sensitivity-mesh/input-DUST/geo_mesh1.h5
+reference_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/sensitivity-mesh/input-DUST/mesh1_inDustRef.in
+basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/sensitivity-mesh/output-DUST/mesh1/run

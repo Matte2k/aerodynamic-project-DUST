@@ -34,33 +34,50 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-resolutionFactor = [1 2 3]';
-analysisName = 'mesh';
+%resolutionFactor = [1 2 3]';
+resolutionFactor = 1;
+analysisName = 'mesh';                  
+
+% Wing geometry settings:               # possible input for different preset: #                                
+wingOrigin   = [-0.5, 1.0, 0.0];
+wingSymPoint = [0 -wingOrigin(2) 0];
+wingSymNorm  = [0 1 0];
+wingDesign   = 'sym';                   %  _____    |   'right'  |   'left'  |   'sym'
+
+% Fuselage geometry settings:
+fuselageOrigin   = [0.0, 0.0, 0.0];
+fuselageSymPoint = [0 -fuselageOrigin(2) 0];
+fuselageSymNorm  = [0 1 0];
+fuselageDesign   = 'right';               % 'none'    |   'right'  |   'left'  |   'sym'
+%fuselageOrientation = [0.0,-1.0,0.0; 1.0,0.0,0.0; 0.0,0.0,1.0];     % rotate correctly the mesh
 
 % Reference values:
-Sref = 26.3;  
-Cref = 5;
+Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
+Cref = 5;               % TBD
 rhoInf = 1.225;
 alphaDeg = 5;
 betaDeg  = 0;
 absVelocity = 5;
 
 % DUST settings:
-runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
-clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
-nelem_chord = 5;                    % set nelem_chord for the top and nelem_chord for the bottom
+runDUST   = true;       % 'true' = run dust  |  'false' = use data already in memory
+clearData = true;       % 'true' = clear current data  |  'false' = leaves old run data in memory
+nelem_chord = 5;        % set nelem_chord for the top and nelem_chord for the bottom
 xBoxStart = -5;
 xBoxEnd   = 10;
 yBoxLimit = 10;
 zBoxLimit = 10;
 
+%DUST_post settings:    % see list of available analysis at: "./input-DUST/preset/postAnalysis"
+ppAnalysisList = {'load_wingF','visual_wingF','visual_fuselageR'};   
+
 % Postprocessing settings:
 saveOutput = true;
 plotFlag = initGraphic();
     plotFlag.text = false;          % print some results in command window
-    plotFlag.convergence = true;    % plot convergence over time for previous selected plot
+    plotFlag.convergence = false;    % plot convergence over time for previous selected plot
     plotFlag.aero = false;          % plot aero loads data over different angle of attack
-    plotFlag.struct = true;         % plot structural loads data over different parametric input
+    plotFlag.struct = false;         % plot structural loads data over different parametric input
 
 
 %% MESH SENSITIVITY ANALYSIS
@@ -82,23 +99,80 @@ end
 for i = 1:size(resolutionFactor,1)
     runNameCell{i} = sprintf('%s%.0f',analysisName,resolutionFactor(i));
     if runDUST == true
-        % WingR.in must be picked according to mesh density
-        wingRightFilePath = sprintf('%s/input-DUST/geometry-data/res%.0f_rightWing.in', ...
-                                        meshAnalysisPath,resolutionFactor(i));      % set fuselage gap manually
+        resolutionName = sprintf('res%.0f',resolutionFactor(i));
+
+        %%% WING
+        % Wing preset and reference definition
+        wingPresetPath = sprintf('%s/input-DUST/preset/preset_inWing_%s.in',meshAnalysisPath,resolutionName);
+        [inWingRefVars] = inRefInit('Wing',wingOrigin);  
+
+        % WingR.in generation
+        if isequal(wingDesign,'right') || isequal(wingDesign,'sym')
+        [inWingRightVars]   = inSymPartInit([],wingSymPoint,wingSymNorm,'R');
+        [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,resolutionName,'R',wingPresetPath);
+            if isequal(wingDesign,'right')
+                [inWingPreVars] = inPreWingInit(wingRightFilePath); % wing pre variables for only left wing
+            end
+        end
         
-        % WingL.in must be picked according to mesh density
-        wingLeftFilePath = sprintf('%s/input-DUST/geometry-data/res%.0f_leftWing.in', ...
-                                        meshAnalysisPath,resolutionFactor(i));      % set fuselage gap manually
+        % WingL.in generation
+        if isequal(wingDesign,'left') || isequal(wingDesign,'sym')
+        [inWingLeftVars]   = inSymPartInit([],wingSymPoint,wingSymNorm,'L');
+        [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,resolutionName,'L',wingPresetPath);
+            if isequal(wingDesign,'right')
+                [inWingPreVars] = inPreWingInit(wingLeftFilePath);  % wing pre variables for only right wing
+            end
+        end
+
+        % Write wing pre variables for symmetric configuration
+        if isequal(wingDesign,'sym')
+            [inWingPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath);
+        end
+
+
+        %%% FUSELAGE
+        if ~isequal(fuselageDesign,'none')
+            % Fuselage preset and reference definition
+            fuselagePresetPath = sprintf('%s/input-DUST/preset/preset_inFuselage_%s.in',meshAnalysisPath,resolutionName);
+            [inFuselageRefVars] = inRefInit('Body',fuselageOrigin);                 % 'fuselageOrientation' to correct direction
+
+            % FuselageR.in generation
+            if isequal(fuselageDesign,'right') || isequal(fuselageDesign,'sym')
+                [inFuselageRightVars]   = inSymPartInit([],fuselageSymPoint,fuselageSymNorm,'R');
+                [fuselageRightFilePath] = fuselageFileMaker_DUST(inFuselageRightVars,resolutionName,'R',fuselagePresetPath);
+                if isequal(fuselageDesign,'right')
+                    [inFuselagePreVars] = inPreFuselageInit(fuselageRightFilePath); % fuselage pre variables for only left config
+                end
+            end
+
+            % FuselageL.in generation
+            if isequal(fuselageDesign,'left') || isequal(fuselageDesign,'sym')
+            [inFuselageLeftVars]   = inSymPartInit([],fuselageSymPoint,fuselageSymNorm,'L');
+            [fuselageLeftFilePath] = fuselageFileMaker_DUST(inFuselageLeftVars,resolutionName,'L',fuselagePresetPath);
+                if isequal(fuselageDesign,'left')
+                    [inFuselagePreVars] = inPreFuselageInit(fuselageLeftFilePath); % fuselage pre variables for only left config
+                end
+            end
+
+            % Write fuselage pre variables for symmetric configuration
+            if isequal(fuselageDesign,'sym')
+                [inFuselagePreVars] = inPreFuselageInit(fuselageRightFilePath,fuselageLeftFilePath);
+            end
         
-        % Fuselage.in must be picked according to mesh density
-        fuselageFilePath = sprintf('%s/input-DUST/geometry-data/res%.0f_fuselage.in', ...
-                                        meshAnalysisPath,resolutionFactor(i));
+        else
+            % No fuselage reference notification
+            inFuselageRefVars = '! no fuselage reference created';
+            inFuselagePreVars = '! no fuselage geometry created';
+        
+        end
+      
         
         % References.in generation
-        refFilePath = sprintf('%s/input-DUST/inDustRef.in',meshAnalysisPath);       % set fuselage gap manually
+        inRefVars = [inWingRefVars,inFuselageRefVars];
+        [refFilePath] = refFileMaker_DUST(inRefVars,runNameCell{i}); 
 
         % Dust_pre.in generation
-        [inPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath,fuselageFilePath);
+        inPreVars = [inWingPreVars,inFuselagePreVars];
         [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,runNameCell{i});
 
         % Dust.in generation
@@ -108,7 +182,7 @@ for i = 1:size(resolutionFactor,1)
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation
-        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i});
+        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},ppAnalysisList);
 
         % Dust run
         cd("./input-DUST");

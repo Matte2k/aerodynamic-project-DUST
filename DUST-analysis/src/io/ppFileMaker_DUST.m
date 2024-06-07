@@ -1,8 +1,8 @@
-function [customInputPath,outputPath] = ppFileMaker_DUST(dataPath,runName,presetPostPath,currentPath)
+function [customInputPath,outputPath] = ppFileMaker_DUST(dataPath,runName,analysisList,presetPostPath,currentPath)
 %POST PROCESS FILE MAKER DUST - write custom variables in dust_post.in and make the post process directory
 %
 %   Syntax:
-%       [customInputPath,outputPath] = ppFileMaker_DUST(dataPath,runName,presetPostPath,currentPath)
+%       [customInputPath,outputPath] = ppFileMaker_DUST(dataPath,runName,analysisList,presetPostPath,currentPath)
 %
 %   Input:
 %       dataPath,          path:  output file path of dust
@@ -24,21 +24,40 @@ function [customInputPath,outputPath] = ppFileMaker_DUST(dataPath,runName,preset
 
 
     % default setting for optional input
-    if nargin < 4
+    if nargin < 5
         currentPath = pwd;
-        if nargin < 3
-            presetPostPath = sprintf('%s/input-DUST/preset/preset_inDustPost.in',currentPath);
+        if nargin < 4
+            presetPostPath = sprintf('%s/input-DUST/preset/postAnalysis',currentPath);
         end
     end
     
     % import and write fixed variable file
     customInputPath = sprintf('%s/input-DUST/%s_inDustPost.in',currentPath,runName);
     
-    copyfile(presetPostPath, customInputPath);
-    inputFileHandle = fopen(customInputPath,"a");
+    % read all the analysis preset available
+    analysisPresetFolder = dir(presetPostPath);
+    count = numel(analysisPresetFolder);
+    analysisPresetList = cell(count-2,1);
+    for j=3:count
+        analysisPresetList{j-2} = analysisPresetFolder(j).name;
+    end
+
+    % write in dustPost.in the selected analysis
+    for i=1:length(analysisList)
+        analysisNameCmp = sprintf('%s.in',analysisList{i});
+        if any(strcmp(analysisNameCmp,analysisPresetList))
+            preset = sprintf('%s/%s.in',presetPostPath,analysisList{i});
+            f1 = fileread(preset);
+            [fid,msg] = fopen(customInputPath,'at');
+            assert(fid>=3,msg)
+            fprintf(fid,'\n\n%s',f1);
+            fclose(fid);
+        end
+    end
     
     % write custom variable
-    fprintf(inputFileHandle,'data_basename = %s/run',dataPath);
+    inputFileHandle = fopen(customInputPath,"a");
+    fprintf(inputFileHandle,'\ndata_basename = %s/run',dataPath);
     fprintf(inputFileHandle,'\n');
     fprintf(inputFileHandle,'basename = %s/pp-DUST/%s/pp',currentPath,runName);
     

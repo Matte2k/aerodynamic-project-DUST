@@ -1,0 +1,17 @@
+mesh_file = ./geometry-data/fuselage/fuselage_res1.cgns
+mesh_file_type = cgns
+el_type = p
+
+tol_se_wing = 0.00000001
+!inner_product_te = -0.88
+suppress_te = T
+
+
+! VARIABLE TO ADD
+! mesh_mirror = F for right wing and T for left wing
+! mirror_point  = defiend in wingFileMaker_DUST.m
+! mirror_normal = defiend in wingFileMaker_DUST.m
+
+
+! VARIABLE INPUT
+! nelem_chord already set

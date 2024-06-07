@@ -44,8 +44,8 @@ currentPath = pwd;
 
 % Parametric analysis input:        # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = [0 5 10 15]';
-%alphaDegVec = 5;
+%alphaDegVec = [0 5 10 15]';
+alphaDegVec = 5;
 componentsLoad = 'tot';             % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 
 % Wing geometry settings                 
@@ -147,7 +147,8 @@ if runDUST == true
 
     % Write variables to generate Wing reference
     [inWingRefVars] = inRefInit('Wing',wingOrigin);
-    [inWingPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath,fuselageFilePath);
+    [inWingPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath);
+    [inFuselagePreVars] = inPreFuselageInit(fuselageFilePath);
     
     % Lerx generation section
     if ~isequal(lerxDesign,'lerx0')
@@ -206,7 +207,7 @@ if runDUST == true
         [inTailPreVars] = inPreTailInit(tailRightFilePath,tailLeftFilePath);
     
     else
-        % No leading edge tail reference notification
+        % No tail reference notification
         inTailRefVars = '! no tail reference created';
         inTailPreVars = '! no tail geometry created';
         
@@ -217,7 +218,7 @@ if runDUST == true
     [refFilePath] = refFileMaker_DUST(inRefVars,configurationName);                
     
     % Dust_pre.in generation
-    inPreVars = [inWingPreVars, inLerxPreVars,inVortexPreVars,inTailPreVars];
+    inPreVars = [inFuselagePreVars,inWingPreVars, inLerxPreVars,inVortexPreVars,inTailPreVars];
     [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,configurationName);  
 end
 
