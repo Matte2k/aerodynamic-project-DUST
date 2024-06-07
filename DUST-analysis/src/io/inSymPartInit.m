@@ -17,9 +17,12 @@ function [inSymPartVars] = inSymPartInit(nelem_chord,mirrorPoint,mirrorNormal,pa
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
 
+    if isempty(nelem_chord)
+        nelem_chord = sprintf('! nelem_chord already set');
+    else
+        nelem_chord   = sprintf('nelem_chord = %.0f',nelem_chord);
+    end
 
-    nelem_chord   = sprintf('nelem_chord = %.0f',nelem_chord);
-    
     switch partSide
         case 'R'
             inSymPartVars = nelem_chord;
