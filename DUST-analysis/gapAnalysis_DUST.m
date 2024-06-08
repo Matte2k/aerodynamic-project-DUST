@@ -3,15 +3,19 @@
 % 
 %   Script built to compute in MATLAB a sensitiviy analysis on the gap between
 %   wing + fuselage configuration using DUST code.
+%   The geometry can be built in different ways using 'wingConfig' and 
+%   'fuselageConfig' input variable.
 %   The analysis parameters can be modified using the INPUT section of this file.
 %   Only some particular DUST settings can be edited from this script...
 %   
 %   In order to change different parameters (not present here)
 %   it's possible to operate directly on the Dust preset file:
 %       > "./input-DUST/preset/...
-%       > "./input-DUST/geometry-data/preset_inWing.in
-%       > "./input-DUST/geometry-data/fuselage.in
 %       > "./input-DUST/geometry-data/fuselage/...
+%
+%   The list of possible post processing analysis can be edited to add some
+%   desired analysis as ".in" file in the folder: 
+%       > "./input-DUST/preset/postAnalysis/.."
 %
 %   WARNING:    change always wisely the input parameters and double check
 %               results obtained... remember that there aren't much checks
@@ -31,13 +35,29 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-analysisName = 'gap';
 gapVector  = [0 1 2 3 4 5]';
-gapRunName = [1 2 3 4 5 6]';        % must have same dimension as 'gapVector'
+gapRunName = [1 2 3 4 5 6]';                    % must have same dimension as 'gapVector'
+analysisName = 'gap';
+
+% Wing geometry settings:                       # possible input for different preset: #                                
+wingOriginX  = -0.5;
+wingOriginZ  = 0.0;                     
+wingSymNorm  = [0 1 0];
+wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
+wingChordRes = 5;
+
+% Fuselage geometry settings:
+fuselageOrigin   = [-3.0, 0.0, 0.0];
+fuselageSymPoint = [0 -fuselageOrigin(2) 0];
+fuselageSymNorm  = [0 1 0];
+fuselageConfig   = 'right';                     % 'none'    |   'right'  |   'left'  |   'sym'
+%fuselageOrientation = [0.0, -1.0,  0.0;...
+%                       1.0,  0.0,  0.0;...
+%                       0.0,  0.0,  1.0];       % rotate correctly the mesh of the fuselage
 
 % Reference values:
-Sref = 26.3;  
-Cref = 5;
+Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
+Cref = 5;               % TBD
 rhoInf = 1.225;
 alphaDeg = 5;
 betaDeg  = 0;
@@ -46,11 +66,13 @@ absVelocity = 5;
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
 clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
-nelem_chord = 5;                    % set nelem_chord for the top and nelem_chord for the bottom
 xBoxStart = -5;
 xBoxEnd   = 10;
 yBoxLimit = 10;
 zBoxLimit = 10;
+
+%DUST_post settings:
+ppAnalysisList = {'load_wingF','visual_wingF','visual_fuselageR'}; 
 
 % Postprocessing settings:
 saveOutput = true;
@@ -68,39 +90,93 @@ plotFlag = initGraphic();
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
 runNameCell = cell(size(gapVector,1),1);
 timeCostVec = zeros(size(gapVector,1),2);
-startingPath = cd;      cd("./sensitivity-gap");    % Move to gap sensitivity analysis path
+startingPath = cd;      cd("./sensitivity-gap");                    % move to gap sensitivity analysis path
 
 % Delete old run data in memory
 gapAnalysisPath = cd;
 if runDUST == true && clearData == true
-    resetGapAnalysisData(gapAnalysisPath);
+    resetDustData(gapAnalysisPath);
 end
 
-
 % Gap analysis main loop
-fuselageFilePath = sprintf('%s/input-DUST/geometry-data/fuselage.in',gapAnalysisPath);  % fuselage path definition
 for i = 1:size(gapVector,1)
-    runNameCell{i} = sprintf('%s%.0f',analysisName,gapRunName(i));                      % parametric run name definition
+    runNameCell{i} = sprintf('%s%.0f',analysisName,gapRunName(i));
     if runDUST == true
-        % Symmetry plane definition
-        wingSymPoint   = [0 -gapVector(i) 0];
-        wingSymNorm    = [0 1 0];
+        geometryName = sprintf('gap%.0f',gapRunName(i));            % geometry configuration name identifier
+        wingSymPoint = [0 -gapVector(i) 0];                         % symmetry plane definition
+        wingOrigin   = [0, gapVector(i), 0];                        % wing origin definition
+
+        %%% WING
+        % Wing preset and reference definition
+        wingPresetPath = sprintf('%s/input-DUST/preset/preset_inWing_%s.in',gapAnalysisPath,analysisName);
+        [inWingRefVars] = inRefInit('Wing',wingOrigin);  
 
         % WingR.in generation
-        [inWingRightVars] = inSymPartInit(nelem_chord,wingSymPoint,wingSymNorm,'R');
-        [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,runNameCell{i},'R');
-
+        if isequal(wingConfig,'right') || isequal(wingConfig,'sym')
+        [inWingRightVars]   = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'R');
+        [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,geometryName,'R',wingPresetPath);
+            if isequal(wingConfig,'right')
+                [inWingPreVars] = inPreWingInit(wingRightFilePath); % wing pre variables for only right wing
+            end
+        end
+        
         % WingL.in generation
-        [inWingLeftVars] = inSymPartInit(nelem_chord,wingSymPoint,wingSymNorm,'L');
-        [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,runNameCell{i},'L');
+        if isequal(wingConfig,'left') || isequal(wingConfig,'sym')
+        [inWingLeftVars]   = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'L');
+        [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,geometryName,'L',wingPresetPath);
+            if isequal(wingConfig,'right')
+                [inWingPreVars] = inPreWingInit(wingLeftFilePath);  % wing pre variables for only left wing
+            end
+        end
+
+        % Write wing pre variables for symmetric configuration
+        if isequal(wingConfig,'sym')
+            [inWingPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath);
+        end
+
+
+        %%% FUSELAGE
+        if ~isequal(fuselageConfig,'none')
+            % Fuselage preset and reference definition
+            fuselagePresetPath = sprintf('%s/input-DUST/preset/preset_inFuselage_%s.in',gapAnalysisPath,analysisName);
+            [inFuselageRefVars] = inRefInit('Body',fuselageOrigin);                 % 'fuselageOrientation' to correct direction
+
+            % FuselageR.in generation
+            if isequal(fuselageConfig,'right') || isequal(fuselageConfig,'sym')
+                [inFuselageRightVars]   = inSymPartInit([],fuselageSymPoint,fuselageSymNorm,'R');
+                [fuselageRightFilePath] = fuselageFileMaker_DUST(inFuselageRightVars,geometryName,'R',fuselagePresetPath);
+                if isequal(fuselageConfig,'right')
+                    [inFuselagePreVars] = inPreFuselageInit(fuselageRightFilePath); % fuselage pre variables for only right config
+                end
+            end
+
+            % FuselageL.in generation
+            if isequal(fuselageConfig,'left') || isequal(fuselageConfig,'sym')
+            [inFuselageLeftVars]   = inSymPartInit([],fuselageSymPoint,fuselageSymNorm,'L');
+            [fuselageLeftFilePath] = fuselageFileMaker_DUST(inFuselageLeftVars,geometryName,'L',fuselagePresetPath);
+                if isequal(fuselageConfig,'left')
+                    [inFuselagePreVars] = inPreFuselageInit(fuselageLeftFilePath); % fuselage pre variables for only left config
+                end
+            end
+
+            % Write fuselage pre variables for symmetric configuration
+            if isequal(fuselageConfig,'sym')
+                [inFuselagePreVars] = inPreFuselageInit(fuselageRightFilePath,fuselageLeftFilePath);
+            end
+        
+        else
+            % No fuselage reference notification
+            inFuselageRefVars = '! no fuselage reference created';
+            inFuselagePreVars = '! no fuselage geometry created';
+        
+        end
 
         % References.in generation
-        wingOrigin  = [0, gapVector(i), 0];
-        [inRefVars] = inRefInit('Wing',wingOrigin);
+        inRefVars = [inWingRefVars,inFuselageRefVars];
         [refFilePath] = refFileMaker_DUST(inRefVars,runNameCell{i});
 
         % Dust_pre.in generation
-        [inPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath,fuselageFilePath);
+        inPreVars = [inWingPreVars,inFuselagePreVars];
         [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,runNameCell{i});
 
         % Dust.in generation
@@ -110,7 +186,7 @@ for i = 1:size(gapVector,1)
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation
-        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i});
+        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},ppAnalysisList);
 
         % Dust run
         cd("./input-DUST");

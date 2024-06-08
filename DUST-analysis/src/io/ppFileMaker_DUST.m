@@ -8,7 +8,7 @@ function [customInputPath,outputPath] = ppFileMaker_DUST(dataPath,runName,analys
 %       dataPath,          path:  output file path of dust
 %       runName,         string:  name of the dust run added as prefix to dust_post.in and 
 %                                 gave to the post process folder
-%       presetPostPath(*), path:  post processing preset path
+%       presetPostPath(*), path:  post processing preset path for analysis
 %       currentPath(*),    path:  current working path
 %
 %   Output:

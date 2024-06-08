@@ -2,34 +2,26 @@
 %       -- AIRCRAFT DESIGN for DUST simulation --
 % 
 %   Script built to compute in MATLAB a different DUST run on various wing,
-%   lerx/canard and vortex (to modelize the leading edge vortex form lerx)
+%   lerx/canard, vortex (to modelize the LE vortex form lerx), tail and fuselage
+%   'fuselageConfig' input variable.
+%   The geometry can be built in different ways using 'xxxConfig' and 'xxxDesign'
 %   The analysis parameters can be modified using the INPUT section of this file.
 %   Only some particular DUST settings can be edited from this script...
 %   
 %   In order to change different parameters (not present here)
 %   it's possible to operate directly on the Dust preset file:
 %       > "./input-DUST/preset/...
-%       > "./input-DUST/geometry-data/fuselage.in
 %       > "./input-DUST/geometry-data/fuselage/...
+%
+%   The list of possible post processing analysis can be edited to add some
+%   desired analysis as ".in" file in the folder: 
+%       > "./input-DUST/preset/postAnalysis/.."
 %
 %   WARNING:    change always wisely the input parameters and double check
 %               results obtained... remember that there aren't much checks
 %               on the input parameters, so the results can easily leads to 
 %               unphysical output values or errors
-%               - example:
-%                   on 'componentsLoad' (*), dust run into an error if you
-%                   try to compute loads for lerx and no such part has been
-%                   added to the geometry...
 %
-%   NOTE:   by setting 'lerxDesign = lerx0' or 'vortexDesign = vortex0' the
-%           correspondent part won't be generated
-%
-%   TIP:    once the set of the input has been defined... 
-%           to have a better visual output is suggested to edit:
-%           >   "./input-DUST/preset/preset_inDustPost_X.in"
-%           and produce different visualization analysis for each component.
-%           In this way the color map can be splitted and the data will be
-%           more readable 
 %
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
@@ -42,41 +34,57 @@ currentPath = pwd;
 
 %% INPUT
 
-% Parametric analysis input:        # possible input for different preset: #
+% Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = [0 5 10 15]';
-alphaDegVec = 5;
-componentsLoad = 'tot';             % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
+alphaDegVec = [0 5 10 15]';
+componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
+configurationName = 'stabilitySTAD';
 
-% Wing geometry settings                 
-wingDesign     = 'wing1';           %  _____    | 'wing1'     | 'wing2'     | 'wing3'
-wingOrigin     = [-0.5, 0.6, 0.0];
-wingChordRes   = 15;
+% Wing geometry settings                        ---WING------------------------------------------
+wingOrigin   = [-0.5, 0.6, 0.0];
+wingDesign   = 'wing1';                         %  'wing1'  |  can add more desing...
+wingSymPoint = [0 -wingOrigin(2) 0];
+wingSymNorm  = [0 1 0];
+wingConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
+wingChordRes = 15;
 
-% Lerx geometry settings 
-lerxDesign     = 'lerx1';           % 'lerx0'   | 'lerx1'     | 'lerx2'     | 'lerx3'
-lerxOrigin     = [-1.5, 0.6, 0.1];
-lerxChordRes   = 5;
+% Lerx geometry settings                        ---LERX------------------------------------------
+lerxOrigin   = [-1.5, 0.6, 0.1];
+lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
+lerxSymPoint = [0 -lerxOrigin(2) 0];
+lerxSymNorm  = [0 1 0];
+lerxConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
+lerxChordRes = 5;
 
-% Vortex geometry settings
-vortexDesign   = 'vortex0';         % 'vortex0' | 'vortex1'   | 'vortex2'   | 'vortex3'
+% Vortex geometry settings                      ---VORTEX----------------------------------------
 vortexOrigin   = [-2.5, 0.6, 0.1];
+vortexDesign   = 'vortex1';                     % 'vortex1'     |   can add more desing...
+vortexSymPoint = [0 -vortexOrigin(2) 0];
+vortexSymNorm  = [0 1 0];
+vortexConfig   = 'none';                        %  'none'   |   'right'  |   'left'  |   'sym'
 vortexChordRes = 1;
 
-% Tail geometry settings
-tailDesign   = 'tail1';             % 'tail0'   | 'tail1'     | 'tail2'     | 'tail3'
+% Tail geometry settings                        ---TAIL------------------------------------------
 tailOrigin   = [2.5, 0.3, 0.5];
+tailDesign   = 'tail1';                         %  'tail1'      |   can add more desing...
+tailSymPoint = [0 -tailOrigin(2) 0];
+tailSymNorm  = [0 1 0];
+tailConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
 tailChordRes = 5;
-%tailRotation = [ 1.000, 0.000, 0.000; ...      can use to define a rotate
-%                 0.000, 0.500,-0.866; ...      reference system for the tail
-%                 0.000, 0.866, 0.500]' ;       INPUT in []: rotation_tensor --> R 
 
-% Fuselage geometry settings 
-fuselageDesign = 'fuselage1';       %  _______  | 'fuselage1' | 'fuselage2'
+% Fuselage geometry settings                    ---FUSELAGE--------------------------------------
+fuselageOrigin   = [-3.0, 0.0, 0.0];
+fuselageDesign   = 'fuselage1';                 %  'fuselage1'  |   can add more desing...
+fuselageSymPoint = [0 -fuselageOrigin(2) 0];
+fuselageSymNorm  = [0 1 0];
+fuselageConfig   = 'right';                     % 'none'    |   'right'  |   'left'  |   'sym'
+%fuselageOrientation = [0.0, -1.0,  0.0;...
+%                       1.0,  0.0,  0.0;...
+%                       0.0,  0.0,  1.0];       % rotate correctly the mesh of the fuselage
 
 % Reference values:
-Sref = 26.56;  
-Cref = 5;
+Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
+Cref = 5;               % TBD
 rhoInf = 1.225;
 betaDeg  = 0;
 absVelocity = 1;
@@ -88,6 +96,9 @@ xBoxStart = -10;
 xBoxEnd   = 15;
 yBoxLimit = 10;
 zBoxLimit = 10;
+
+%DUST_post settings:
+ppAnalysisList = {'load_stabF','visual_wingF','visual_lerxF','visual_tailF','visual_fuselageR'};   
 
 % Postprocessing settings:
 saveOutput = true;
@@ -110,118 +121,207 @@ runNameCell =  cell(size(alphaDegVec,1),1);         % run name cell initializati
 timeCostVec = zeros(size(alphaDegVec,1),1);         % time cost vector initialization
 startingPath = cd;      cd("./design-aircraft");    % move to aircraft design path
 
-% Geometry preset path selection (based on the user input)
+% Delete old run data in memory
 aircraftDesignPath = cd;
-fuselageFilePath = sprintf('%s/input-DUST/geometry-data/%s.in',           aircraftDesignPath,fuselageDesign);
-wingPresetPath   = sprintf('%s/input-DUST/preset/preset_inWing_%s.in',    aircraftDesignPath,wingDesign);       
-lerxPresetPath   = sprintf('%s/input-DUST/preset/preset_inLerx_%s.in',    aircraftDesignPath,lerxDesign);
-vortexPresetPath = sprintf('%s/input-DUST/preset/preset_inVortex_%s.in',  aircraftDesignPath,vortexDesign);
-tailPresetPath   = sprintf('%s/input-DUST/preset/preset_inTail_%s.in',    aircraftDesignPath,tailDesign); 
-postPresetPath   = sprintf('%s/input-DUST/preset/preset_inDustPost_%s.in',aircraftDesignPath,componentsLoad);
+if runDUST == true && clearData == true
+    resetDustData(aircraftDesignPath);
+end
 
-% Symmetry plane definition
-wingSymPoint   = [0 -wingOrigin(2) 0];
-wingSymNorm    = [0 1 0];
-lerxSymPoint   = [0 -lerxOrigin(2) 0];
-lerxSymNorm    = [0 1 0];
-vortexSymPoint = [0 -vortexOrigin(2) 0];
-vortexSymNorm  = [0 1 0];
-tailSymPoint   = [0 -tailOrigin(2) 0]';     % if rotate reference used:  tailRotation*[0,-tailOrigin(2),0]';
-tailSymNorm    = [0 1 0]';                  % if rotate reference used:  tailRotation*[0, 1, 0]';
-
-% Geometry initialization
-configurationName = sprintf('%s_%s_%s_%s',wingDesign,lerxDesign,vortexDesign,tailDesign);
+% Geometry and Reference configuration build for DUST
 if runDUST == true
-    % Delete old run data in memory
-    if clearData == true
-        resetAircraftDesignData(aircraftDesignPath);
+    %%% WING
+    if ~isequal(wingConfig,'none')
+        % Wing preset and reference definition
+        wingPresetPath = sprintf('%s/input-DUST/preset/preset_inWing_%s.in',aircraftDesignPath,wingDesign);
+        [inWingRefVars] = inRefInit('Wing',wingOrigin);  
+
+        % WingR.in generation
+        if isequal(wingConfig,'right') || isequal(wingConfig,'sym')
+        [inWingRightVars]   = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'R');
+        [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,analysisName,'R',wingPresetPath);
+            if isequal(wingConfig,'right')
+                [inWingPreVars] = inPreWingInit(wingRightFilePath); % wing pre variables for only right wing
+            end
+        end
+        
+        % WingL.in generation
+        if isequal(wingConfig,'left') || isequal(wingConfig,'sym')
+        [inWingLeftVars]   = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'L');
+        [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,analysisName,'L',wingPresetPath);
+            if isequal(wingConfig,'right')
+                [inWingPreVars] = inPreWingInit(wingLeftFilePath);  % wing pre variables for only left wing
+            end
+        end
+
+        % Write wing pre variables for symmetric configuration
+        if isequal(wingConfig,'sym')
+            [inWingPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath);
+        end
+
+    else
+        % No wing reference notification
+        inWingRefVars = '! no wing reference created';
+        inWingPreVars = '! no wing geometry created';
+
     end
 
-    % WingR.in generation
-    [inWingRightVars] = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'R');
-    [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,wingDesign,'R',wingPresetPath);
-    
-    % WingL.in generation
-    [inWingLeftVars] = inSymPartInit(wingChordRes,wingSymPoint,wingSymNorm,'L');
-    [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,wingDesign,'L',wingPresetPath);
 
-    % Write variables to generate Wing reference
-    [inWingRefVars] = inRefInit('Wing',wingOrigin);
-    [inWingPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath);
-    [inFuselagePreVars] = inPreFuselageInit(fuselageFilePath);
-    
-    % Lerx generation section
-    if ~isequal(lerxDesign,'lerx0')
+    %%% LERX
+    if ~isequal(lerxConfig,'none')
+        % lerx preset and reference definition
+        lerxPresetPath = sprintf('%s/input-DUST/preset/preset_inLerx_%s.in',aircraftDesignPath,lerxDesign);
+        [inLerxRefVars] = inRefInit('Lerx',lerxOrigin);  
+
         % LerxR.in generation
-        [inLerxRightVars] = inSymPartInit(lerxChordRes,lerxSymPoint,lerxSymNorm,'R');
-        [lerxRightFilePath] = lerxFileMaker_DUST(inLerxRightVars,lerxDesign,'R',lerxPresetPath);
-    
-        % LerxL.in generation
-        [inLerxLeftVars] = inSymPartInit(lerxChordRes,lerxSymPoint,lerxSymNorm,'L');
-        [lerxLeftFilePath] = lerxFileMaker_DUST(inLerxLeftVars,lerxDesign,'L',lerxPresetPath);
+        if isequal(lerxConfig,'right') || isequal(lerxConfig,'sym')
+        [inLerxRightVars]   = inSymPartInit(lerxChordRes,lerxSymPoint,lerxSymNorm,'R');
+        [lerxRightFilePath] = lerxFileMaker_DUST(inLerxRightVars,analysisName,'R',lerxPresetPath);
+            if isequal(lerxConfig,'right')
+                [inLerxPreVars] = inPreLerxInit(lerxRightFilePath); % lerx pre variables for only right lerx
+            end
+        end
         
-        % Write variables to generate Lerx reference and geometry
-        [inLerxRefVars] = inRefInit('Lerx',lerxOrigin);
-        [inLerxPreVars] = inPreLerxInit(lerxRightFilePath,lerxLeftFilePath);
-         
+        % LerxL.in generation
+        if isequal(lerxConfig,'left') || isequal(lerxConfig,'sym')
+        [inLerxLeftVars]   = inSymPartInit(lerxChordRes,lerxSymPoint,lerxSymNorm,'L');
+        [lerxLeftFilePath] = lerxFileMaker_DUST(inLerxLeftVars,analysisName,'L',lerxPresetPath);
+            if isequal(lerxConfig,'right')
+                [inLerxPreVars] = inPreLerxInit(lerxLeftFilePath);  % lerx pre variables for only left lerx
+            end
+        end
+
+        % Write lerx pre variables for symmetric configuration
+        if isequal(lerxConfig,'sym')
+            [inLerxPreVars] = inPreLerxInit(lerxRightFilePath,lerxLeftFilePath);
+        end
+
     else
         % No lerx reference notification
         inLerxRefVars = '! no lerx reference created';
-        inLerxPreVars = '! no lerx gemoetru created';
-        
-    end
-    
-    % Vortex generation section 
-    if ~isequal(vortexDesign,'vortex0')
-        % VortexR.in generation
-        [inVortexRightVars] = inSymPartInit(vortexChordRes,vortexSymPoint,vortexSymNorm,'R');
-        [vortexRightFilePath] = vortexFileMaker_DUST(inVortexRightVars,vortexDesign,'R',vortexPresetPath);
+        inLerxPreVars = '! no lerx geometry created';
 
+    end
+
+
+    %%% VORTEX
+    if ~isequal(vortexConfig,'none')
+        % Vortex preset and reference definition
+        vortexPresetPath = sprintf('%s/input-DUST/preset/preset_inVortex_%s.in',aircraftDesignPath,vortexDesign);
+        [inVortexRefVars] = inRefInit('Vortex',vortexOrigin);  
+
+        % VortexR.in generation
+        if isequal(vortexConfig,'right') || isequal(vortexConfig,'sym')
+        [inVortexRightVars]   = inSymPartInit(vortexChordRes,vortexSymPoint,vortexSymNorm,'R');
+        [vortexRightFilePath] = vortexFileMaker_DUST(inVortexRightVars,analysisName,'R',vortexPresetPath);
+            if isequal(vortexConfig,'right')
+                [inVortexPreVars] = inPreVortexInit(vortexRightFilePath); % vortex pre variables for only right vortex
+            end
+        end
+        
         % VortexL.in generation
-        [inVortexLeftVars] = inSymPartInit(vortexChordRes,vortexSymPoint,vortexSymNorm,'L');
-        [vortexLeftFilePath] = vortexFileMaker_DUST(inVortexLeftVars,vortexDesign,'L',vortexPresetPath);
-       
-        % Write variables to generate Vortex reference and geometry
-        [inVortexRefVars] = inRefInit('Vortex',vortexOrigin);     
-        [inVortexPreVars] = inPreVortexInit(vortexRightFilePath,vortexLeftFilePath);
-    
+        if isequal(vortexConfig,'left') || isequal(vortexConfig,'sym')
+        [inVortexLeftVars]   = inSymPartInit(vortexChordRes,vortexSymPoint,vortexSymNorm,'L');
+        [vortexLeftFilePath] = vortexFileMaker_DUST(inVortexLeftVars,analysisName,'L',vortexPresetPath);
+            if isequal(vortexConfig,'right')
+                [inVortexPreVars] = inPreVortexInit(vortexLeftFilePath);  % vortex pre variables for only left vortex
+            end
+        end
+
+        % Write vortex pre variables for symmetric configuration
+        if isequal(vortexConfig,'sym')
+            [inVortexPreVars] = inPreVortexInit(vortexRightFilePath,vortexLeftFilePath);
+        end
+
     else
-        % No leading edge vortex reference notification
+        % No vortex reference notification
         inVortexRefVars = '! no vortex reference created';
         inVortexPreVars = '! no vortex geometry created';
-        
-    end 
 
-    % Tail generation section 
-    if ~isequal(tailDesign,'tail0')
+    end
+
+
+    %%% TAIL
+    if ~isequal(tailConfig,'none')
+        % Tail preset and reference definition
+        tailPresetPath = sprintf('%s/input-DUST/preset/preset_inTail_%s.in',aircraftDesignPath,tailDesign);
+        [inTailRefVars] = inRefInit('Tail',tailOrigin);  
+
         % TailR.in generation
-        [inTailRightVars] = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'R');
-        [tailRightFilePath] = wingFileMaker_DUST(inTailRightVars,tailDesign,'R',tailPresetPath);
-
+        if isequal(tailConfig,'right') || isequal(tailConfig,'sym')
+        [inTailRightVars]   = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'R');
+        [tailRightFilePath] = tailFileMaker_DUST(inTailRightVars,analysisName,'R',tailPresetPath);
+            if isequal(tailConfig,'right')
+                [inTailPreVars] = inPreTailInit(tailRightFilePath); % tail pre variables for only right tail
+            end
+        end
+        
         % TailL.in generation
-        [inTailLeftVars] = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'L');
-        [tailLeftFilePath] = wingFileMaker_DUST(inTailLeftVars,tailDesign,'L',tailPresetPath);
-       
-        % Write variables to generate tail reference and geometry
-        [inTailRefVars] = inRefInit('Tail',tailOrigin);     % if rotate reference used add:  tailRotation     
-        [inTailPreVars] = inPreTailInit(tailRightFilePath,tailLeftFilePath);
-    
+        if isequal(tailConfig,'left') || isequal(tailConfig,'sym')
+        [inTailLeftVars]   = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'L');
+        [tailLeftFilePath] = tailFileMaker_DUST(inTailLeftVars,analysisName,'L',tailPresetPath);
+            if isequal(tailConfig,'right')
+                [inTailPreVars] = inPreTailInit(tailLeftFilePath);  % tail pre variables for only left tail
+            end
+        end
+
+        % Write tail pre variables for symmetric configuration
+        if isequal(tailConfig,'sym')
+            [inTailPreVars] = inPreTailInit(tailRightFilePath,tailLeftFilePath);
+        end
+
     else
         % No tail reference notification
         inTailRefVars = '! no tail reference created';
         inTailPreVars = '! no tail geometry created';
-        
-    end 
+
+    end
+
+
+    %%% FUSELAGE
+    if ~isequal(fuselageConfig,'none')
+        % Fuselage preset and reference definition
+        fuselagePresetPath = sprintf('%s/input-DUST/preset/preset_inFuselage_%s.in',aircraftDesignPath,fuselageDesign);
+        [inFuselageRefVars] = inRefInit('Body',fuselageOrigin);                 % 'fuselageOrientation' to correct direction
+
+        % FuselageR.in generation
+        if isequal(fuselageConfig,'right') || isequal(fuselageConfig,'sym')
+            [inFuselageRightVars]   = inSymPartInit([],fuselageSymPoint,fuselageSymNorm,'R');
+            [fuselageRightFilePath] = fuselageFileMaker_DUST(inFuselageRightVars,analysisName,'R',fuselagePresetPath);
+            if isequal(fuselageConfig,'right')
+                [inFuselagePreVars] = inPreFuselageInit(fuselageRightFilePath); % fuselage pre variables for only right config
+            end
+        end
+
+        % FuselageL.in generation
+        if isequal(fuselageConfig,'left') || isequal(fuselageConfig,'sym')
+        [inFuselageLeftVars]   = inSymPartInit([],fuselageSymPoint,fuselageSymNorm,'L');
+        [fuselageLeftFilePath] = fuselageFileMaker_DUST(inFuselageLeftVars,analysisName,'L',fuselagePresetPath);
+            if isequal(fuselageConfig,'left')
+                [inFuselagePreVars] = inPreFuselageInit(fuselageLeftFilePath); % fuselage pre variables for only left config
+            end
+        end
+
+        % Write fuselage pre variables for symmetric configuration
+        if isequal(fuselageConfig,'sym')
+            [inFuselagePreVars] = inPreFuselageInit(fuselageRightFilePath,fuselageLeftFilePath);
+        end
+    
+    else
+        % No fuselage reference notification
+        inFuselageRefVars = '! no fuselage reference created';
+        inFuselagePreVars = '! no fuselage geometry created';
+    
+    end
+
     
     % References.in generation
-    inRefVars = [inWingRefVars,inLerxRefVars,inVortexRefVars,inTailRefVars];
+    inRefVars = [inWingRefVars,inLerxRefVars,inVortexRefVars,inTailRefVars,inFuselageRefVars];
     [refFilePath] = refFileMaker_DUST(inRefVars,configurationName);                
     
     % Dust_pre.in generation
-    inPreVars = [inFuselagePreVars,inWingPreVars, inLerxPreVars,inVortexPreVars,inTailPreVars];
+    inPreVars = [inWingPreVars,inLerxPreVars,inVortexPreVars,inTailPreVars,inFuselagePreVars];
     [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,configurationName);  
 end
-
 
 % Aircraft design main loop
 for i = 1:size(alphaDegVec,1)
@@ -234,7 +334,7 @@ for i = 1:size(alphaDegVec,1)
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation
-        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},postPresetPath);
+        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},ppAnalysisList);
         
         % Dust run
         cd("./input-DUST");

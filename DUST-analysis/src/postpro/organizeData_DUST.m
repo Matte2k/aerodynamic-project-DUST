@@ -78,6 +78,15 @@ function [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec
             end
             xlabel('$time$');      ylabel('$F_{x}$');
             legend(legendCell)
+
+            figure("Name",'My vs time')
+            title('wing $M_{y}$ convergence')
+            hold on;    grid on;    axis padded;
+            for i = 1:size(variableVec,1)
+                plot(paramRunData{i,1}.time , paramRunData{i,1}.My);
+            end
+            xlabel('$time$');      ylabel('$M_{y}$');
+            legend(legendCell)
         end
 
 end

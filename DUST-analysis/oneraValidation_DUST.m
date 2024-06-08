@@ -1,3 +1,30 @@
+%  
+%       -- ONERA M6 WING VALIDATION for DUST simulation --
+% 
+%   Script built to compute in MATLAB a validation of DUST code by running the 
+%   well known test case of the ONERA-M6 wing.
+%   The geometry can be built in different ways using 'wingConfig' and 
+%   'fuselageConfig' input variable.
+%   The analysis parameters can be modified using the INPUT section of this file.
+%   Only some particular DUST settings can be edited from this script...
+%   
+%   In order to change different parameters (not present here)
+%   it's possible to operate directly on the Dust preset file:
+%       > "./input-DUST/preset/...
+%
+%   The list of possible post processing analysis can be edited to add some
+%   desired analysis as ".in" file in the folder: 
+%       > "./input-DUST/preset/postAnalysis/.."
+%
+%   WARNING:    change always wisely the input parameters and double check
+%               results obtained... remember that there aren't much checks
+%               on the input parameters, so the results can easily leads to 
+%               unphysical output values or errors.
+%
+%                               
+%                               Matteo Baio, Politecnico di Milano, 06/2024
+%
+
 clearvars;  close all;  clc
 addpath(genpath("./src"));
 addpath(genpath("./validation-onera"));
@@ -8,21 +35,23 @@ currentPath = pwd;
 % Parametric analysis input:
 analysisName = 'aoa';
 alphaDegVec  = [0 3.06 6.12]';
+configurationName = 'validationONERA';
 
 % Geometry settings  
-wingConfig = 'sym';                  % 'right'  |  'left'  | 'sym'
-wingLoad   = 'left';                 % 'right'  |  'left'  | 'sym'           
-wingOrigin = [0.0, 0.0, 0.0];
+wingOrigin   = [0.0, 0.0, 0.0];
+wingSymPoint = [0 -wingOrigin(2) 0];
+wingSymNorm  = [0 1 0];
+wingConfig   = 'sym';               % 'right'     |   'left'    |   'sym'
 
-% Reference values:       % Ma 0.3000   |   Ma 0.8395
+% Reference values:                 % Ma 0.3000   |   Ma 0.8395
 Sref   = 0.7586;      
 Cref   = 1;         
-PInf   = 12767;           % 12767       |   99973.8
+PInf   = 12767;                     % 12767       |   99973.8
 rhoInf = 1.22498;  
-aInf   = 340.2966;        % 340.2966    |   ___
+aInf   = 340.2966;                  % 340.2966    |   ___
 muInf  = [];
 betaDeg  = 0;
-absVelocity = 285.679;    % 102.089     |  285.679
+absVelocity = 102.089;              % 102.089     |  285.679
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
@@ -31,6 +60,9 @@ xBoxStart = -5;
 xBoxEnd   = 20;
 yBoxLimit = 10;
 zBoxLimit = 10;
+
+%DUST_post settings:
+ppAnalysisList = {'load_wingL','visual_wingL','chord_wingL'};  
 
 % Postprocessing settings:
 saveOutput = true;
@@ -55,51 +87,45 @@ startingPath = cd;      cd("./validation-onera");   % move to aircraft design pa
 
 % Geometry preset path selection (based on the user input)
 oneraValidationPath = cd;
-wingRightFilePath  = sprintf('%s/input-DUST/geometry-data/rightWing.in', oneraValidationPath);       
-wingLeftFilePath   = sprintf('%s/input-DUST/geometry-data/leftWing.in',  oneraValidationPath);
-postPresetPath     = sprintf('%s/input-DUST/preset/preset_inDustPost_%s.in',oneraValidationPath,wingLoad);
+if runDUST == true && clearData == true
+    resetDustData(oneraValidationPath);
+end
 
 % Geometry initialization
 wingDesign = 'oneraM6';
-configurationName = sprintf('%s_%s_%s',wingDesign,wingConfig,wingLoad);
 if runDUST == true
-    % Delete old run data in memory
-    if clearData == true
-        resetOneraValidationData(oneraValidationPath);
+    % Wing preset and reference definition
+    wingPresetPath = sprintf('%s/input-DUST/preset/preset_inWing_%s.in',oneraValidationPath,wingDesign);
+    [inWingRefVars] = inRefInit('Wing',wingOrigin);  
+
+    % WingR.in generation
+    if isequal(wingConfig,'right') || isequal(wingConfig,'sym')
+    [inWingRightVars]   = inSymPartInit([],wingSymPoint,wingSymNorm,'R');
+    [wingRightFilePath] = wingFileMaker_DUST(inWingRightVars,wingDesign,'R',wingPresetPath);
+        if isequal(wingConfig,'right')
+            [inWingPreVars] = inPreWingInit(wingRightFilePath); % wing pre variables for only right wing
+        end
+    end
+
+    % WingL.in generation
+    if isequal(wingConfig,'left') || isequal(wingConfig,'sym')
+    [inWingLeftVars]   = inSymPartInit([],wingSymPoint,wingSymNorm,'L');
+    [wingLeftFilePath] = wingFileMaker_DUST(inWingLeftVars,wingDesign,'L',wingPresetPath);
+        if isequal(wingConfig,'right')
+            [inWingPreVars] = inPreWingInit(wingLeftFilePath);  % wing pre variables for only left wing
+        end
+    end
+
+    % Write wing pre variables for symmetric configuration
+    if isequal(wingConfig,'sym')
+        [inWingPreVars] = inPreWingInit(wingRightFilePath,wingLeftFilePath);
     end
 
     % References.in generation
-    [inWingRefVars] = inRefInit('Wing',wingOrigin);
-    [refFilePath] = refFileMaker_DUST(inWingRefVars,configurationName);                
-    
-    % Dust_pre.in generation
-    switch wingConfig
-        case 'right'
-            comp_nameR = sprintf('comp_name = wing_right');
-            geo_fileR  = sprintf('geo_file = %s',wingRightFilePath);
-            ref_tagR   = sprintf('ref_tag = Wing');
-            inPreVars  = {comp_nameR, geo_fileR, ref_tagR};
-            
-        case 'left'
-            comp_nameL = sprintf('comp_name = wing_left');
-            geo_fileL  = sprintf('geo_file = %s',wingLeftFilePath);
-            ref_tagL   = sprintf('ref_tag = Wing');
-            inPreVars  = {comp_nameL, geo_fileL, ref_tagL};
-        
-        case 'sym'
-            comp_nameR = sprintf('comp_name = wing_right');
-            geo_fileR  = sprintf('geo_file = %s',wingRightFilePath);
-            ref_tagR   = sprintf('ref_tag = Wing');
-            comp_nameL = sprintf('comp_name = wing_left');
-            geo_fileL  = sprintf('geo_file = %s',wingLeftFilePath);
-            ref_tagL   = sprintf('ref_tag = Wing');
-            inPreVars  = {comp_nameR, geo_fileR, ref_tagR, ...
-                          comp_nameL, geo_fileL, ref_tagL};
-        otherwise
-            error('insert a valid configuration between: left, right or sym');
-    end
-    [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,configurationName);
+    [refFilePath] = refFileMaker_DUST(inWingRefVars,wingDesign);
 
+    % Dust_pre.in generation
+    [preFilePath,modelFilePath] = preFileMaker_DUST(inWingPreVars,wingDesign);
 end
 
 % Aircraft design main loop
@@ -116,7 +142,7 @@ for i = 1:size(alphaDegVec,1)
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation
-        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},postPresetPath);
+        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},ppAnalysisList);
         
         % Dust run
         cd("./input-DUST");

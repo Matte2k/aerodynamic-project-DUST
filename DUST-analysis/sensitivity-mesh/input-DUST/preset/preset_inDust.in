@@ -1,7 +1,7 @@
 ! PRESET FIXED INPUT
 ! - Timings -
 tstart = 1.0
-tend = 30.0
+tend = 10.0
 dt = 1
 dt_out = 1
 output_start = T
@@ -14,7 +14,7 @@ penetration_avoidance = T
 
 ! - Wake parameters -
 n_wake_panels = 1
-n_wake_particles = 10000000
+n_wake_particles = 1000000
 
 
 ! VARIABLE TO ADD

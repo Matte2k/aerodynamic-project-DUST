@@ -25,9 +25,9 @@ airfoil = NACA0012
 
 
 ! VARIABLE TO ADD
-! nelem_chord = 5
+! nelem_chord = defined in design-aircraft
 ! mesh_mirror = F for right wing and T for left wing
-! mirror_point = (/0.0,-yGap,0.0/)
-! mirror_normal = (/0.0,1.0,0.0/)
+! mirror_point  = defiend in tailFileMaker_DUST.m
+! mirror_normal = defiend in tailFileMaker_DUST.m
 
 ! VARIABLE INPUT

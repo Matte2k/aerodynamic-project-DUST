@@ -1,0 +1,21 @@
+analysis = {
+  name = visual_wing
+  type = Viz
+  format = vtk
+
+  start_res = 1
+  end_res = 150
+  step_res = 10
+  wake = T
+  separate_wake = T
+  
+  component = wing_left
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+

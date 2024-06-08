@@ -1,7 +1,0 @@
-mesh_file = ./geometry-data/fuselage/tank_
-mesh_file_type = basic
-el_type = p
-
-tol_se_wing = 0.00000001
-!inner_product_te = -0.88
-suppress_te = T

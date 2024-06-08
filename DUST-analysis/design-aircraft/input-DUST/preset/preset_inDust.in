@@ -1,20 +1,20 @@
 ! PRESET FIXED INPUT
 ! - Timings -
 tstart = 1.0
-tend = 30.0
-dt = 1
-dt_out = 1
+tend = 10.0
+dt = 1.0
+dt_out = 1.0
 output_start = T
 
 ! - Model parameters -
 fmm = F
 vortstretch = T
 diffusion = T
-penetration_avoidance = F
+penetration_avoidance = T
 
 ! - Wake parameters -
 n_wake_panels = 1
-n_wake_particles = 10000000
+n_wake_particles = 1000000
 
 
 ! VARIABLE TO ADD

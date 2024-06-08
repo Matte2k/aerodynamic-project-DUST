@@ -43,7 +43,7 @@ runScript  = false;
 if dataDelete == true
     mainPath = pwd;
     oneraValidationPath = sprintf('%s/validation-onera',mainPath);
-    resetOneraValidationData(oneraValidationPath);
+    resetDustData(oneraValidationPath);
 end
 
 % exectue the aircraft design
@@ -63,7 +63,7 @@ runScript  = false;
 if dataDelete == true
     mainPath = pwd; 
     gapAnalysisPath = sprintf('%s/sensitivity-gap',mainPath);
-    resetGapAnalysisData(gapAnalysisPath);
+    resetDustData(gapAnalysisPath);
 end
 
 % exectue the gap sensitivity analysis
@@ -83,7 +83,7 @@ runScript  = false;
 if dataDelete == true
     mainPath = pwd;
     meshAnalysisPath = sprintf('%s/sensitivity-mesh',mainPath);
-    resetMeshAnalysisData(meshAnalysisPath);
+    resetDustData(meshAnalysisPath);
 end
 
 % exectue the mesh sensitivity analysis
@@ -103,7 +103,7 @@ runScript  = false;
 if dataDelete == true
     mainPath = pwd;
     boxAnalysisPath = sprintf('%s/sensitivity-box',mainPath);
-    resetBoxAnalysisData(boxAnalysisPath);
+    resetDustData(boxAnalysisPath);
 end
 
 % exectue the box sensitivity analysis
@@ -123,7 +123,7 @@ runScript  = false;
 if dataDelete == true
     mainPath = pwd;
     timestepAnalysisPath = sprintf('%s/sensitivity-timestep',mainPath);
-    resetTimestepAnalysisData(timestepAnalysisPath);
+    resetDustData(timestepAnalysisPath);
 end
 
 % exectue the box sensitivity analysis
@@ -143,7 +143,7 @@ runScript  = false;
 if dataDelete == true
     mainPath = pwd;
     aircraftDesignPath = sprintf('%s/design-aircraft',mainPath);
-    resetAircraftDesignData(aircraftDesignPath);
+    resetDustData(aircraftDesignPath);
 end
 
 % exectue the aircraft design

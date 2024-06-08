@@ -14,7 +14,7 @@ penetration_avoidance = T
 
 ! - Wake parameters -
 n_wake_panels = 1
-n_wake_particles = 10000000
+n_wake_particles = 1000000
 
 
 ! VARIABLE TO ADD
