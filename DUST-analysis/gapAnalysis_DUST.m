@@ -34,9 +34,12 @@ currentPath = pwd;
 
 %% INPUT
 
+gapVector = 0.6;
+gapRunName = 1;
+
 % Parametric analysis input:
-gapVector  = [0 1 2 3 4 5]';
-gapRunName = [1 2 3 4 5 6]';                    % must have same dimension as 'gapVector'
+%gapVector  = [0 1 2 3 4 5]';
+%gapRunName = [1 2 3 4 5 6]';                    % must have same dimension as 'gapVector'
 analysisName = 'gap';
 
 % Wing geometry settings:                       # possible input for different preset: #                                

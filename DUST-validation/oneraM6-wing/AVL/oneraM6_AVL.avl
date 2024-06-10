@@ -4,11 +4,11 @@
 # 
 # 
 oneraWingValidation
-0.0                                 | Mach
-0     0     0.0                     | iYsym  iZsym  Zsym
-  0.75860     1.00000     1.00000   | Sref   Cref   Bref
-  0.00000     0.00000     0.00000   | Xref   Yref   Zref
- 0.00                               | CDp  (optional)
+0.0                           | Mach
+0         0         0.0       | iYsym  iZsym  Zsym
+0.75860   1.00000   1.00000   | Sref   Cref   Bref
+0.00000   0.00000   0.00000   | Xref   Yref   Zref
+0.00                          | CDp  (optional)
 
 
 
@@ -16,7 +16,7 @@ oneraWingValidation
 SURFACE                      | (keyword)
 Main Wing
 #Nchord    Cspace   [ Nspan Sspace ]
-11        1.0
+20         1.0
 
 INDEX                        | (keyword)
 8776                         | Lsurf
@@ -31,13 +31,13 @@ TRANSLATE
 0.0  0.0  0.0
 
 ANGLE
-   0.000                         | dAinc
+0.000                         | dAinc
 
 
 #____PANEL 1_______
 #______________
 SECTION                                                     |  (keyword)
-   0.0000    0.0000    0.0000    0.8050   0.000   22    0   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+   0.0000    0.0000    0.0000    0.8050   0.000   50    0   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
 
 AFIL 0.0 1.0
 oneraM6.dat
@@ -45,7 +45,7 @@ oneraM6.dat
 
 #______________
 SECTION                                                     |  (keyword)
-   0.6900    1.1960    0.0000    0.4530   0.000   22    0   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
+   0.6900    1.1960    0.0000    0.4530   0.000   50    0   | Xle Yle Zle   Chord Ainc   [ Nspan Sspace ]
 
 AFIL 0.0 1.0
 oneraM6.dat

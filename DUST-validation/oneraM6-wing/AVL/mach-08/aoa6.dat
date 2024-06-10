@@ -1,0 +1,31 @@
+ ---------------------------------------------------------------
+ Vortex Lattice Output -- Total Forces
+
+ Configuration: oneraWingValidation                                         
+     # Surfaces =   2
+     # Strips   = 100
+     # Vortices =2000
+
+  Sref = 0.75860       Cref =  1.0000       Bref =  1.0000    
+  Xref =  0.0000       Yref =  0.0000       Zref =  0.0000    
+
+ Standard axis orientation,  X fwd, Z down         
+
+ Run case: mach08_aoa6                             
+
+  Alpha =   6.12000     pb/2V =  -0.00000     p'b/2V =  -0.00000
+  Beta  =   0.00000     qc/2V =   0.00000
+  Mach  =     0.840     rb/2V =  -0.00000     r'b/2V =  -0.00000
+
+  CXtot =   0.06384     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =  -0.00000     Cmtot =  -0.43718
+  CZtot =  -0.94781     Cntot =   0.00000     Cn'tot =   0.00000
+
+  CLtot =   0.94921
+  CDtot =   0.03758
+  CDvis =   0.00000     CDind = 0.0375752
+  CLff  =   0.95324     CDff  = 0.0381329    | Trefftz
+  CYff  =   0.00000         e =    5.7540    | Plane  
+
+
+ ---------------------------------------------------------------

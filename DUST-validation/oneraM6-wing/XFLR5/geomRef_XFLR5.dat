@@ -1,7 +1,10 @@
  
  ---------------------------------------------
- Geometric reference values AVL
+ Geometric reference values XFLR5
  
  	Sref      =   0.7586
- 	Cref      =   1.0000
+ 	Cref      =   0.6450	(?)
  	Bref      =   1.0000
+ 	cordPanel =   20
+ 	secPanel  =   50
+ 	
