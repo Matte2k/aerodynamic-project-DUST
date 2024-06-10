@@ -2,7 +2,7 @@
 mesh_file_type = parametric
 el_type = p
 
-type_chord = cosine
+type_chord = uniform
 starting_point = (/0.0,0.0,0.0/)
 reference_chord_fraction = 0.0
 
@@ -25,11 +25,9 @@ airfoil = NACA0012
 
 
 ! VARIABLE TO ADD
-! nelem_chord = defined in gapAnalysis_DUST.m
+! nelem_chord = defined in design-aircraft
 ! mesh_mirror = F for right wing and T for left wing
 ! mirror_point  = defiend in wingFileMaker_DUST.m
 ! mirror_normal = defiend in wingFileMaker_DUST.m
 
-
 ! VARIABLE INPUT
-nelem_chord = 5

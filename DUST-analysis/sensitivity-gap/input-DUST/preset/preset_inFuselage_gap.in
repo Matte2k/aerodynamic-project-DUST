@@ -1,12 +1,10 @@
-mesh_file = ./geometry-data/fuselage/fuselage_gap.cgns
-mesh_file_type = cgns
+mesh_file = ./geometry-data/fuselage/fuselage_
+mesh_file_type = basic
 el_type = p
 
 tol_se_wing = 0.00000001
 !inner_product_te = -0.88
 suppress_te = T
-
-scaling_factor = 0.005 
 
 ! VARIABLE TO ADD
 ! mesh_mirror = F for right wing and T for left wing

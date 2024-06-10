@@ -36,12 +36,13 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = [0 5 10 15]';
+%alphaDegVec = [0 5 10 15]';
+alphaDegVec = 5;
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 configurationName = 'stabilitySTAD';
 
 % Wing geometry settings                        ---WING------------------------------------------
-wingOrigin   = [-0.5, 0.6, 0.0];
+wingOrigin   = [4.3679, 1.6, 0.1];
 wingDesign   = 'wing1';                         %  'wing1'  |  can add more desing...
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
@@ -53,7 +54,7 @@ lerxOrigin   = [-1.5, 0.6, 0.1];
 lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
-lerxConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
+lerxConfig   = 'none';                           %  'none'   |   'right'  |   'left'  |   'sym'
 lerxChordRes = 5;
 
 % Vortex geometry settings                      ---VORTEX----------------------------------------
@@ -65,22 +66,25 @@ vortexConfig   = 'none';                        %  'none'   |   'right'  |   'le
 vortexChordRes = 1;
 
 % Tail geometry settings                        ---TAIL------------------------------------------
-tailOrigin   = [2.5, 0.3, 0.5];
+tailOrigin   = [8.9333, 1.1, 0.250];
 tailDesign   = 'tail1';                         %  'tail1'      |   can add more desing...
-tailSymPoint = [0 -tailOrigin(2) 0];
-tailSymNorm  = [0 1 0];
+
+tailRotation = [1.000,  0.000,  0.000;  ...
+                0.000,  0.500, -0.866;  ...
+                0.000,  0.866,  0.500 ]';
+
+tailSymPoint = tailRotation * [0 -tailOrigin(2) 0]';
+tailSymNorm  = tailRotation * [0 1 0]';
 tailConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
-tailChordRes = 5;
+tailChordRes = 10;
+
 
 % Fuselage geometry settings                    ---FUSELAGE--------------------------------------
-fuselageOrigin   = [-3.0, 0.0, 0.0];
+fuselageOrigin   = [0.0, 0.0, 0.0];
 fuselageDesign   = 'fuselage1';                 %  'fuselage1'  |   can add more desing...
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'right';                     % 'none'    |   'right'  |   'left'  |   'sym'
-%fuselageOrientation = [0.0, -1.0,  0.0;...
-%                       1.0,  0.0,  0.0;...
-%                       0.0,  0.0,  1.0];       % rotate correctly the mesh of the fuselage
+fuselageConfig   = 'sym';                     % 'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
@@ -98,7 +102,7 @@ yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppAnalysisList = {'load_stabF','visual_wingF','visual_lerxF','visual_tailF','visual_fuselageR'};   
+ppAnalysisList = {'load_stabF','visual_wingF','visual_tailF','visual_fuselageF'};   
 
 % Postprocessing settings:
 saveOutput = true;
@@ -244,7 +248,7 @@ if runDUST == true
     if ~isequal(tailConfig,'none')
         % Tail preset and reference definition
         tailPresetPath = sprintf('%s/input-DUST/preset/preset_inTail_%s.in',aircraftDesignPath,tailDesign);
-        [inTailRefVars] = inRefInit('Tail',tailOrigin);  
+        [inTailRefVars] = inRefInit('Tail',tailOrigin,tailRotation);  
 
         % TailR.in generation
         if isequal(tailConfig,'right') || isequal(tailConfig,'sym')

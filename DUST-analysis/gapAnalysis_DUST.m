@@ -33,8 +33,7 @@ currentPath = pwd;
 
 
 %% INPUT
-
-gapVector = 0.6;
+gapVector = 2;
 gapRunName = 1;
 
 % Parametric analysis input:
@@ -43,20 +42,17 @@ gapRunName = 1;
 analysisName = 'gap';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
-wingOriginX  = -0.5;
-wingOriginZ  = 0.0;                     
+wingOriginX  = 4.0;
+wingOriginZ  = 0.1;                     
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
 wingChordRes = 5;
 
 % Fuselage geometry settings:
-fuselageOrigin   = [-3.0, 0.0, 0.0];
+fuselageOrigin   = [0.0, 0.0, 0.0];
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'right';                     % 'none'    |   'right'  |   'left'  |   'sym'
-%fuselageOrientation = [0.0, -1.0,  0.0;...
-%                       1.0,  0.0,  0.0;...
-%                       0.0,  0.0,  1.0];       % rotate correctly the mesh of the fuselage
+fuselageConfig   = 'sym';                     % 'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
@@ -75,7 +71,7 @@ yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppAnalysisList = {'load_wingF','visual_wingF','visual_fuselageR'}; 
+ppAnalysisList = {'load_wingF','visual_wingF','visual_fuselageF'}; 
 
 % Postprocessing settings:
 saveOutput = true;

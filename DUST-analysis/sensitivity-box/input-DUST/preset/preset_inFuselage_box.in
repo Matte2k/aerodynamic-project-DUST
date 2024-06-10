@@ -1,5 +1,5 @@
-mesh_file = ./geometry-data/fuselage/fuselage_box.cgns
-mesh_file_type = cgns
+mesh_file = ./geometry-data/fuselage/fuselage_
+mesh_file_type = basic
 el_type = p
 
 tol_se_wing = 0.00000001
