@@ -1,14 +1,14 @@
-function [mach08] = outputDUST_mach08(dataPath)
-%OUTPUT DUST at MACH 0.3000
+function [data] = outputDUST_mach08(dataPath)
+%OUTPUT DUST at MACH 0.8395
 %
 %   Syntax:
-%       [mach03] = outputDUST_mach03(dataPath)
+%       [data] = outputDUST_mach08(dataPath)
 %
 %   Input:
 %       dataPath(*),  path: path of the file containing designData of the DUST run
 %
 %   Output:
-%       mach08, struct: contains the following fields:
+%       data, struct: contains the following fields:
 %                   - ref:    reference value used to compute loads
 %                   - flow:   free stream condition
 %                   - aero:   aerodynamic force and moment coefficient
@@ -16,7 +16,9 @@ function [mach08] = outputDUST_mach08(dataPath)
 %
 %   NOTE:   the reference and flow values can be edited while, all the
 %           data in this function has been reported automatic from:
-%               > ./data/cfd/mach-08/onerM6_mach08.mat
+%               > ./data/cfd/mach-08/oneraM6_mach08.mat
+%           The current reference system directions are:
+%                   CURRENT REFERENCE: x-backward, y-right, z-up
 %
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
@@ -26,31 +28,35 @@ function [mach08] = outputDUST_mach08(dataPath)
     end
 
     % reference values
-    mach08.ref.S   = 0.758602;
-    mach08.ref.C   = 1;
-    mach08.ref.rho = 1.22498;
-    mach08.ref.P   = 99973.8;
-    mach08.ref.v   = 285.679;
-    
-    data = load(dataPath);
-    [aeroLoads]    = aeroLoads_DUST   (data.designData, mach08.ref.v , mach08.ref.rho, mach08.ref.S, mach08.ref.C, false);
-    [structLoads]  = structLoads_DUST (data.designData, mach08.ref.v , mach08.ref.rho, mach08.ref.S, mach08.ref.C, 'aoa', false);
+    data.ref.S   = 0.758602;
+    data.ref.C   = 1;
+    data.ref.rho = 1.22498;
+    data.ref.P   = 99973.8;
+    data.ref.v   = 285.679;
+
+    % panel method data
+    data.mesh.chordElem = 20;
+    data.mesh.spanElem  = 50;
+ 
+    dustOutput = load(dataPath);
+    [aeroLoads]    = aeroLoads_DUST   (dustOutput.designData, data.ref.v , data.ref.rho, data.ref.S, data.ref.C, false);
+    [structLoads]  = structLoads_DUST (dustOutput.designData, data.ref.v , data.ref.rho, data.ref.S, data.ref.C, 'aoa', false);
 
     % flow data
-    mach08.flow.mach   = 0.8395;
-    mach08.flow.aoaDeg = [ 0.000000,     3.060000,    6.120000];
+    data.flow.mach   = 0.8395;
+    data.flow.aoaDeg = [ 0.000000,     3.060000,    6.120000];
+   
+    % structural loads
+    data.struct.Cfx  = structLoads.Cfx;
+    data.struct.Cfy  = structLoads.Cfy;
+    data.struct.Cfz  = structLoads.Cfz;
+    data.struct.Cmx  = structLoads.Cmx;
+    data.struct.Cmy  = structLoads.Cmy;
+    data.struct.Cmz  = structLoads.Cmz;
 
     % aerodynamic loads
-    mach08.aero.Cl   = aeroLoads.Cl;
-    mach08.aero.Cd   = aeroLoads.Cd;
-    mach08.aero.Cm   = aeroLoads.Cm;
-    
-    % structural loads
-    mach08.struct.Cfx  = structLoads.Cfx;
-    mach08.struct.Cfy  = structLoads.Cfy;
-    mach08.struct.Cfz  = structLoads.Cfz;
-    mach08.struct.Cmx  = structLoads.Cmx;
-    mach08.struct.Cmy  = structLoads.Cmy;
-    mach08.struct.Cmz  = structLoads.Cmz;
+    data.aero.Cl   = aeroLoads.Cl;
+    data.aero.Cd   = aeroLoads.Cd;
+    data.aero.Cm   = aeroLoads.Cm;
 
 end
