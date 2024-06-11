@@ -69,17 +69,13 @@ vortexConfig   = 'none';                        %  'none'   |   'right'  |   'le
 vortexChordRes = 1;
 
 % Tail geometry settings                        ---TAIL------------------------------------------
-tailOrigin   = [8.9333, 1.0025, 0.205];
-tailDesign   = 'tail1';                         %  'tail1'      |   can add more desing...
-
-tailRotation = [1.000,  0.000,  0.000;  ...
-                0.000,  0.500, -0.866;  ...
-                0.000,  0.866,  0.500 ]';
-
-tailSymPoint = tailRotation * [0 -tailOrigin(2) 0]';
-tailSymNorm  = tailRotation * [0 1 0]';
-tailConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
-tailChordRes = 10;
+tailOrigin     = [8.9333, 1.0025, 0.205];
+tailDesign     = 'tail1';                         %  'tail1'      |   can add more desing...
+tailEulerAngle = [0.0000, 0.0000, 60.00];
+tailSymPoint   = tailRotation * [0 -tailOrigin(2) 0]';
+tailSymNorm    = tailRotation * [0 1 0]';
+tailConfig     = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
+tailChordRes   = 10;
 
 
 % Fuselage geometry settings                    ---FUSELAGE--------------------------------------
@@ -129,6 +125,8 @@ for i = 1:size(alphaDegVec,1)           % loop computing velocity from aoa
     [~,u_inf{i}] = computeVelVec(alphaDegVec(i),betaDeg,absVelocity,plotFlag.text);
 end
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
+[tailRotation] = rotationTensor(tailEulerAngle);    % rotation tensor computation for tail 
+tailRotation = tailRotation';                       % transpose to rotate tail reference sys
 runNameCell =  cell(size(alphaDegVec,1),1);         % run name cell initialization
 timeCostVec = zeros(size(alphaDegVec,1),1);         % time cost vector initialization
 startingPath = cd;      cd("./design-aircraft");    % move to aircraft design path
