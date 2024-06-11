@@ -33,17 +33,15 @@ currentPath = pwd;
 
 
 %% INPUT
-gapVector = 2;
-gapRunName = 1;
 
 % Parametric analysis input:
-%gapVector  = [0 1 2 3 4 5]';
-%gapRunName = [1 2 3 4 5 6]';                    % must have same dimension as 'gapVector'
+gapVector  = [0 1 2 3 4 5]';
+gapRunName = [1 2 3 4 5 6]';                    % must have same dimension as 'gapVector'
 analysisName = 'gap';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
-wingOriginX  = 4.0;
-wingOriginZ  = 0.1;                     
+wingOriginX  = 0.0;
+wingOriginZ  = 0.0;                     
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
 wingChordRes = 5;
@@ -103,7 +101,7 @@ for i = 1:size(gapVector,1)
     if runDUST == true
         geometryName = sprintf('gap%.0f',gapRunName(i));            % geometry configuration name identifier
         wingSymPoint = [0 -gapVector(i) 0];                         % symmetry plane definition
-        wingOrigin   = [0, gapVector(i), 0];                        % wing origin definition
+        wingOrigin   = [wingOriginX, gapVector(i), wingOriginZ];    % wing origin definition
 
         %%% WING
         % Wing preset and reference definition
