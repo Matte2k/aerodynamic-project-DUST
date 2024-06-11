@@ -8,7 +8,7 @@ analysis = {
   component = wing_left
 
   start_res = 1
-  end_res = 10
+  end_res = 81
   step_res = 1
   wake = T
   separate_wake = T

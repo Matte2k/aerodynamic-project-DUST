@@ -36,13 +36,16 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
+alphaDegVec = [4 5 6]';
 %alphaDegVec = [0 5 10 15]';
-alphaDegVec = 5;
+%alphaDegVec = [0:16]';
+
+%alphaDegVec = ;
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 configurationName = 'stabilitySTAD';
 
 % Wing geometry settings                        ---WING------------------------------------------
-wingOrigin   = [4.3679, 1.6, 0.1];
+wingOrigin   = [4.3679, 1.555, 0.1];
 wingDesign   = 'wing1';                         %  'wing1'  |  can add more desing...
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
@@ -50,7 +53,7 @@ wingConfig   = 'sym';                           %  'none'   |   'right'  |   'le
 wingChordRes = 15;
 
 % Lerx geometry settings                        ---LERX------------------------------------------
-lerxOrigin   = [-1.5, 0.6, 0.1];
+lerxOrigin   = [3.4, 1.555, 0.1];
 lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
@@ -66,7 +69,7 @@ vortexConfig   = 'none';                        %  'none'   |   'right'  |   'le
 vortexChordRes = 1;
 
 % Tail geometry settings                        ---TAIL------------------------------------------
-tailOrigin   = [8.9333, 1.1, 0.250];
+tailOrigin   = [8.9333, 1.0025, 0.205];
 tailDesign   = 'tail1';                         %  'tail1'      |   can add more desing...
 
 tailRotation = [1.000,  0.000,  0.000;  ...
@@ -88,21 +91,26 @@ fuselageConfig   = 'sym';                     % 'none'    |   'right'  |   'left
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
-Cref = 5;               % TBD
-rhoInf = 1.225;
+Cref = 2.65;            % in the old sym was 5
+PInf = 57181.965;       
+rhoInf = 0.7708;        % in the old sym was 1.225 
 betaDeg  = 0;
-absVelocity = 1;
+absVelocity = 161.12;   % in the old sym was 50
+aInf  = 322.239;
+muInf = 3.43e-7;
 
 % DUST settings:
-runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
+runDUST   = false;                   % 'true' = run dust  |  'false' = use data already in memory
 clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -10;
-xBoxEnd   = 15;
+xBoxEnd   = 20;
 yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppAnalysisList = {'load_stabF','visual_wingF','visual_tailF','visual_fuselageF'};   
+ppAnalysisList = {'load_aircraftF','visual_wingF','visual_tailF','visual_fuselageF'};   
+%ppAnalysisList = {'load_stabF'};
+%ppAnalysisList = {'visual_wingR'};
 
 % Postprocessing settings:
 saveOutput = true;
@@ -351,6 +359,7 @@ end
 [designData]   = organizeData_DUST(runNameCell, alphaDegVec, alphaDegVec, analysisName, timeCostVec, plotFlag.convergence);
 [aeroLoads]    = aeroLoads_DUST   (designData, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads]  = structLoads_DUST (designData, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
+
 
 % Save poostprocessing result in design folder
 if saveOutput == true

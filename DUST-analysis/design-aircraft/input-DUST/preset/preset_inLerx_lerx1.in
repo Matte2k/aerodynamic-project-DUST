@@ -19,7 +19,7 @@ nelem_span = 20
 type_span = uniform 
 
 ! Section1
-chord = 0.05	
+chord = 0.075	
 twist = 0.0		
 airfoil = NACA0012
 
