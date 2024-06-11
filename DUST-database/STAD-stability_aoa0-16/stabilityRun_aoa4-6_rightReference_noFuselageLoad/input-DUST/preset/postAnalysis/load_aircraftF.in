@@ -1,0 +1,17 @@
+analysis = {
+  type = integral_loads
+  name = loads
+  start_res = 1 
+  end_res   = 81
+  step_res  = 1
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  component = tail_right
+  component = tail_left
+  component = fuselage_right
+  component = fuselage_left
+  reference_tag = Stability
+
+}

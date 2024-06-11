@@ -1,0 +1,20 @@
+
+
+analysis = {
+  type = integral_loads
+  name = loads
+  start_res = 1 
+  end_res   = 61
+  step_res  = 1
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  component = tail_right
+  component = tail_left
+  reference_tag = Stability
+
+}
+
+data_basename = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-analysis/design-aircraft/output-DUST/stabilitySTAD_aoa13/run
+basename = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-analysis/design-aircraft/pp-DUST/stabilitySTAD_aoa13/pp
