@@ -99,6 +99,7 @@ fprintf('--------------------------------------------------------------\n\n');
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
 runNameCell = cell(size(tstepVector,1),1);
+runDataPath = cell(size(alphaDegVec,1),1); 
 timeCostVec = zeros(size(tstepVector,1),1);
 startingPath = cd;      cd("./sensitivity-timestep");           % move to mesh sensitivity analysis path
 
@@ -187,6 +188,7 @@ end
 % Tstep analysis loop
 for i = 1:size(tstepVector,1)
     runNameCell{i} = sprintf('%s%.0f',analysisName,tstepRunName(i));
+    runDataPath{i} = sprintf('pp-DUST/%s/pp_loads.dat',runNameCell{i});
     if runDUST == true
         % Dust.in generation      
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
@@ -209,7 +211,7 @@ end
 
 % Postprocessing of the dust output
 aoaDegVec = alphaDeg * ones(1,length(tstepVector));
-[analysisData_tstep] = organizeData_DUST(runNameCell, aoaDegVec, tstepVector, analysisName, timeCostVec, plotFlag.convergence);
+[analysisData_tstep] = organizeData_DUST(runDataPath, aoaDegVec, tstepVector, analysisName, timeCostVec, plotFlag.convergence);
 [aeroLoads_tstep]    = aeroLoads_DUST   (analysisData_tstep, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads_tstep]  = structLoads_DUST (analysisData_tstep, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 

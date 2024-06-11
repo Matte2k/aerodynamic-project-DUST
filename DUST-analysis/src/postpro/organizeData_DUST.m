@@ -1,12 +1,12 @@
-function [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec,variableName,timeCostVec,plotFlag)
+function [paramRunData] = organizeData_DUST(dataPath,aoaDegVec,variableVec,variableName,timeCostVec,plotFlag)
 %ORGANIZE DATA DUST - Read and organize post process data of dust parametric symulations
 %
 %   Syntax:
-%       [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec,variableName,timeCostVec,plotFlag)
+%       [paramRunData] = organizeData_DUST(dataPath,aoaDegVec,variableVec,variableName,timeCostVec,plotFlag)
 %
 %   Input:
 %       
-%       dataFolderName,   cell:  folder name where to find pp_loads.dat file  
+%       dataPath,         cell:  path where to find '.dat' file containing loads data  
 %       aoaDegVec,      double:  angle of attack used in the simulation
 %       variableVec,    double:  value of the parametric input used
 %       variableName,   string:  name of the parameters that changes in the simulations
@@ -18,7 +18,7 @@ function [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec
 %                               1) integral loads table imported using readDataDUST.m
 %                               2) angle of attack in deg used to obtain that result
 %                               3) type of analysis present in column n°1
-%                               4) type of parametric analysis performed
+%                               4) path pointing to the .dat file used in this analysis
 %                               5) value of the parametric input used to obtain results in column n°1
 %                               6) cpu time elapsed to obtain results in column n°1
 %
@@ -45,13 +45,12 @@ function [paramRunData] = organizeData_DUST(dataFolderName,aoaDegVec,variableVec
     legendCell   = cell(size(variableVec,1),1);
     for i = 1:size(variableVec,1)
 
-        dataPath = sprintf('pp-DUST/%s/pp_loads.dat',dataFolderName{i});
         dataType = sprintf('%s',analysisType);
         
-        paramRunData{i,1} = readDataDUST(dataPath,dataType);
+        paramRunData{i,1} = readDataDUST(dataPath{i},dataType);
         paramRunData{i,2} = aoaDegVec(i);
         paramRunData{i,3} = dataType;
-        paramRunData{i,4} = dataFolderName{i};
+        paramRunData{i,4} = dataPath{i};
         paramRunData{i,5} = variableVec(i);
         paramRunData{i,6} = timeCostVec(i);
 

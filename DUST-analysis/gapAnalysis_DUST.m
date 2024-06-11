@@ -86,6 +86,7 @@ plotFlag = initGraphic();
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
 runNameCell = cell(size(gapVector,1),1);
+runDataPath = cell(size(alphaDegVec,1),1);
 timeCostVec = zeros(size(gapVector,1),2);
 startingPath = cd;      cd("./sensitivity-gap");                    % move to gap sensitivity analysis path
 
@@ -98,6 +99,7 @@ end
 % Gap analysis main loop
 for i = 1:size(gapVector,1)
     runNameCell{i} = sprintf('%s%.0f',analysisName,gapRunName(i));
+    runDataPath{i} = sprintf('pp-DUST/%s/pp_loads.dat',runNameCell{i});
     if runDUST == true
         geometryName = sprintf('gap%.0f',gapRunName(i));            % geometry configuration name identifier
         wingSymPoint = [0 -gapVector(i) 0];                         % symmetry plane definition
@@ -194,7 +196,7 @@ end
 
 % Postprocessing of the dust output
 aoaDegVec = alphaDeg * ones(1,length(gapVector));
-[analysisData_gap] = organizeData_DUST(runNameCell, aoaDegVec, gapVector, analysisName, timeCostVec, plotFlag.convergence);
+[analysisData_gap] = organizeData_DUST(runDataPath, aoaDegVec, gapVector, analysisName, timeCostVec, plotFlag.convergence);
 [aeroLoads_gap]    = aeroLoads_DUST   (analysisData_gap, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads_gap]  = structLoads_DUST (analysisData_gap, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 

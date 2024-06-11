@@ -36,11 +36,9 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = [4 5 6]';
+alphaDegVec = 4';
 %alphaDegVec = [0 5 10 15]';
 %alphaDegVec = [0:16]';
-
-%alphaDegVec = ;
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 configurationName = 'stabilitySTAD';
 
@@ -70,20 +68,19 @@ vortexChordRes = 1;
 
 % Tail geometry settings                        ---TAIL------------------------------------------
 tailOrigin     = [8.9333, 1.0025, 0.205];
-tailDesign     = 'tail1';                         %  'tail1'      |   can add more desing...
-tailEulerAngle = [0.0000, 0.0000, 60.00];
-tailSymPoint   = tailRotation * [0 -tailOrigin(2) 0]';
-tailSymNorm    = tailRotation * [0 1 0]';
-tailConfig     = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
+tailDesign     = 'tail1';                        %  'tail1'      |   can add more desing...
+tailSymPoint   = [0 -tailOrigin(2) 0]';
+tailSymNorm    = [0 1 0]';
+tailConfig     = 'sym';                          %  'none'   |   'right'  |   'left'  |   'sym'
 tailChordRes   = 10;
-
+tailEulerAngle = [0.0000, 0.0000, 60.00];
 
 % Fuselage geometry settings                    ---FUSELAGE--------------------------------------
 fuselageOrigin   = [0.0, 0.0, 0.0];
-fuselageDesign   = 'fuselage1';                 %  'fuselage1'  |   can add more desing...
+fuselageDesign   = 'fuselage1';                  %  'fuselage1'  |   can add more desing...
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'sym';                     % 'none'    |   'right'  |   'left'  |   'sym'
+fuselageConfig   = 'sym';                        % 'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
@@ -96,7 +93,7 @@ aInf  = 322.239;
 muInf = 3.43e-7;
 
 % DUST settings:
-runDUST   = false;                   % 'true' = run dust  |  'false' = use data already in memory
+runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
 clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -10;
 xBoxEnd   = 20;
@@ -127,8 +124,11 @@ end
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
 [tailRotation] = rotationTensor(tailEulerAngle);    % rotation tensor computation for tail 
 tailRotation = tailRotation';                       % transpose to rotate tail reference sys
-runNameCell =  cell(size(alphaDegVec,1),1);         % run name cell initialization
-timeCostVec = zeros(size(alphaDegVec,1),1);         % time cost vector initialization
+tailSymPoint = tailRotation * tailSymPoint;         % tail sym plain origin in the rotated ref sys
+tailSymNorm  = tailRotation * tailSymNorm;          % tail sym plain normal in the rotated ref sys
+runNameCell  = cell(size(alphaDegVec,1),1);         % run name cell initialization
+runDataPath  = cell(size(alphaDegVec,1),1);         % run data path cell initialization
+timeCostVec  = zeros(size(alphaDegVec,1),1);        % time cost vector initialization
 startingPath = cd;      cd("./design-aircraft");    % move to aircraft design path
 
 % Delete old run data in memory
@@ -336,6 +336,7 @@ end
 % Aircraft design main loop
 for i = 1:size(alphaDegVec,1)
     runNameCell{i} = sprintf('%s_%s%.0f',configurationName,analysisName,alphaDegVec(i));    % parametric run name definition
+    runDataPath{i} = sprintf('pp-DUST/%s/pp_loads.dat',runNameCell{i});
     if runDUST == true
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
@@ -354,7 +355,7 @@ for i = 1:size(alphaDegVec,1)
 end
 
 % Postprocessing of the dust output
-[designData]   = organizeData_DUST(runNameCell, alphaDegVec, alphaDegVec, analysisName, timeCostVec, plotFlag.convergence);
+[designData]   = organizeData_DUST(runDataPath, alphaDegVec, alphaDegVec, analysisName, timeCostVec, plotFlag.convergence);
 [aeroLoads]    = aeroLoads_DUST   (designData, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads]  = structLoads_DUST (designData, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 

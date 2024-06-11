@@ -87,6 +87,7 @@ plotFlag = initGraphic();
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
 runNameCell =  cell(size(resolutionFactor,1),1);
+runDataPath = cell(size(alphaDegVec,1),1);
 timeCostVec = zeros(size(resolutionFactor,1),1);
 startingPath = cd;                  cd("./sensitivity-mesh");
 
@@ -99,6 +100,7 @@ end
 % Mesh analysis loop
 for i = 1:size(resolutionFactor,1)
     runNameCell{i} = sprintf('%s%.0f',analysisName,resolutionFactor(i));
+    runDataPath{i} = sprintf('pp-DUST/%s/pp_loads.dat',runNameCell{i});
     if runDUST == true
         %%% WING
         % Wing preset and reference definition
@@ -191,7 +193,7 @@ end
 
 % Postprocessing of the dust output
 aoaDegVec = alphaDeg * ones(1,length(resolutionFactor));
-[analysisData_mesh] = organizeData_DUST(runNameCell, aoaDegVec, resolutionFactor, analysisName, timeCostVec, plotFlag.convergence);
+[analysisData_mesh] = organizeData_DUST(runDataPath, aoaDegVec, resolutionFactor, analysisName, timeCostVec, plotFlag.convergence);
 [aeroLoads_mesh]    = aeroLoads_DUST   (analysisData_mesh, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads_mesh]  = structLoads_DUST (analysisData_mesh, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 

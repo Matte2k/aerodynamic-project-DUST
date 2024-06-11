@@ -81,8 +81,9 @@ for i = 1:size(alphaDegVec,1)           % loop computing velocity from aoa
     [~,u_inf{i}] = computeVelVec(alphaDegVec(i),betaDeg,absVelocity,plotFlag.text);
 end
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
-runNameCell =  cell(size(alphaDegVec,1),1);         % run name cell initialization
-timeCostVec = zeros(size(alphaDegVec,1),1);         % time cost vector initialization
+runNameCell  = cell(size(alphaDegVec,1),1);         % run name cell initialization
+runDataPath  = cell(size(alphaDegVec,1),1);         % run data path cell initialization
+timeCostVec  = zeros(size(alphaDegVec,1),1);        % time cost vector initialization
 startingPath = cd;      cd("./validation-onera");   % move to aircraft design path
 
 % Geometry preset path selection (based on the user input)
@@ -131,6 +132,7 @@ end
 % Aircraft design main loop
 for i = 1:size(alphaDegVec,1)
     runNameCell{i} = sprintf('%s_%s%.0f',configurationName,analysisName,alphaDegVec(i));    % parametric run name definition
+    runDataPath{i} = sprintf('pp-DUST/%s/pp_loads.dat',runNameCell{i});
     if runDUST == true
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
@@ -152,7 +154,7 @@ for i = 1:size(alphaDegVec,1)
 end
 
 % Postprocessing of the dust output
-[designData]   = organizeData_DUST(runNameCell, alphaDegVec, alphaDegVec, analysisName, timeCostVec, plotFlag.convergence);
+[designData]   = organizeData_DUST(runDataPath, alphaDegVec, alphaDegVec, analysisName, timeCostVec, plotFlag.convergence);
 [aeroLoads]    = aeroLoads_DUST   (designData, absVelocity, rhoInf, Sref, Cref, plotFlag.aero);
 [structLoads]  = structLoads_DUST (designData, absVelocity, rhoInf, Sref, Cref, analysisName, plotFlag.struct);
 
