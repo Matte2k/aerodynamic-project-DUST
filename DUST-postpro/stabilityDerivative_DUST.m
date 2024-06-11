@@ -3,37 +3,72 @@ addpath(genpath("./src"));
 addpath(genpath("./data"));
 currentPath = pwd;
 
-% Data import
-load("data/wing1_lerx1_vortex0_aeroLoads",'-mat','aeroLoads');
-case1 = aeroLoads;  clear('aeroLoads');
+
+load("data/dust/stabilitySTAD_aeroLoads",'-mat','aeroLoads');
+dust.polar = aeroLoads;                           clear('aeroLoads');
+
+load("data/openVSP/Lambda_PolarM050_tailed",'-mat');
+openVSP.polar = Lambda_PolarM050_tailed;    clear('Lambda_PolarM050_tailed');
+openVSP.stabilty = readtable("data/openVSP/stabilityDerivative_OpenVSP.dat");
 
 %% Polar plots
 
 figure(Name='Cl vs aoa')
 hold on;    grid on;    axis padded;
-plot(case1.aoaDeg,case1.Cl);
+plot(dust.polar.aoaDeg,dust.polar.Cl,'-o');
+plot(openVSP.polar.AoA,openVSP.polar.CL,'-o');
+legend('DUST','OpenVSP')
 xlabel('$${\alpha}$$',interpreter='latex')
 ylabel('$$C_l$$',interpreter='latex')
 
 figure(Name='Cd vs aoa')
 hold on;    grid on;    axis padded;
-plot(case1.aoaDeg,case1.Cd);
+plot(dust.polar.aoaDeg,dust.polar.Cd,'-o');
+plot(openVSP.polar.AoA,openVSP.polar.CDtot,'-o');
+legend('DUST','OpenVSP')
 xlabel('$${\alpha}$$',interpreter='latex')
-ylabel('$$C_l$$',interpreter='latex')
+ylabel('$$C_d$$',interpreter='latex')
 
 figure(Name='Cm vs aoa')
 hold on;    grid on;    axis padded;
-plot(case1.aoaDeg,case1.Cm);
+plot(dust.polar.aoaDeg,dust.polar.Cm,'-o');
+plot(openVSP.polar.AoA,openVSP.polar.CMy,'-o');
+legend('DUST','OpenVSP')
 xlabel('$${\alpha}$$',interpreter='latex')
-ylabel('$$C_l$$',interpreter='latex')
+ylabel('$$C_m$$',interpreter='latex')
 
 
 %% Stability derivative
 
-Clalpha =   (case1.Cl(3)     - case1.Cl(2)) / ...
-            (case1.aoaDeg(3) - case1.aoaDeg(2));
-fprintf('Cl_alpha = %f',Clalpha);
+% forward diff
+endstab = (length(dust.polar.aoaDeg)-1);
+dust.stability.ClalphaFD = zeros(endstab,1);
+dust.stability.CmalphaFD = zeros(endstab,1);
+dust.stability.aoaDeg = dust.polar.aoaDeg(1:endstab);
 
-Cmalpha =   (case1.Cm(3)     - case1.Cm(2)) / ...
-            (case1.aoaDeg(3) - case1.aoaDeg(2));
-fprintf('Cm_alpha = %f',Cmalpha);
+for i=1:endstab
+    dust.stability.ClalphaFD(i) =   (dust.polar.Cl(i+1)     - dust.polar.Cl(i)) / ...
+                                    (deg2rad(dust.polar.aoaDeg(i+1)) - deg2rad(dust.polar.aoaDeg(i)));
+
+    dust.stability.CmalphaFD(i) =    (dust.polar.Cm(i+1)     - dust.polar.Cm(i)) / ...
+                                     (deg2rad(dust.polar.aoaDeg(i+1)) - deg2rad(dust.polar.aoaDeg(i)));
+end
+
+
+figure(Name='Cl alpha forward diff')
+hold on;    grid on;    axis padded;
+plot(dust.stability.aoaDeg,dust.stability.ClalphaFD,'-o')
+plot(openVSP.stabilty.x_Aoa,openVSP.stabilty.cl_alpha,'-o')
+legend('DUST','OpenVSP')
+xlabel('$${\alpha}$$',interpreter='latex')
+ylabel('$$C_l$$',interpreter='latex')
+
+
+figure(Name='Cm alpha forward diff')
+hold on;    grid on;    axis padded;
+plot(dust.stability.aoaDeg,dust.stability.ClalphaFD,'-o')
+plot(openVSP.stabilty.x_Aoa,openVSP.stabilty.cm_alpha,'-o')
+legend('DUST','OpenVSP')
+xlabel('$${\alpha}$$',interpreter='latex')
+ylabel('$$C_m$$',interpreter='latex')
+
