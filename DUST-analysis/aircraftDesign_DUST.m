@@ -36,7 +36,7 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = 4';
+alphaDegVec = [4 5]';
 %alphaDegVec = [0 5 10 15]';
 %alphaDegVec = [0:16]';
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
