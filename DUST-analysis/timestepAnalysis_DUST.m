@@ -68,7 +68,7 @@ muInf = 3.43e-7;
 runDUST    = true;                  % 'true' = run dust  |  'false' = use data already in memory
 clearData  = true;                  % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart  = -5;
-xBoxEnd    = 10;
+xBoxEnd    = 20;
 yBoxLimit  = 10;
 zBoxLimit  = 10;
 
@@ -99,8 +99,8 @@ fprintf('--------------------------------------------------------------\n\n');
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
 ppAnalysisCell = ppAnalysisTimestep(ppAnalysisList,tstepRunName);
-runNameCell = cell(size(tstepVector,1),1);
-runDataPath = cell(size(tstepVector,1),1); 
+runNameCell =  cell(size(tstepVector,1),1);
+runDataPath =  cell(size(tstepVector,1),1); 
 timeCostVec = zeros(size(tstepVector,1),1);
 startingPath = cd;      cd("./sensitivity-timestep");           % move to mesh sensitivity analysis path
 

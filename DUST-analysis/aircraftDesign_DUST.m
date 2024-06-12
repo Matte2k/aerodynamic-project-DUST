@@ -101,9 +101,10 @@ yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppAnalysisList = {'load_aircraftF','visual_wingF','visual_tailF','visual_fuselageF'};   
-%ppAnalysisList = {'load_stabF'};
-%ppAnalysisList = {'visual_wingR'};
+ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF'};   % if present can ADD: 'visual_lerxF'
+ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF', };   % if present can ADD: 'load_lerxF'
+ppStability = {'load_aeroF'}';                                      % only wing+tail, no lerx by default
+ppAnalysisList = [ppVisual,ppLoads,ppStability];
 
 % Postprocessing settings:
 saveOutput = true;
@@ -336,7 +337,7 @@ end
 % Aircraft design main loop
 for i = 1:size(alphaDegVec,1)
     runNameCell{i} = sprintf('%s_%s%.0f',configurationName,analysisName,alphaDegVec(i));    % parametric run name definition
-    runDataPath{i} = sprintf('pp-DUST/%s/pp_loads.dat',runNameCell{i});
+    runDataPath{i} = sprintf('pp-DUST/%s/pp_loadsAero.dat',runNameCell{i});
     if runDUST == true
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);

@@ -1,13 +1,13 @@
 analysis = {
   type = integral_loads
-  name = loadsWing
+  name = loadsFuselage
   start_res = 1 
   end_res   = 40
   step_res  = 1
   format    = dat
 
-  component = wing_right
-  component = wing_left
+  component = fuselage_right
+  component = fuselage_left
   reference_tag = Stability
 
 }

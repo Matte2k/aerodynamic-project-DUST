@@ -1,8 +1,8 @@
 analysis = {
   type = integral_loads
-  name = loads
+  name = loadsAero
   start_res = 1 
-  end_res   = 81
+  end_res   = 40
   step_res  = 1
   format    = dat
 

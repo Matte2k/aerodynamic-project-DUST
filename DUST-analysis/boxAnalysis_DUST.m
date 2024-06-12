@@ -35,8 +35,8 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-boxLenghtVector  = [10 15 20 25]';
-boxRunName = [1 2 3 4]';                        % must have same dimension as 'boxLenghtVector'
+boxLenghtVector = [10 15 20 25]';
+boxRunName      = [1  2  3  4 ]';
 analysisName = 'box';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
@@ -64,8 +64,9 @@ fuselageConfig   = 'sym';                       % 'none'    |   'right'  |   'le
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
 Cref = 2.65;            % in the old sym was 5
 PInf = 57181.965;       
-rhoInf = 0.7708;        % in the old sym was 1.225 
-betaDeg = 0;
+rhoInf = 0.7708;        % in the old sym was 1.225
+alphaDeg = 5; 
+betaDeg  = 0;
 absVelocity = 161.12;   % in the old sym was 50
 aInf  = 322.239;
 muInf = 3.43e-7;
@@ -98,8 +99,8 @@ plotFlag = initGraphic();
 tailRotation = tailRotation';                       % transpose to rotate tail reference sys
 tailSymPoint = tailRotation * tailSymPoint;         % tail sym plain origin in the rotated ref sys
 tailSymNorm  = tailRotation * tailSymNorm;          % tail sym plain normal in the rotated ref sys
-runNameCell = cell(size(boxLenghtVector,1),1);      % run name cell initialization
-runDataPath = cell(size(alphaDegVec,1),1);          % run data path cell initialization
+runNameCell =  cell(size(boxLenghtVector,1),1);     % run name cell initialization
+runDataPath =  cell(size(boxLenghtVector,1),1);     % run data path cell initialization
 timeCostVec = zeros(size(boxLenghtVector,1),1);     % time cost vector initialization
 startingPath = cd;      cd("./sensitivity-box");    % Move to mesh sensitivity analysis path
 

@@ -41,7 +41,7 @@ analysisName = 'gap';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
 wingOriginX  = 4.3679;
-wingOriginZ  = 0.1;                     
+wingOriginZ  = 0.1000;                     
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
 wingChordRes = 5;
@@ -50,14 +50,15 @@ wingChordRes = 5;
 fuselageOrigin   = [0.0, 0.0, 0.0];
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'sym';                     % 'none'    |   'right'  |   'left'  |   'sym'
+fuselageConfig   = 'sym';                       % 'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
 Cref = 2.65;            % in the old sym was 5
 PInf = 57181.965;       
-rhoInf = 0.7708;        % in the old sym was 1.225 
-betaDeg = 0;
+rhoInf = 0.7708;        % in the old sym was 1.225
+alphaDeg = 5;
+betaDeg  = 0;
 absVelocity = 161.12;   % in the old sym was 50
 aInf  = 322.239;
 muInf = 3.43e-7;
@@ -66,7 +67,7 @@ muInf = 3.43e-7;
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
 clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -5;
-xBoxEnd   = 10;
+xBoxEnd   = 20;
 yBoxLimit = 10;
 zBoxLimit = 10;
 
@@ -87,8 +88,8 @@ plotFlag = initGraphic();
 % Preprocessing of some input values
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
-runNameCell = cell(size(gapVector,1),1);
-runDataPath = cell(size(alphaDegVec,1),1);
+runNameCell =  cell(size(gapVector,1),1);
+runDataPath =  cell(size(gapVector,1),1);
 timeCostVec = zeros(size(gapVector,1),2);
 startingPath = cd;      cd("./sensitivity-gap");                    % move to gap sensitivity analysis path
 
