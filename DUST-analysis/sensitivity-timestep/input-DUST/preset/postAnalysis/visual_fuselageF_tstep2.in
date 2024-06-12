@@ -1,11 +1,11 @@
 ! wing visual
 analysis = {
-  name = visual_wing
+  name = visual_fuselage
   type = Viz
   format = vtk
   
-  component = wing_right
-  component = wing_left
+  component = fuselage_right
+  component = fuselage_left
 
   start_res = 1
   end_res = 20

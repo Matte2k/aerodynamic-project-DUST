@@ -2,7 +2,7 @@ analysis = {
   type = integral_loads
   name = loads
   start_res = 1 
-  end_res   = 100
+  end_res   = 7
   step_res  = 1
   format    = dat
 

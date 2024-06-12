@@ -35,33 +35,40 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-boxLenghtVector  = [10 15 20]';
-boxRunName = [1 2 3]';                          % must have same dimension as 'boxLenghtVector'
+boxLenghtVector  = [10 15 20 25]';
+boxRunName = [1 2 3 4]';                        % must have same dimension as 'boxLenghtVector'
 analysisName = 'box';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
-wingOrigin   = [-0.5, 1.0, 0.0];
+wingOrigin   = [4.3679, 1.555, 0.1];
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  none'    |   'right'  |   'left'  |   'sym'
 wingChordRes = 5;
 
+% Tail geometry settings                        ---TAIL------------------------------------------
+tailOrigin     = [8.9333, 1.0025, 0.205];
+tailSymPoint   = [0 -tailOrigin(2) 0]';
+tailSymNorm    = [0 1 0]';
+tailConfig     = 'sym';                          %  'none'   |   'right'  |   'left'  |   'sym'
+tailChordRes   = 10;
+tailEulerAngle = [0.0000, 0.0000, 60.00];
+
 % Fuselage geometry settings:
 fuselageOrigin   = [0.0, 0.0, 0.0];
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'none';                      % 'none'    |   'right'  |   'left'  |   'sym'
-%fuselageOrientation = [0.0, -1.0,  0.0;...
-%                       1.0,  0.0,  0.0;...
-%                       0.0,  0.0,  1.0];       % rotate correctly the mesh of the fuselage
+fuselageConfig   = 'sym';                       % 'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
-Cref = 5;               % TBD
-rhoInf = 1.225;
-alphaDeg = 5;
-betaDeg  = 0;
-absVelocity = 5;
+Cref = 2.65;            % in the old sym was 5
+PInf = 57181.965;       
+rhoInf = 0.7708;        % in the old sym was 1.225 
+betaDeg = 0;
+absVelocity = 161.12;   % in the old sym was 50
+aInf  = 322.239;
+muInf = 3.43e-7;
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
@@ -72,7 +79,7 @@ zBoxLimit = 10;
 gapWingFuselage = 1;                % set distance between wing and fuselage
 
 %DUST_post settings:
-ppAnalysisList = {'load_wingF','visual_wingF'}; 
+ppAnalysisList = {'load_wingF','visual_wingF','visual_fuselageF','visual_tailF'}; 
 
 % Postprocessing settings:
 saveOutput = true;
@@ -87,9 +94,13 @@ plotFlag = initGraphic();
 
 % Preprocessing of some input values
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
-runNameCell = cell(size(boxLenghtVector,1),1);
-runDataPath = cell(size(alphaDegVec,1),1);         
-timeCostVec = zeros(size(boxLenghtVector,1),1);
+[tailRotation] = rotationTensor(tailEulerAngle);    % rotation tensor computation for tail 
+tailRotation = tailRotation';                       % transpose to rotate tail reference sys
+tailSymPoint = tailRotation * tailSymPoint;         % tail sym plain origin in the rotated ref sys
+tailSymNorm  = tailRotation * tailSymNorm;          % tail sym plain normal in the rotated ref sys
+runNameCell = cell(size(boxLenghtVector,1),1);      % run name cell initialization
+runDataPath = cell(size(alphaDegVec,1),1);          % run data path cell initialization
+timeCostVec = zeros(size(boxLenghtVector,1),1);     % time cost vector initialization
 startingPath = cd;      cd("./sensitivity-box");    % Move to mesh sensitivity analysis path
 
 % Delete old run data in memory
@@ -135,6 +146,41 @@ if runDUST == true
     
     end
     
+    %%% TAIL
+    if ~isequal(tailConfig,'none')
+        % Tail preset and reference definition
+        tailPresetPath = sprintf('%s/input-DUST/preset/preset_inTail_%s.in',aircraftDesignPath,analysisName);
+        [inTailRefVars] = inRefInit('Tail',tailOrigin,tailRotation);  
+
+        % TailR.in generation
+        if isequal(tailConfig,'right') || isequal(tailConfig,'sym')
+        [inTailRightVars]   = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'R');
+        [tailRightFilePath] = tailFileMaker_DUST(inTailRightVars,analysisName,'R',tailPresetPath);
+            if isequal(tailConfig,'right')
+                [inTailPreVars] = inPreTailInit(tailRightFilePath); % tail pre variables for only right tail
+            end
+        end
+        
+        % TailL.in generation
+        if isequal(tailConfig,'left') || isequal(tailConfig,'sym')
+        [inTailLeftVars]   = inSymPartInit(tailChordRes,tailSymPoint,tailSymNorm,'L');
+        [tailLeftFilePath] = tailFileMaker_DUST(inTailLeftVars,analysisName,'L',tailPresetPath);
+            if isequal(tailConfig,'right')
+                [inTailPreVars] = inPreTailInit(tailLeftFilePath);  % tail pre variables for only left tail
+            end
+        end
+
+        % Write tail pre variables for symmetric configuration
+        if isequal(tailConfig,'sym')
+            [inTailPreVars] = inPreTailInit(tailRightFilePath,tailLeftFilePath);
+        end
+
+    else
+        % No tail reference notification
+        inTailRefVars = '! no tail reference created';
+        inTailPreVars = '! no tail geometry created';
+
+    end
     
     %%% FUSELAGE
     if ~isequal(fuselageConfig,'none')
@@ -173,11 +219,11 @@ if runDUST == true
     end
     
     % References.in generation
-    inRefVars = [inWingRefVars,inFuselageRefVars];
+    inRefVars = [inWingRefVars,inTailRefVars,inFuselageRefVars];
     [refFilePath] = refFileMaker_DUST(inRefVars,analysisName);
 
     % Dust_pre.in generation
-    inPreVars = [inWingPreVars,inFuselagePreVars];
+    inPreVars = [inWingPreVars,inTailPreVars,inFuselagePreVars];
     [preFilePath,modelFilePath] = preFileMaker_DUST(inPreVars,analysisName);
 end
 

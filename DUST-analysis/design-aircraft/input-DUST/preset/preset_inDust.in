@@ -1,9 +1,9 @@
 ! PRESET FIXED INPUT
 ! - Timings -
 tstart = 1.0
-tend = 1.2
-dt = 0.0025
-dt_out = 0.0025
+tend = 1.3
+dt = 0.003
+dt_out = 0.003
 output_start = T
 
 ! - Model parameters -

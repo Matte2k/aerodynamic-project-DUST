@@ -1,13 +1,14 @@
 ! wing visual
 analysis = {
-  name = visual_fuselage
+  name = visual_wing
   type = Viz
   format = vtk
   
-  component = fuselage_right
+  component = wing_right
+  component = wing_left
 
   start_res = 1
-  end_res = 20
+  end_res = 4
   step_res = 1
   wake = T
   separate_wake = T

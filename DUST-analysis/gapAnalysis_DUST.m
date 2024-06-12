@@ -35,13 +35,13 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-gapVector  = [0 1 2 3 4 5]';
-gapRunName = [1 2 3 4 5 6]';                    % must have same dimension as 'gapVector'
+gapVector  = [1.500  1.550  1.555  1.560  1.610 ]';
+gapRunName = [1      2      3      4      5     ]';
 analysisName = 'gap';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
-wingOriginX  = 0.0;
-wingOriginZ  = 0.0;                     
+wingOriginX  = 4.3679;
+wingOriginZ  = 0.1;                     
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
 wingChordRes = 5;
@@ -54,11 +54,13 @@ fuselageConfig   = 'sym';                     % 'none'    |   'right'  |   'left
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
-Cref = 5;               % TBD
-rhoInf = 1.225;
-alphaDeg = 5;
-betaDeg  = 0;
-absVelocity = 5;
+Cref = 2.65;            % in the old sym was 5
+PInf = 57181.965;       
+rhoInf = 0.7708;        % in the old sym was 1.225 
+betaDeg = 0;
+absVelocity = 161.12;   % in the old sym was 50
+aInf  = 322.239;
+muInf = 3.43e-7;
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory

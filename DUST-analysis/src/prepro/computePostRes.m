@@ -29,7 +29,7 @@ function [start_res,end_res] = computePostRes(stepName,timestep,tlimit,printFlag
     end
     
     
-    end_res   = (tlimit(2) - tlimit(1) ) / timestep + 1;
+    end_res   = (tlimit(2) - tlimit(1) ) / timestep + 2;
     start_res = tlimit(1);
     if printFlag == true
         fprintf('for time step %.2f set "preset_inDustPost_%.0f.in" with:\n',timestep,stepName);

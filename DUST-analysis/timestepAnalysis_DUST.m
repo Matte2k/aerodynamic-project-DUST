@@ -35,13 +35,13 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-tstepVector  = [0.05 0.1 0.5 1]';
-tstepRunName = [1    2   3   4]';               % must have same dimension as 'boxLenghtVector'
-tlimit = [1 5.5]';
+tstepVector  = [0.05 0.1 0.5 1]';       %
+tstepRunName = [1    2   3   4]';       %
+tlimit = [1 1.3]';                      %
 analysisName = 'tstep';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
-wingOrigin   = [-0.5, 1.0, 0.0];
+wingOrigin   = [0.0, 0.0, 0.0];
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
@@ -52,17 +52,17 @@ fuselageOrigin   = [0.0, 0.0, 0.0];
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
 fuselageConfig   = 'none';                      % 'none'    |   'right'  |   'left'  |   'sym'
-%fuselageOrientation = [0.0, -1.0,  0.0;...
-%                       1.0,  0.0,  0.0;...
-%                       0.0,  0.0,  1.0];       % rotate correctly the mesh of the fuselage
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
-Cref = 5;               % TBD
-rhoInf = 1.225;
+Cref = 2.65;            % in the old sym was 5
+PInf = 57181.965;       
+rhoInf = 0.7708;        % in the old sym was 1.225 
 alphaDeg = 5;
 betaDeg  = 0;
-absVelocity = 5;
+absVelocity = 161.12;   % in the old sym was 50
+aInf  = 322.239;
+muInf = 3.43e-7;
 
 % DUST settings:
 runDUST    = true;                  % 'true' = run dust  |  'false' = use data already in memory
@@ -98,8 +98,9 @@ fprintf('--------------------------------------------------------------\n\n');
 % Preprocessing of some input values
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
+ppAnalysisCell = ppAnalysisTimestep(ppAnalysisList,tstepRunName);
 runNameCell = cell(size(tstepVector,1),1);
-runDataPath = cell(size(alphaDegVec,1),1); 
+runDataPath = cell(size(tstepVector,1),1); 
 timeCostVec = zeros(size(tstepVector,1),1);
 startingPath = cd;      cd("./sensitivity-timestep");           % move to mesh sensitivity analysis path
 
@@ -200,7 +201,7 @@ for i = 1:size(tstepVector,1)
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation
-        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},ppAnalysisList);
+        [ppFilePath,ppPath] = ppFileMaker_DUST(outputPath,runNameCell{i},ppAnalysisCell(i,:));
 
         % Dust run
         cd("./input-DUST");

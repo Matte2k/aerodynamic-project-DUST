@@ -35,11 +35,11 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-resolutionFactor = [1 2 3]';
+resolutionFactor = [1 2 3 4]';
 analysisName = 'mesh';                  
 
 % Wing geometry settings:                       # possible input for different preset: #                                
-wingOrigin   = [-0.5, 1.0, 0.0];
+wingOrigin   = [0.0, 0.0, 0.0];
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
@@ -49,23 +49,23 @@ fuselageOrigin   = [0.0, 0.0, 0.0];
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
 fuselageConfig   = 'none';                     % 'none'    |   'right'  |   'left'  |   'sym'
-%fuselageOrientation = [0.0, -1.0,  0.0;...
-%                       1.0,  0.0,  0.0;...
-%                       0.0,  0.0,  1.0];       % rotate correctly the mesh of the fuselage
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
-Cref = 5;               % TBD
-rhoInf = 1.225;
+Cref = 2.65;            % in the old sym was 5
+PInf = 57181.965;       
+rhoInf = 0.7708;        % in the old sym was 1.225 
 alphaDeg = 5;
 betaDeg  = 0;
-absVelocity = 5;
+absVelocity = 161.12;   % in the old sym was 50
+aInf  = 322.239;
+muInf = 3.43e-7;
 
 % DUST settings:
 runDUST   = true;       % 'true' = run dust  |  'false' = use data already in memory
 clearData = true;       % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -5;
-xBoxEnd   = 10;
+xBoxEnd   = 20;
 yBoxLimit = 10;
 zBoxLimit = 10;
 
@@ -76,7 +76,7 @@ ppAnalysisList = {'load_wingF','visual_wingF'};
 saveOutput = true;
 plotFlag = initGraphic();
     plotFlag.text = false;          % print some results in command window
-    plotFlag.convergence = false;    % plot convergence over time for previous selected plot
+    plotFlag.convergence = true;    % plot convergence over time for previous selected plot
     plotFlag.aero = false;          % plot aero loads data over different angle of attack
     plotFlag.struct = false;         % plot structural loads data over different parametric input
 
@@ -87,7 +87,7 @@ plotFlag = initGraphic();
 [~,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,plotFlag.text);
 [wakeBox_min,wakeBox_max] = computeWakeBox([xBoxStart,xBoxEnd],yBoxLimit,zBoxLimit);
 runNameCell =  cell(size(resolutionFactor,1),1);
-runDataPath = cell(size(alphaDegVec,1),1);
+runDataPath =  cell(size(resolutionFactor,1),1);
 timeCostVec = zeros(size(resolutionFactor,1),1);
 startingPath = cd;                  cd("./sensitivity-mesh");
 

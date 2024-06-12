@@ -4,10 +4,11 @@ analysis = {
   type = Viz
   format = vtk
   
+  component = wing_right
   component = wing_left
 
   start_res = 1
-  end_res = 10
+  end_res = 7
   step_res = 1
   wake = T
   separate_wake = T

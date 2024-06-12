@@ -10,7 +10,7 @@ function [paramRunData] = organizeData_DUST(dataPath,aoaDegVec,variableVec,varia
 %       aoaDegVec,      double:  angle of attack used in the simulation
 %       variableVec,    double:  value of the parametric input used
 %       variableName,   string:  name of the parameters that changes in the simulations
-%       timeCostVec,    dobule:  cpu time cost to run DUST with current parameters
+%       timeCostVec(*), dobule:  cpu time cost to run DUST with current parameters
 %       plotFlag(*)       bool:  flag to visualize or not convergence plots
 %
 %   Output:
@@ -32,6 +32,9 @@ function [paramRunData] = organizeData_DUST(dataPath,aoaDegVec,variableVec,varia
     % Default setting for optional input
     if nargin < 6
         plotFlag = true;
+        if nargin < 5
+            timeCostVec = zeros(size(variableVec,1),1);
+        end
     end
 
     % Write alpha pretty for aoa analysis

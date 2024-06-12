@@ -87,7 +87,7 @@ Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
 Cref = 2.65;            % in the old sym was 5
 PInf = 57181.965;       
 rhoInf = 0.7708;        % in the old sym was 1.225 
-betaDeg  = 0;
+betaDeg = 0;
 absVelocity = 161.12;   % in the old sym was 50
 aInf  = 322.239;
 muInf = 3.43e-7;
