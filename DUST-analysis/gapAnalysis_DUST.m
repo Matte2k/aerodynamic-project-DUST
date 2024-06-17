@@ -44,7 +44,7 @@ wingOriginX  = 4.3679;
 wingOriginZ  = 0.1000;                     
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
-wingChordRes = 5;
+wingChordRes = 20;
 
 % Fuselage geometry settings:
 fuselageOrigin   = [0.0, 0.0, 0.0];

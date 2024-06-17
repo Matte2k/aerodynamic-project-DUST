@@ -8,7 +8,7 @@ analysis = {
   component = fuselage_left
 
   start_res = 1
-  end_res = 20
+  end_res = 98
   step_res = 1
   wake = T
   separate_wake = T

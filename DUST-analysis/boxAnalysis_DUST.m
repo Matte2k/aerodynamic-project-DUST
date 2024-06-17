@@ -40,18 +40,18 @@ boxRunName      = [1  2  3  4 ]';
 analysisName = 'box';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
-wingOrigin   = [4.3679, 1.555, 0.1];
+wingOrigin   = [4.3679, 1.555, 0.1];            % gap = 0.005
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  none'    |   'right'  |   'left'  |   'sym'
-wingChordRes = 5;
+wingChordRes = 20;
 
 % Tail geometry settings                        ---TAIL------------------------------------------
-tailOrigin     = [8.9333, 1.0025, 0.205];
+tailOrigin     = [8.9333, 1.005, 0.209330127];  % gap = 0.005
 tailSymPoint   = [0 -tailOrigin(2) 0]';
 tailSymNorm    = [0 1 0]';
-tailConfig     = 'sym';                          %  'none'   |   'right'  |   'left'  |   'sym'
-tailChordRes   = 10;
+tailConfig     = 'sym';                         %  'none'   |   'right'  |   'left'  |   'sym'
+tailChordRes   = 15;
 tailEulerAngle = [0.0000, 0.0000, 60.00];
 
 % Fuselage geometry settings:
@@ -77,7 +77,7 @@ clearData = true;                   % 'true' = clear current data  |  'false' = 
 xBoxStart = -5;
 yBoxLimit = 10;
 zBoxLimit = 10;
-gapWingFuselage = 1;                % set distance between wing and fuselage
+
 
 %DUST_post settings:
 ppAnalysisList = {'load_wingF','visual_wingF','visual_fuselageF','visual_tailF'}; 
@@ -150,7 +150,7 @@ if runDUST == true
     %%% TAIL
     if ~isequal(tailConfig,'none')
         % Tail preset and reference definition
-        tailPresetPath = sprintf('%s/input-DUST/preset/preset_inTail_%s.in',aircraftDesignPath,analysisName);
+        tailPresetPath = sprintf('%s/input-DUST/preset/preset_inTail_%s.in',boxAnalysisPath,analysisName);
         [inTailRefVars] = inRefInit('Tail',tailOrigin,tailRotation);  
 
         % TailR.in generation

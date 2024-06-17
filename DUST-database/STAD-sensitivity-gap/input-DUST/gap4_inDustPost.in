@@ -1,0 +1,66 @@
+
+
+analysis = {
+  type = integral_loads
+  name = loads
+  start_res = 1 
+  end_res   = 98
+  step_res  = 1
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  reference_tag = Stability
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_wing
+  type = Viz
+  format = vtk
+  
+  component = wing_right
+  component = wing_left
+
+  start_res = 1
+  end_res = 98
+  step_res = 1
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_fuselage
+  type = Viz
+  format = vtk
+  
+  component = fuselage_right
+  component = fuselage_left
+
+  start_res = 1
+  end_res = 98
+  step_res = 1
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+data_basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/sensitivity-gap/output-DUST/gap4/run
+basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/sensitivity-gap/pp-DUST/gap4/pp

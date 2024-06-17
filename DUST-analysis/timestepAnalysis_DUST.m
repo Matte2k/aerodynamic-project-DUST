@@ -35,9 +35,9 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-tstepVector  = [0.05 0.1 0.5 1]';       %
-tstepRunName = [1    2   3   4]';       %
-tlimit = [1 1.3]';                      %
+tstepVector  = [0.1 0.05 0.025 0.0125 0.00625 0.003125 0.0015625]';       %
+tstepRunName = [1   2    3     4      5       6        7]';
+tlimit = [1 1.3]';                      
 analysisName = 'tstep';
 
 % Wing geometry settings:                       # possible input for different preset: #                                
@@ -45,7 +45,7 @@ wingOrigin   = [0.0, 0.0, 0.0];
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  _____    |   'right'  |   'left'  |   'sym'
-wingChordRes = 5;
+wingChordRes = 20;
 
 % Fuselage geometry settings:
 fuselageOrigin   = [0.0, 0.0, 0.0];
@@ -65,15 +65,16 @@ aInf  = 322.239;
 muInf = 3.43e-7;
 
 % DUST settings:
-runDUST    = true;                  % 'true' = run dust  |  'false' = use data already in memory
-clearData  = true;                  % 'true' = clear current data  |  'false' = leaves old run data in memory
+runDUST    = false;                  % 'true' = run dust  |  'false' = use data already in memory
+clearData  = false;                  % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart  = -5;
 xBoxEnd    = 20;
 yBoxLimit  = 10;
 zBoxLimit  = 10;
 
 %DUST_post settings:
-ppAnalysisList = {'load_wingF','visual_wingL'};
+%ppAnalysisList = {'load_wingF','visual_wingF'};
+ppAnalysisList = {'visual_wingF'};
 
 % Postprocessing settings:
 saveOutput = true;

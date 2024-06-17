@@ -35,7 +35,7 @@ currentPath = pwd;
 %% INPUT
 
 % Parametric analysis input:
-resolutionFactor = [1 2 3 4]';
+resolutionFactor = [1 2 3 4 5 6]';
 analysisName = 'mesh';                  
 
 % Wing geometry settings:                       # possible input for different preset: #                                
@@ -62,8 +62,8 @@ aInf  = 322.239;
 muInf = 3.43e-7;
 
 % DUST settings:
-runDUST   = true;       % 'true' = run dust  |  'false' = use data already in memory
-clearData = true;       % 'true' = clear current data  |  'false' = leaves old run data in memory
+runDUST   = false;       % 'true' = run dust  |  'false' = use data already in memory
+clearData = false;       % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -5;
 xBoxEnd   = 20;
 yBoxLimit = 10;
@@ -78,7 +78,7 @@ plotFlag = initGraphic();
     plotFlag.text = false;          % print some results in command window
     plotFlag.convergence = true;    % plot convergence over time for previous selected plot
     plotFlag.aero = false;          % plot aero loads data over different angle of attack
-    plotFlag.struct = false;         % plot structural loads data over different parametric input
+    plotFlag.struct = true;         % plot structural loads data over different parametric input
 
 
 %% MESH SENSITIVITY ANALYSIS
