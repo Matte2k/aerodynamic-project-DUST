@@ -36,9 +36,7 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = [4 5]';
-%alphaDegVec = [0 5 10 15]';
-%alphaDegVec = [0:16]';
+alphaDegVec = [-5.0 -2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 configurationName = 'stabilitySTAD';
 
@@ -48,14 +46,14 @@ wingDesign   = 'wing1';                         %  'wing1'  |  can add more desi
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
-wingChordRes = 15;
+wingChordRes = 20;
 
 % Lerx geometry settings                        ---LERX------------------------------------------
 lerxOrigin   = [3.4, 1.555, 0.1];
 lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
-lerxConfig   = 'none';                           %  'none'   |   'right'  |   'left'  |   'sym'
+lerxConfig   = 'none';                          %  'none'   |   'right'  |   'left'  |   'sym'
 lerxChordRes = 5;
 
 % Vortex geometry settings                      ---VORTEX----------------------------------------
@@ -67,20 +65,20 @@ vortexConfig   = 'none';                        %  'none'   |   'right'  |   'le
 vortexChordRes = 1;
 
 % Tail geometry settings                        ---TAIL------------------------------------------
-tailOrigin     = [8.9333, 1.0025, 0.205];
-tailDesign     = 'tail1';                        %  'tail1'      |   can add more desing...
+tailOrigin     = [8.9333, 1.005, 0.209330127];  % gap = 0.005
+tailDesign     = 'tail1';                       %  'tail1'      |   can add more desing...
 tailSymPoint   = [0 -tailOrigin(2) 0]';
 tailSymNorm    = [0 1 0]';
-tailConfig     = 'sym';                          %  'none'   |   'right'  |   'left'  |   'sym'
-tailChordRes   = 10;
+tailConfig     = 'sym';                         %  'none'   |   'right'  |   'left'  |   'sym'
+tailChordRes   = 15;
 tailEulerAngle = [0.0000, 0.0000, 60.00];
 
 % Fuselage geometry settings                    ---FUSELAGE--------------------------------------
 fuselageOrigin   = [0.0, 0.0, 0.0];
-fuselageDesign   = 'fuselage1';                  %  'fuselage1'  |   can add more desing...
+fuselageDesign   = 'fuselage1';                 %  'fuselage1'  |   can add more desing...
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'sym';                        % 'none'    |   'right'  |   'left'  |   'sym'
+fuselageConfig   = 'sym';                       %  'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28

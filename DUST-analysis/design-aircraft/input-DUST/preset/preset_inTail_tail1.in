@@ -15,7 +15,7 @@ airfoil = NACA0008
 span = 1.92768      
 sweep = 40.0         
 dihed = 0.0          
-nelem_span = 10       
+nelem_span = 20      
 type_span = uniform 
 
 ! Section1
