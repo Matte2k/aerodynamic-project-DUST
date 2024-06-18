@@ -8,7 +8,8 @@ function [aeroLoads] = aeroLoads_DUST(paramRunData,absVelocity,rhoInf,Sref,Cref,
 %       paramRunData,   cell:  output of organizeData_DUST.m
 %       absVelocity,  double:  absolute value of wind velocity 
 %       rhoInf,       double:  reference air density used to adimensionalize
-%       Sref,         double:  reference surface used to adimensionalize 
+%       Sref,         double:  reference surface used to adimensionalize
+%       Cref,         double:  reference chord used to adimensionaize
 %       plotFlag(*)     bool:  flag to visualize or not polar,Cl,Cd plots
 %
 %   Output:
