@@ -15,3 +15,4 @@ load("data/box/analysisData_box.mat",'-mat');
 dataDUST.rawRunData   = analysisData_box;   clear('analysisData_box');
 load("data/box/structLoads_box.mat",'-mat');   
 dataDUST.structLoads  = structLoads_box;    clear('structLoads_box');
+
