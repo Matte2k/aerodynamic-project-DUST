@@ -36,8 +36,8 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = [-5.0 -2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';
-alphaDegVec = 6;
+alphaDegVec = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';
+%alphaDegVec = 5;
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 configurationName = 'stabilitySTAD';
 
@@ -54,7 +54,7 @@ lerxOrigin   = [3.3913, 1.530, 0.1];
 lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
-lerxConfig   = 'sym';                          %  'none'   |   'right'  |   'left'  |   'sym'
+lerxConfig   = 'none';                          %  'none'   |   'right'  |   'left'  |   'sym'
 lerxChordRes = 4;
 
 % Vortex geometry settings                      ---VORTEX----------------------------------------
@@ -87,7 +87,7 @@ Cref = 2.65;            % in the old sym was 5
 PInf = 57181.965;       
 rhoInf = 0.7708;        % in the old sym was 1.225 
 betaDeg = 0;
-absVelocity = 100;   % in the old sym was 50
+absVelocity = 161.12;   % in the old sym was 50
 aInf  = 322.239;
 muInf = 3.43e-7;
 
@@ -100,8 +100,8 @@ yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF', 'visual_lerxF'};   % if present can ADD: 'visual_lerxF'
-ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF', 'load_lerxF'};   % if present can ADD: 'load_lerxF'
+ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF'};   % if present can ADD: 'visual_lerxF'
+ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF'};   % if present can ADD: 'load_lerxF'
 ppStability = {'load_aeroF'}';                                      % only wing+tail, no lerx by default
 ppAnalysisList = [ppVisual,ppLoads,ppStability];
 

@@ -9,7 +9,7 @@ analysis = {
 
   start_res = 1
   end_res = 98
-  step_res = 2
+  step_res = 7
   wake = T
   separate_wake = T
 
