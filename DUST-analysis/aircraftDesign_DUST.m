@@ -50,7 +50,7 @@ wingConfig   = 'sym';                           %  'none'   |   'right'  |   'le
 wingChordRes = 20;
 
 % Lerx geometry settings                        ---LERX------------------------------------------
-lerxOrigin   = [3.3913, 1.530, 0.1];
+lerxOrigin   = [3.3913, 1.540, 0.1];
 lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
