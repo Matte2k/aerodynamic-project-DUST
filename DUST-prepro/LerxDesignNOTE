@@ -1,0 +1,28 @@
+Lerx design notes:
+
+WING					x		y
+	LE intake			3.3913		1.5250	
+		legality length		0.9766		1.5280
+	LE wing panel			4.3679		1.5550	--> already gapped: 0.005
+		root chord		3.2283		
+	TE wing panel 			7.5962		1.5550
+		wake panel length	0.1511		
+	TE wake to first part 		7.7473		1.5550
+		distance in between	0.2327		
+	1st wake particle		7.9800		1.5550
+	
+	TOTAL x-gap from wing TE:	0.3838	--> wake panel length + distance in between
+	
+	
+	
+LERX variables:
+- root chord	= 
+- sweep 	= [60 70 80] + bonus sweep negativo suca
+- calettamento  = [-3 -1.5 0 1.5 3]	
+
+
+lerx to build
+1) root chord [da 50% legality box => dividere in 3] - sweep fisso 70° - tutto basic
+2) best root chord - sweep tutte le possibilità - tutto basic
+3) best root - best sweep - cambio calettamento
+
