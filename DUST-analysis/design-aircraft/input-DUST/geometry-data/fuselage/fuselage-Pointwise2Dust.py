@@ -1,3 +1,4 @@
+import os
 
 # INPUT: insert Pointwise mesh .dat file
 filePath = 'fuselage.dat'
