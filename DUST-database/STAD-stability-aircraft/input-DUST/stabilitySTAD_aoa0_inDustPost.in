@@ -1,0 +1,137 @@
+
+
+! wing visual
+analysis = {
+  name = visual_wing
+  type = Viz
+  format = vtk
+  
+  component = wing_right
+  component = wing_left
+
+  start_res = 1
+  end_res = 98
+  step_res = 7
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_tail
+  type = Viz
+  format = vtk
+  
+  component = tail_right
+  component = tail_left
+
+  start_res = 1
+  end_res = 98
+  step_res = 7
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_fuselage
+  type = Viz
+  format = vtk
+  
+  component = fuselage_right
+  component = fuselage_left
+
+  start_res = 1
+  end_res = 98
+  step_res = 7
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsWing
+  start_res = 1 
+  end_res   = 98
+  step_res  = 1
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  reference_tag = Stability
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsTail
+  start_res = 1 
+  end_res   = 98
+  step_res  = 1
+  format    = dat
+
+  component = tail_right
+  component = tail_left
+  reference_tag = Stability
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsFuselage
+  start_res = 1 
+  end_res   = 98
+  step_res  = 1
+  format    = dat
+
+  component = fuselage_right
+  component = fuselage_left
+  reference_tag = Stability
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsAero
+  start_res = 1 
+  end_res   = 98
+  step_res  = 1
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  component = tail_right
+  component = tail_left
+  reference_tag = Stability
+
+}
+
+data_basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/output-DUST/stabilitySTAD_aoa0/run
+basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/pp-DUST/stabilitySTAD_aoa0/pp

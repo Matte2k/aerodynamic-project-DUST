@@ -1,0 +1,78 @@
+! CONFIG INPUT
+mesh_file_type = parametric
+el_type = p
+
+type_chord = cosineLE
+starting_point = (/0.0,0.0,0.0/)
+reference_chord_fraction = 0.0
+
+! Section1
+chord = 3.22830	
+twist = 0.0		
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_65A008.dat
+
+! Section1-Section2 region
+span = 0.29151            
+sweep = 40.0         
+dihed = 0.0          
+nelem_span = 4       
+type_span = uniform   
+
+
+! Section2
+chord = 2.7796
+twist = 0.0		
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_65A008.dat
+
+! Section2-Section3 region
+span = 0.74151            
+sweep = 40.0         
+dihed = 0.0          
+nelem_span = 8       
+type_span = uniform
+
+
+! Section3
+chord = 1.638
+twist = 0.0
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_64A206.dat
+
+! Section3-Section4 region
+span = 1.296
+sweep = 40.0
+dihed = 0.0
+nelem_span = 16
+type_span = uniform
+
+
+! Section4
+chord = 1.458
+twist = -2.0
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_64A206.dat
+
+! Section4-Section5 region
+span = 1.4
+sweep = 40.0
+dihed = 0.0
+nelem_span = 16
+type_span = uniform
+
+
+! Section5 section
+chord = 1.264
+twist = -4.0
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_64A204.dat
+
+
+! VARIABLE TO ADD
+! nelem_chord = defined in gapAnalysis_DUST.m
+! mesh_mirror = F for right wing and T for left wing
+! mirror_point  = defiend in wingFileMaker_DUST.m
+! mirror_normal = defiend in wingFileMaker_DUST.m
+
+
+! VARIABLE INPUT
+mesh_mirror = T
+mirror_point = (/0.000000,-1.555000,0.000000/)
+mirror_normal = (/0.000000,1.000000,0.000000/)
+nelem_chord = 20

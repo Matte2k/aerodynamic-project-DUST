@@ -26,15 +26,16 @@ function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,vari
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
 
-    if nargin < 5
+    if nargin < 6
         lerxPart = false;
     end
 
-    absVelocity = reference.absVelocity;
-    rhoInf      = reference.rhoInf;
-    Sref        = reference.Sref;
-    Cref        = reference.Cref;
-    timeCostVec = zeros(size(alphaDegVec,1),1);
+    absVelocity  = reference.absVelocity;
+    rhoInf       = reference.rhoInf;
+    Sref         = reference.Sref;
+    Cref         = reference.Cref;
+    timeCostVec  = zeros(size(alphaDegVec,1),1);
+    alphaNameVec = 1:size(alphaDegVec,1);
 
     runNameCell   = cell(size(alphaDegVec,1),1);         % run name cell initialization
     wingDataPath  = cell(size(alphaDegVec,1),1);         % wing data path cell initialization
@@ -43,7 +44,7 @@ function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,vari
     fuselageDataPath = cell(size(alphaDegVec,1),1);      % fuselage data path cell initialization
     
     for i = 1:size(alphaDegVec,1)
-        runNameCell{i}  = sprintf('%s%.0f',variableName,alphaDegVec(i));            % parametric run name definition
+        runNameCell{i}  = sprintf('%s%.0f',variableName,alphaNameVec(i));            % parametric run name definition
         wingDataPath{i} = sprintf('data/%s/dust/%s/pp_loadsWing.dat',analysisName,runNameCell{i});
         tailDataPath{i} = sprintf('data/%s/dust/%s/pp_loadsTail.dat',analysisName,runNameCell{i});
         lerxDataPath{i} = sprintf('data/%s/dust/%s/pp_loadsLerx.dat',analysisName,runNameCell{i});

@@ -7,8 +7,8 @@ currentPath = pwd;
 
 load("data/stability/openVSP/Lambda_PolarM050_tailed",'-mat');
 openVSP.polar = Lambda_PolarM050_tailed;    clear('Lambda_PolarM050_tailed');
-openVSP.stabilty = readtable("data/stability/openVSP/stabilityDerivative_OpenVSP.dat");
-
+openVSP.stabilty = readtable("data/stability/openVSP/stabilityDerivative_OpenVSP.dat",ReadVariableNames=false);
+openVSP.stabilty.Properties.VariableNames = {'aoa','cl_alpha','cm_alpha'};
 
 %% DUST data
 
@@ -20,7 +20,9 @@ absVelocity = 161.12;
 [reference] = runReferenceValue(absVelocity,rhoInf,Cref,Sref);
 
 % Data parser for the different component of the geometry
-alphaDegVec = [4 5]';
+alphaDegVec  = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5]';
+%alphaDegVec  = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15]';
+                % 15deg has not converged so it's better to exclude it
 analysisName = 'stability';
 variableName = 'aoa';
 lerxPart = false;
@@ -37,7 +39,7 @@ figure(Name='Cl vs aoa')
 hold on;    grid on;    axis padded;
 plot(dust.polar.aoaDeg,dust.polar.Cl,'-o');
 plot(openVSP.polar.AoA,openVSP.polar.CL,'-o');
-legend('DUST','OpenVSP')
+legend('DUST','OpenVSP',location='northwest')
 xlabel('$${\alpha}$$',interpreter='latex')
 ylabel('$$C_l$$',interpreter='latex')
 
@@ -45,7 +47,7 @@ figure(Name='Cd vs aoa')
 hold on;    grid on;    axis padded;
 plot(dust.polar.aoaDeg,dust.polar.Cd,'-o');
 plot(openVSP.polar.AoA,openVSP.polar.CDtot,'-o');
-legend('DUST','OpenVSP')
+legend('DUST','OpenVSP',location='northwest')
 xlabel('$${\alpha}$$',interpreter='latex')
 ylabel('$$C_d$$',interpreter='latex')
 
@@ -53,7 +55,7 @@ figure(Name='Cm vs aoa')
 hold on;    grid on;    axis padded;
 plot(dust.polar.aoaDeg,dust.polar.Cm,'-o');
 plot(openVSP.polar.AoA,openVSP.polar.CMy,'-o');
-legend('DUST','OpenVSP')
+legend('DUST','OpenVSP',location='southwest')
 xlabel('$${\alpha}$$',interpreter='latex')
 ylabel('$$C_m$$',interpreter='latex')
 
@@ -80,7 +82,7 @@ end
 figure(Name='Cl alpha forward diff')
 hold on;    grid on;    axis padded;
 plot(dust.stability.aoaDeg,dust.stability.ClalphaFD,'-o')
-plot(openVSP.stabilty.x_Aoa,openVSP.stabilty.cl_alpha,'-o')
+plot(openVSP.stabilty.aoa,openVSP.stabilty.cl_alpha,'-o')
 legend('DUST','OpenVSP')
 xlabel('$${\alpha}$$',interpreter='latex')
 ylabel('$$C_l$$',interpreter='latex')
@@ -89,7 +91,7 @@ ylabel('$$C_l$$',interpreter='latex')
 figure(Name='Cm alpha forward diff')
 hold on;    grid on;    axis padded;
 plot(dust.stability.aoaDeg,dust.stability.ClalphaFD,'-o')
-plot(openVSP.stabilty.x_Aoa,openVSP.stabilty.cm_alpha,'-o')
+plot(openVSP.stabilty.aoa,openVSP.stabilty.cm_alpha,'-o')
 legend('DUST','OpenVSP')
 xlabel('$${\alpha}$$',interpreter='latex')
 ylabel('$$C_m$$',interpreter='latex')

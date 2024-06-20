@@ -1,0 +1,7 @@
+The folder name is NOT equal to the actual ALPHA used in the simulation.
+During postprocessing the matlab functions automatically parse the folder name into real alpha value.
+
+The conversion table is also reported here:
+
+name	1	2	3	4	5	6	7	8
+aoa	-2.5°	0.0°	+2.5°	+5.0°	+7.5°	+10.0°	+12.5°	+15.0°
