@@ -2,14 +2,14 @@
 mesh_file_type = parametric
 el_type = p
 
-type_chord = cosine
+type_chord = cosineLE
 starting_point = (/0.0,0.0,0.0/)
 reference_chord_fraction = 0.0
 
 ! Inner wing
 chord = 2.4
 twist = 0.0
-airfoil = NACA0008
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_65A006.dat
 
 ! Section1-Section2 region
 span = 1.92768      
@@ -21,7 +21,7 @@ type_span = uniform
 ! Section1
 chord = 0.96
 twist = 0.0		
-airfoil = NACA0008
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_65A006.dat
 
 
 ! VARIABLE TO ADD

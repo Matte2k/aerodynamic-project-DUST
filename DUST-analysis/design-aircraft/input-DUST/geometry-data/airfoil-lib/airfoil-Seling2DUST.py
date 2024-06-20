@@ -1,7 +1,7 @@
 import os
 
 # INPUT: insert Seling airfoil .dat file
-filePath = 'NACA_64A208.dat'
+filePath = 'NACA_65A006.dat'
 
 # MAIN
 scriptDir = os.path.dirname('airfoil-Seling2DUST.py')
