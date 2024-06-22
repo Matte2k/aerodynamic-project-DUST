@@ -36,14 +36,15 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-alphaDegVec = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';
-%alphaDegVec = 5;
+%alphaDegVec = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';      % stability setting
+%alphaDegVec = 6;                                           % debug setting
+alphaDegVec = [0 5 10]';
+configurationName = 'lerxDesign0_STAD_yesTip';
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
-configurationName = 'stabilitySTAD';
 
 % Wing geometry settings                        ---WING------------------------------------------
 wingOrigin   = [4.3679, 1.555, 0.1];
-wingDesign   = 'wing1';                         %  'wing1'  |  can add more desing...
+wingDesign   = 'wing3';                         %  'wing1'  |  can add more desing...
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
