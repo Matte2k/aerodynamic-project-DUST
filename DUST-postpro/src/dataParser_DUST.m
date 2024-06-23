@@ -2,7 +2,7 @@ function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,vari
 %DATA PARSER DUST - Parser for integral loads data of different geometry component
 %
 %   Syntax:
-%       [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,lerxPart,reference)
+%       [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,variableName,reference,lerxPart)
 %
 %   Input:      
 %       aoaDegVec,      double:  angle of attack used in the simulation
