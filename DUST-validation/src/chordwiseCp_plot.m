@@ -25,7 +25,7 @@ function [] = chordwiseCp_plot(mach,aoa,station,dataList)
 
 
 %%% Plot
-hold on;    grid on;    axis padded;
+hold on;    grid minor;    axis padded;   box on;
 xlabel('$$x/l$$')
 ylabel('$$-C_p$$')
 legString = cell(1,length(dataList));
