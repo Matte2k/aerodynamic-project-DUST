@@ -2,6 +2,7 @@ clearvars;  close all;  clc
 addpath(genpath("./src"));
 addpath(genpath("./data"));
 currentPath = pwd;
+initGraphic;
 
 %% OpenVSP data
 
@@ -61,8 +62,6 @@ ylabel('$$C_m$$',interpreter='latex')
 
 
 %% Stability derivative 
-% old... don't work anymore since the data are organized different in the
-% struct
 
 % forward diff
 endstab = (length(dust.polar.aoaDeg)-1);
