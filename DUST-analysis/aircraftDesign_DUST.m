@@ -38,7 +38,7 @@ currentPath = pwd;
 analysisName = 'aoa';
 %alphaDegVec = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';      % stability setting
 %alphaDegVec = 6;                                           % debug setting
-alphaDegVec = [0 5 10]';
+alphaDegVec = [2 5 10]';
 configurationName = 'lerxDesign0_STAD_yesTip';
 componentsLoad = 'tot';                         % 'wing'    | 'lerx'      | 'tot' (*)   | 'stab'
 
@@ -85,11 +85,11 @@ fuselageConfig   = 'sym';                       %  'none'    |   'right'  |   'l
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
 Cref = 2.65;            % in the old sym was 5
-PInf = 57181.965;       
-rhoInf = 0.7708;        % in the old sym was 1.225 
+PInf = 20013.7;         % correct value should be: 57181.965... but to compare SU2 use 20013.7       
+rhoInf = 0.770153;      % correct value should be: 0.7708...    but to compare SU2 use 0.770153       
 betaDeg = 0;
-absVelocity = 161.12;   % in the old sym was 50
-aInf  = 322.239;
+absVelocity = 161.204;  % correct value should be: 161.12...    but to compare SU2 use 161.204
+aInf  = 322.408;
 muInf = 3.43e-7;
 
 % DUST settings:
