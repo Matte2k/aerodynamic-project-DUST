@@ -37,12 +37,12 @@ currentPath = pwd;
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
 %alphaDegVec = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';      % stability setting
-%alphaDegVec = 5;                                           % debug setting
+%alphaDegVec = 15;                                          % debug setting
 alphaDegVec = [5 10 15]';
-configurationName = 'lerxDesign4_STAD';
+configurationName = 'lerxDesign5_STAD';
 
 % Wing geometry settings                        ---WING------------------------------------------
-wingOrigin   = [4.3679, 1.555, 0.1];
+wingOrigin   = [4.3679, 1.565, 0.1];
 wingDesign   = 'wing3';                         %  'wing1'  |  can add more desing...
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
@@ -51,11 +51,11 @@ wingChordRes = 20;
 
 % Lerx geometry settings                        ---LERX------------------------------------------
 lerxOrigin   = [3.3913, 1.545, 0.1];
-lerxDesign   = 'lerx3';                         %  'lerx1'      |   can add more desing...
+lerxDesign   = 'lerx5';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
 lerxConfig   = 'sym';                          %  'none'   |   'right'  |   'left'  |   'sym'
-lerxChordRes = 4;
+lerxChordRes = 5;
 
 % Vortex geometry settings                      ---VORTEX----------------------------------------
 vortexOrigin   = [-2.5, 0.6, 0.1];
@@ -75,7 +75,7 @@ tailChordRes   = 15;
 tailEulerAngle = [0.0000, 0.0000, 60.00];
 
 % Fuselage geometry settings                    ---FUSELAGE--------------------------------------
-fuselageOrigin   = [0.0, 0.0, 0.0];
+fuselageOrigin   = [0.0, 0.000, 0.0];
 fuselageDesign   = 'fuselage1';                 %  'fuselage1'  |   can add more desing...
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
@@ -94,16 +94,17 @@ muInf = 3.43e-7;
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
 clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
-xBoxStart = -10;
+xBoxStart = -5;
 xBoxEnd   = 20;
 yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
 ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF','visual_lerxF'};   % if present can ADD: 'visual_lerxF'
-ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF','load_lerxF'};       % if present can ADD: 'load_lerxF'
+ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF',  'load_lerxF'  };   % if present can ADD: 'load_lerxF'
 ppStability = {'load_aeroF'}';                                                     % only wing+tail, no lerx by default
 ppAnalysisList = [ppVisual,ppLoads,ppStability];
+%ppAnalysisList = {'visual_debug'};
 
 % Postprocessing settings:
 saveOutput = true;

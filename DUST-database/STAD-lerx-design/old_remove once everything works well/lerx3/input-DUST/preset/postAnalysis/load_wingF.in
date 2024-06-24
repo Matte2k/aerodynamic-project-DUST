@@ -1,0 +1,13 @@
+analysis = {
+  type = integral_loads
+  name = loadsWing
+  start_res = 1 
+  end_res   = 160
+  step_res  = 2
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  reference_tag = Stability
+
+}

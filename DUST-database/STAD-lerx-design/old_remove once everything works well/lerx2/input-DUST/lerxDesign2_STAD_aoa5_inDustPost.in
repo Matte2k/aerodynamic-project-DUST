@@ -1,0 +1,181 @@
+
+
+! wing visual
+analysis = {
+  name = visual_wing
+  type = Viz
+  format = vtk
+  
+  component = wing_right
+  component = wing_left
+
+  start_res = 1
+  end_res = 160
+  step_res = 5
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_tail
+  type = Viz
+  format = vtk
+  
+  component = tail_right
+  component = tail_left
+
+  start_res = 1
+  end_res = 160
+  step_res = 5
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_fuselage
+  type = Viz
+  format = vtk
+  
+  component = fuselage_right
+  component = fuselage_left
+
+  start_res = 1
+  end_res = 160
+  step_res = 5
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+! wing visual
+analysis = {
+  name = visual_lerx
+  type = Viz
+  format = vtk
+  
+  component = lerx_right
+  component = lerx_left
+
+  start_res = 1
+  end_res = 160
+  step_res = 5
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsWing
+  start_res = 1 
+  end_res   = 160
+  step_res  = 2
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  reference_tag = Stability
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsTail
+  start_res = 1 
+  end_res   = 160
+  step_res  = 2
+  format    = dat
+
+  component = tail_right
+  component = tail_left
+  reference_tag = Stability
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsFuselage
+  start_res = 1 
+  end_res   = 160
+  step_res  = 2
+  format    = dat
+
+  component = fuselage_right
+  component = fuselage_left
+  reference_tag = Stability
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsLerx
+  start_res = 1 
+  end_res   = 160
+  step_res  = 2
+  format    = dat
+
+  component = lerx_right
+  component = lerx_left
+  reference_tag = Stability
+
+}
+
+
+analysis = {
+  type = integral_loads
+  name = loadsAero
+  start_res = 1 
+  end_res   = 160
+  step_res  = 2
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  component = tail_right
+  component = tail_left
+  
+  ! uncomment to add lerx if present
+  component = lerx_right
+  component = lerx_left
+  
+  reference_tag = Stability
+
+}
+
+data_basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/output-DUST/lerxDesign2_STAD_aoa5/run
+basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/pp-DUST/lerxDesign2_STAD_aoa5/pp

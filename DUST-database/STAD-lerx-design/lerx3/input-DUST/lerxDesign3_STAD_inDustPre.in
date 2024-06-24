@@ -40,4 +40,4 @@ comp_name = fuselage_left
 geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/fuselageLeft_aoa.in
 ref_tag = Body
 
-file_name = geo_lerxDesign2_STAD.h5
+file_name = geo_lerxDesign3_STAD.h5

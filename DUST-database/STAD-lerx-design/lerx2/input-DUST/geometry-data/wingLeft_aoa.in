@@ -86,6 +86,6 @@ airfoil = ./geometry-data/airfoil-lib/DUST-NACA_64A204.dat
 
 ! VARIABLE INPUT
 mesh_mirror = T
-mirror_point = (/0.000000,-1.555000,0.000000/)
+mirror_point = (/0.000000,-1.565000,0.000000/)
 mirror_normal = (/0.000000,1.000000,0.000000/)
 nelem_chord = 20

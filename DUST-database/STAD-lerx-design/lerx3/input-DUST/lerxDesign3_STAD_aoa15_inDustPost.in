@@ -10,8 +10,8 @@ analysis = {
   component = wing_left
 
   start_res = 1
-  end_res = 160
-  step_res = 5
+  end_res = 129
+  step_res = 3
   wake = T
   separate_wake = T
 
@@ -34,8 +34,8 @@ analysis = {
   component = tail_left
 
   start_res = 1
-  end_res = 160
-  step_res = 5
+  end_res = 129
+  step_res = 3
   wake = T
   separate_wake = T
 
@@ -58,8 +58,8 @@ analysis = {
   component = fuselage_left
 
   start_res = 1
-  end_res = 160
-  step_res = 5
+  end_res = 129
+  step_res = 3
   wake = T
   separate_wake = T
 
@@ -82,8 +82,8 @@ analysis = {
   component = lerx_left
 
   start_res = 1
-  end_res = 160
-  step_res = 5
+  end_res = 129
+  step_res = 3
   wake = T
   separate_wake = T
 
@@ -100,8 +100,8 @@ analysis = {
   type = integral_loads
   name = loadsWing
   start_res = 1 
-  end_res   = 160
-  step_res  = 2
+  end_res   = 129
+  step_res  = 1
   format    = dat
 
   component = wing_right
@@ -115,8 +115,8 @@ analysis = {
   type = integral_loads
   name = loadsTail
   start_res = 1 
-  end_res   = 160
-  step_res  = 2
+  end_res   = 129
+  step_res  = 1
   format    = dat
 
   component = tail_right
@@ -130,8 +130,8 @@ analysis = {
   type = integral_loads
   name = loadsFuselage
   start_res = 1 
-  end_res   = 160
-  step_res  = 2
+  end_res   = 129
+  step_res  = 1
   format    = dat
 
   component = fuselage_right
@@ -145,8 +145,8 @@ analysis = {
   type = integral_loads
   name = loadsLerx
   start_res = 1 
-  end_res   = 160
-  step_res  = 2
+  end_res   = 129
+  step_res  = 1
   format    = dat
 
   component = lerx_right
@@ -160,8 +160,8 @@ analysis = {
   type = integral_loads
   name = loadsAero
   start_res = 1 
-  end_res   = 160
-  step_res  = 2
+  end_res   = 129
+  step_res  = 1
   format    = dat
 
   component = wing_right
@@ -177,5 +177,5 @@ analysis = {
 
 }
 
-data_basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/output-DUST/lerxDesign2_STAD_aoa15/run
-basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/pp-DUST/lerxDesign2_STAD_aoa15/pp
+data_basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/output-DUST/lerxDesign3_STAD_aoa15/run
+basename = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/pp-DUST/lerxDesign3_STAD_aoa15/pp

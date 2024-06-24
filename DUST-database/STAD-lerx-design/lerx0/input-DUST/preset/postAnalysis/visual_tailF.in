@@ -8,8 +8,8 @@ analysis = {
   component = tail_left
 
   start_res = 1
-  end_res = 98
-  step_res = 2
+  end_res = 129
+  step_res = 3
   wake = T
   separate_wake = T
 

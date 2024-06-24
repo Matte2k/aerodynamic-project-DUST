@@ -1,0 +1,22 @@
+! wing visual
+analysis = {
+  name = visual_fuselage
+  type = Viz
+  format = vtk
+  
+  component = fuselage_right
+  component = fuselage_left
+
+  start_res = 1
+  end_res = 160
+  step_res = 5
+  wake = T
+  separate_wake = T
+
+  variable = Vorticity
+  variable = Pressure
+  variable = Cp
+  variable = Force
+  variable = surface_velocity
+
+}

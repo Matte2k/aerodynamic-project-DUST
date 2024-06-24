@@ -7,12 +7,12 @@ starting_point = (/0.216372,0.0,0.0/)   ! set x gap from air intake
 reference_chord_fraction = 0.0
 
 ! Inner wing
-chord = 0.649115
+chord = 0.669115
 twist = 0.0		
 airfoil = NACA0012
 
 ! Section1-Section2 region
-span = 0.32966   
+span = 0.34014   
 sweep = 70.0         
 dihed = 0.0          
 nelem_span = 8      

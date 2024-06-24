@@ -26,7 +26,7 @@ function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,vari
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
 
-    if nargin < 6
+    if nargin < 5
         lerxPart = false;
     end
 

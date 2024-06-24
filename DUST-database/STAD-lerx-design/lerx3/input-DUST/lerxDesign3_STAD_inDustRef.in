@@ -26,7 +26,7 @@ moving = F
 ! VARIABLE INPUT
 reference_tag = Wing
 parent_tag = 0
-origin = (/4.367900, 1.555000, 0.100000/)
+origin = (/4.367900, 1.565000, 0.100000/)
 orientation = (/1.000000,0.000000,0.000000, 0.000000,1.000000,0.000000, 0.000000,0.000000,1.000000/)
 multiple = F
 moving = F

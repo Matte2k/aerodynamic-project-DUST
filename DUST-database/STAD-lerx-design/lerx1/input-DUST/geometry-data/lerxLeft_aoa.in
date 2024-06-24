@@ -7,12 +7,12 @@ starting_point = (/0.001,0.0,0.0/)   ! set x gap from air intake
 reference_chord_fraction = 0.0
 
 ! Inner wing
-chord = 0.865387
+chord = 0.885387
 twist = 0.0		
 airfoil = NACA0012
 
 ! Section1-Section2 region
-span = 0.442987   
+span = 0.453467   
 sweep = 70.0         
 dihed = 0.0          
 nelem_span = 10       
@@ -34,4 +34,4 @@ airfoil = NACA0012
 mesh_mirror = T
 mirror_point = (/0.000000,-1.545000,0.000000/)
 mirror_normal = (/0.000000,1.000000,0.000000/)
-nelem_chord = 4
+nelem_chord = 5

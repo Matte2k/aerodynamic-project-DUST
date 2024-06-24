@@ -36,7 +36,12 @@ function [velVec,u_inf] = computeVelVec(alphaDeg,betaDeg,absVelocity,printFlag)
     w = sin(alphaRad) *                 absVelocity;
     
     velVec = [u v w];
-    u_inf = sprintf('u_inf = (/%.4f, %.4f, %.4f/)',u,v,w);
+    
+    if betaDeg == 0
+        v = 0;
+    end
+    
+        u_inf = sprintf('u_inf = (/%.4f, %.4f, %.4f/)',u,v,w);
     
     if printFlag == true
         fprintf('INPUT:\n \t alpha = %.2f° \n \t beta = %.2f° \n \t absU = %.2f m/s\n\n',alphaDeg,betaDeg,absVelocity);

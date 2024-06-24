@@ -2,7 +2,7 @@ analysis = {
   type = integral_loads
   name = loadsWing
   start_res = 1 
-  end_res   = 98
+  end_res   = 129
   step_res  = 1
   format    = dat
 
