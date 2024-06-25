@@ -43,23 +43,36 @@ avgLoadIdx = 80;
 
 %% Plot
 
-
-
+%%% Cl computation
 lerx0_lift = lerx0.wing.aeroLoads.Cl + lerx0.tail.aeroLoads.Cl;
 lerx1_lift = lerx1.wing.aeroLoads.Cl + lerx1.tail.aeroLoads.Cl + lerx1.lerx.aeroLoads.Cl;
 lerx2_lift = lerx2.wing.aeroLoads.Cl + lerx2.tail.aeroLoads.Cl + lerx2.lerx.aeroLoads.Cl;
 lerx3_lift = lerx3.wing.aeroLoads.Cl + lerx3.tail.aeroLoads.Cl + lerx3.lerx.aeroLoads.Cl;
 
-figure
+figure(Name='Cl alpha')
 grid minor; hold on; axis padded; box on;
 plot(lerx0.wing.aeroLoads.aoaDeg,lerx0_lift)
 plot(lerx1.wing.aeroLoads.aoaDeg,lerx1_lift)
 plot(lerx2.wing.aeroLoads.aoaDeg,lerx2_lift)
 plot(lerx3.wing.aeroLoads.aoaDeg,lerx3_lift)
-legend('0','1','2','3')
+xlabel('$\alpha$ [deg]');       ylabel('$C_l$');
+legend('No lerx','lerx 1','lerx 2','lerx 3')
 
 
-% loads aero della convergenza è dato da tail+wing+lerx
+%%% Cm computation
+lerx0_momentum = lerx0.wing.aeroLoads.Cm + lerx0.tail.aeroLoads.Cm;
+lerx1_momentum = lerx1.wing.aeroLoads.Cm + lerx1.tail.aeroLoads.Cm + lerx1.lerx.aeroLoads.Cm;
+lerx2_momentum = lerx2.wing.aeroLoads.Cm + lerx2.tail.aeroLoads.Cm + lerx2.lerx.aeroLoads.Cm;
+lerx3_momentum = lerx3.wing.aeroLoads.Cm + lerx3.tail.aeroLoads.Cm + lerx3.lerx.aeroLoads.Cm;
+
+figure(Name='Cm alpha')
+grid minor; hold on; axis padded; box on;
+plot(lerx0.wing.aeroLoads.aoaDeg,lerx0_momentum)
+plot(lerx1.wing.aeroLoads.aoaDeg,lerx1_momentum)
+plot(lerx2.wing.aeroLoads.aoaDeg,lerx2_momentum)
+plot(lerx3.wing.aeroLoads.aoaDeg,lerx3_momentum)
+xlabel('$\alpha$ [deg]');       ylabel('$C_m$');
+legend('No lerx','lerx 1','lerx 2','lerx 3')
 
 
 %%
@@ -68,22 +81,20 @@ cmap = jet(numel(alphaDegVec));      % discrete color map                     % 
     cbTicksCount = 1:length(alphaDegVec);
     cbTicksPos = [0.5, cbTicksCount, (cbTicksCount(end)+0.5)];
 
-figure
+figure(Name='Convergence')
 %%% Convergence
 % convergencePlot = figure(Name='convergence');
-% tiledlayout(2,1);  
-%nexttile(3);    % Fz
+tiledlayout(2,1);  
+nexttile(1);    % Fz
     hold on;    grid minor;     axis padded;    box on;
     for i = 1:length(alphaDegVec)
-        plot(lerx3.tail.designData{i,1}.time , lerx3.tail.designData{i,1}.Fz,'Color',cmap(i,:));
-        
+        plot(lerx3.tail.designData{i,1}.time , lerx3.tail.designData{i,1}.Fz,'Color',cmap(i,:));  
     end
     yline(lerx3.tail.aeroLoads.Fz)
     xlabel('$time$ [sec]');       ylabel('$F_{z}$ [N]');
-    %ylim([6e4,8e4])
+    ylim([0e4,2e4])
 
-    figure
-%nexttile(6);    % My
+nexttile(2);    % My
     hold on;    grid minor;     axis padded;    box on;
     for i = 1:length(alphaDegVec)
         plot(lerx3.tail.designData{i,1}.time , lerx3.tail.designData{i,1}.My,'Color',cmap(i,:));
@@ -91,7 +102,7 @@ figure
     end
     yline(lerx3.tail.aeroLoads.My)
     xlabel('$time$ [sec]');      ylabel('$M_{y}$ [N]');
-    %ylim([-5e5,-3e5])
+    ylim([-1e5,0e5])
     
 colormap(cmap)                              % apply colormap
 caxis([cbTicksPos(1),cbTicksPos(end)])      % to be changed in clim since Matlab R2022a
