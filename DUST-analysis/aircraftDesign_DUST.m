@@ -36,14 +36,13 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';      % stability setting
-%alphaDegVec = 2;                                           % debug setting
+%alphaDegVec = 2;
 %alphaDegVec = [5 10 15]';
 alphaDegVec = [2 5 10]';
 configurationName = 'eulerValidation_STAD';
 
 % Wing geometry settings                        ---WING------------------------------------------
-wingOrigin   = [0, 0, 0];            %[4.3679, 1.565, 0.1];
+wingOrigin   = [4.3679, 1.565, 0.1];            
 wingDesign   = 'wing3';                         %  'wing1'  |  can add more desing...
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
@@ -52,7 +51,7 @@ wingChordRes = 20;
 
 % Lerx geometry settings                        ---LERX------------------------------------------
 lerxOrigin   = [3.3913, 1.545, 0.1];
-lerxDesign   = 'lerx5';                         %  'lerx1'      |   can add more desing...
+lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
 lerxConfig   = 'none';                          %  'none'   |   'right'  |   'left'  |   'sym'
@@ -71,7 +70,7 @@ tailOrigin     = [8.9333, 1.005, 0.209330127];  % gap = 0.005
 tailDesign     = 'tail1';                       %  'tail1'      |   can add more desing...
 tailSymPoint   = [0 -tailOrigin(2) 0]';
 tailSymNorm    = [0 1 0]';
-tailConfig     = 'none';                         %  'none'   |   'right'  |   'left'  |   'sym'
+tailConfig     = 'sym';                         %  'none'   |   'right'  |   'left'  |   'sym'
 tailChordRes   = 15;
 tailEulerAngle = [0.0000, 0.0000, 60.00];
 
@@ -80,17 +79,17 @@ fuselageOrigin   = [0.0, 0.000, 0.0];
 fuselageDesign   = 'fuselage1';                 %  'fuselage1'  |   can add more desing...
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'none';                       %  'none'    |   'right'  |   'left'  |   'sym'
+fuselageConfig   = 'sym';                       %  'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
-Cref = 2.65;            % in the old sym was 5
-PInf = 57181.965;       % correct value should be: 57181.965... but to compare SU2 use 20013.7       
-rhoInf = 1.225;         % correct value should be: 0.7708...    but to compare SU2 use 0.770153       
+Cref = 2.65;            
+PInf = [];              % correct value should be: 57181.965 at 15000ft and mach 0.5      
+rhoInf = 1.225;         % correct value should be: 0.7708 at 15000ft and mach 0.5       
 betaDeg = 0;
-absVelocity = 68;       % correct value should be: 161.12...    but to compare SU2 use 161.204
-aInf  = [];
-muInf = [];             % previously was 1.642e-5 from openVSP
+absVelocity = 68;       % correct value should be: 161.12 at 15000ft and mach 0.5   
+aInf  = [];             % correct value should be: 322.24 at 15000ft and mach 0.5   
+muInf = [];             % correct value should be: 1.642e-5 at 15000ft and mach 0.5   
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
@@ -103,10 +102,9 @@ zBoxLimit = 10;
 %DUST_post settings:
 ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF'};   % if present can ADD: 'visual_lerxF'
 ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF'};     % if present can ADD: 'load_lerxF'
-ppStability = {'load_aeroF'}';                                                     % only wing+tail, no lerx by default
-%ppAnalysisList = [ppVisual,ppLoads,ppStability];
+ppStability = {'load_aeroF'}';                                      % remember to add lerx if present
+ppAnalysisList = [ppVisual,ppLoads,ppStability];
 %ppAnalysisList = {'visual_debug'};
-ppAnalysisList = {'visual_wingF','load_wingF','load_aeroF'};
 
 % Postprocessing settings:
 saveOutput = true;

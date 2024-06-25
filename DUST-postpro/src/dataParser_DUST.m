@@ -1,4 +1,4 @@
-function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,variableName,reference,lerxPart)
+function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,variableName,reference,components)
 %DATA PARSER DUST - Parser for integral loads data of different geometry component
 %
 %   Syntax:
@@ -9,7 +9,11 @@ function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,vari
 %       analysisName,   string:  name of the analysis performed
 %       variableName,   string:  name of the variable changing in different run
 %       reference,      struct:  see description of 'runReferenceValue.m'   
-%       lerxPart(*)       bool:  flag to define if the lerx is presento or not
+%       components(*)   struct:  struct defining the component to consider:
+%                                   - wing,     bool
+%                                   - tail,     bool
+%                                   - lerx,     bool
+%                                   - fuselage, bool
 %
 %   Output:
 %       wing,     struct: the fields contains:
@@ -27,7 +31,10 @@ function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,vari
 %
 
     if nargin < 5
-        lerxPart = false;
+        components.wing = true;
+        components.tail = true;
+        components.lerx = true;
+        components.fuselage = true;
     end
 
     absVelocity  = reference.absVelocity;
@@ -53,22 +60,28 @@ function [wing,tail,fuselage,lerx]=dataParser_DUST(alphaDegVec,analysisName,vari
         
     
     % Postprocessing of the dust output
+    if components.wing == true
     wing = struct;
         [wing.designData]   = organizeData_DUST(wingDataPath, alphaDegVec, alphaDegVec, variableName, timeCostVec, false);
         [wing.aeroLoads]    = aeroLoads_DUST   (wing.designData, absVelocity, rhoInf, Sref, Cref, false);
         [wing.structLoads]  = structLoads_DUST (wing.designData, absVelocity, rhoInf, Sref, Cref, variableName, false);
+    end
     
+    if components.tail == true
     tail = struct;
         [tail.designData]   = organizeData_DUST(tailDataPath, alphaDegVec, alphaDegVec, variableName, timeCostVec, false);
         [tail.aeroLoads]    = aeroLoads_DUST   (tail.designData, absVelocity, rhoInf, Sref, Cref, false);
         [tail.structLoads]  = structLoads_DUST (tail.designData, absVelocity, rhoInf, Sref, Cref, variableName, false);
+    end
     
+    if components.fuselage == true
     fuselage = struct;
         [fuselage.designData]   = organizeData_DUST(fuselageDataPath, alphaDegVec, alphaDegVec, variableName, timeCostVec, false);
         [fuselage.aeroLoads]    = aeroLoads_DUST   (fuselage.designData, absVelocity, rhoInf, Sref, Cref, false);
         [fuselage.structLoads]  = structLoads_DUST (fuselage.designData, absVelocity, rhoInf, Sref, Cref, variableName, false);
+    end
     
-    if lerxPart == true
+    if components.lerx == true
     lerx = struct;
         [lerx.designData]   = organizeData_DUST(lerxDataPath, alphaDegVec, alphaDegVec, variableName, timeCostVec, false);
         [lerx.aeroLoads]    = aeroLoads_DUST   (lerx.designData, absVelocity, rhoInf, Sref, Cref, false);

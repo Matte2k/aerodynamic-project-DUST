@@ -18,7 +18,7 @@ penetration_avoidance_element_radius = 1.0
 ! - Wake parameters -
 n_wake_panels = 1
 n_wake_particles = 1000000
-autoscale_te = T
+autoscale_te = F
 
 
 ! VARIABLE TO ADD
