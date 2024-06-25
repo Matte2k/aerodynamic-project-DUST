@@ -1,5 +1,0 @@
-comp_name = wing
-geo_file = wing1.in
-ref_tag = Body
-
-file_name = geo_input.h5 

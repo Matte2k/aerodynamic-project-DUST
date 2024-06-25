@@ -1,6 +1,0 @@
-
-mesh_file = ./fuselage-mesh/fuselage_
-mesh_file_type = basic 
-el_type = p
-suppress_te = T
-scaling_factor = 0.001

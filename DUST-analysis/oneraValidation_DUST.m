@@ -46,12 +46,12 @@ wingConfig   = 'sym';               % 'right'     |   'left'    |   'sym'
 % Reference values:                 % Ma 0.3000   |   Ma 0.8395
 Sref   = 0.7586;      
 Cref   = 1;         
-PInf   = 12767;                     % 12767       |   99973.8
+PInf   = [];                     % 12767       |   99973.8
 rhoInf = 1.22498;  
 aInf   = 340.2966;                  % 340.2966    |   ___
 muInf  = [];
 betaDeg  = 0;
-absVelocity = 102.089;              % 102.089     |  285.679
+absVelocity = 285.679;              % 102.089     |  285.679
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory

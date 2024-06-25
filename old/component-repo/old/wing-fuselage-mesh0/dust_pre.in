@@ -1,9 +1,0 @@
-comp_name = right_wing
-geo_file = wing.in
-ref_tag =  wingRef
-
-comp_name = fuselage
-geo_file  = fuselage.in
-ref_tag   = fuselage
-
-file_name = geo_input.h5 

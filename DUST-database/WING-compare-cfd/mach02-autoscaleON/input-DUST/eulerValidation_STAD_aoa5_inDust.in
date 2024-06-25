@@ -1,0 +1,39 @@
+! PRESET FIXED INPUT
+! - Timings -
+tstart = 1.0
+tend = 1.4
+!tend = 1.03125   !for debug
+dt = 0.003125
+dt_out = 0.003125
+output_start = T
+
+! - Model parameters -
+fmm = F
+vortstretch = T
+diffusion = T
+penetration_avoidance = T
+penetration_avoidance_check_radius = 1.5
+penetration_avoidance_element_radius = 1.0
+
+! - Wake parameters -
+n_wake_panels = 1
+n_wake_particles = 1000000
+autoscale_te = T
+
+
+! VARIABLE TO ADD
+! geometry_file  = output from preFileMaker_DUST.m
+! reference_file = output from refFileMaker_DUST.m
+! u_inf          = output from computeVelVec.m
+! particles_box_min = (/%f,%f,%f/) output di computeWakeBox.m
+! particles_box_min = (/%f,%f,%f/) output di computeWakeBox.m
+
+
+! VARIABLE INPUT
+
+u_inf = (/67.7412, 0.0000, 5.9266/)
+particles_box_min = (/-5.000000,-10.000000,-10.000000/)
+particles_box_max = (/20.000000,10.000000,10.000000/)
+geometry_file = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geo_eulerValidation_STAD.h5
+reference_file = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/eulerValidation_STAD_inDustRef.in
+basename = /home/matteo/Documents/GitHub/aerodynamic-project-DUST/DUST-analysis/design-aircraft/output-DUST/eulerValidation_STAD_aoa5/run

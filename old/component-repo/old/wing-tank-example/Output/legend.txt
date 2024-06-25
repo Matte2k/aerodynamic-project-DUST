@@ -1,3 +1,0 @@
-standard: 	without additional input
-NP:		no penetration on
-SDP:		strech, diffusion and penetration on

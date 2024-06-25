@@ -1,6 +1,0 @@
-comp_name = left_wing
-geo_file = wing0.in
-ref_tag = Left
-
-file_name = geo_input.h5 
-

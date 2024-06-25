@@ -1,6 +1,0 @@
-comp_name = right_wing
-geo_file = wing.in
-ref_tag = 0
-
-file_name = geo_input.h5 
-

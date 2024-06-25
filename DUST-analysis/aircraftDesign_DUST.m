@@ -37,12 +37,13 @@ currentPath = pwd;
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
 %alphaDegVec = [-2.5 0.0 2.5 5.0 7.5 10.0 12.5 15.0]';      % stability setting
-%alphaDegVec = 15;                                          % debug setting
-alphaDegVec = [5 10 15]';
-configurationName = 'lerxDesign5_STAD';
+%alphaDegVec = 2;                                           % debug setting
+%alphaDegVec = [5 10 15]';
+alphaDegVec = [2 5 10]';
+configurationName = 'eulerValidation_STAD';
 
 % Wing geometry settings                        ---WING------------------------------------------
-wingOrigin   = [4.3679, 1.565, 0.1];
+wingOrigin   = [0, 0, 0];            %[4.3679, 1.565, 0.1];
 wingDesign   = 'wing3';                         %  'wing1'  |  can add more desing...
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
@@ -54,7 +55,7 @@ lerxOrigin   = [3.3913, 1.545, 0.1];
 lerxDesign   = 'lerx5';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
-lerxConfig   = 'sym';                          %  'none'   |   'right'  |   'left'  |   'sym'
+lerxConfig   = 'none';                          %  'none'   |   'right'  |   'left'  |   'sym'
 lerxChordRes = 5;
 
 % Vortex geometry settings                      ---VORTEX----------------------------------------
@@ -70,7 +71,7 @@ tailOrigin     = [8.9333, 1.005, 0.209330127];  % gap = 0.005
 tailDesign     = 'tail1';                       %  'tail1'      |   can add more desing...
 tailSymPoint   = [0 -tailOrigin(2) 0]';
 tailSymNorm    = [0 1 0]';
-tailConfig     = 'sym';                         %  'none'   |   'right'  |   'left'  |   'sym'
+tailConfig     = 'none';                         %  'none'   |   'right'  |   'left'  |   'sym'
 tailChordRes   = 15;
 tailEulerAngle = [0.0000, 0.0000, 60.00];
 
@@ -79,17 +80,17 @@ fuselageOrigin   = [0.0, 0.000, 0.0];
 fuselageDesign   = 'fuselage1';                 %  'fuselage1'  |   can add more desing...
 fuselageSymPoint = [0 -fuselageOrigin(2) 0];
 fuselageSymNorm  = [0 1 0];
-fuselageConfig   = 'sym';                       %  'none'    |   'right'  |   'left'  |   'sym'
+fuselageConfig   = 'none';                       %  'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
 Cref = 2.65;            % in the old sym was 5
-PInf = 20013.7;         % correct value should be: 57181.965... but to compare SU2 use 20013.7       
-rhoInf = 0.770153;      % correct value should be: 0.7708...    but to compare SU2 use 0.770153       
+PInf = 57181.965;       % correct value should be: 57181.965... but to compare SU2 use 20013.7       
+rhoInf = 1.225;         % correct value should be: 0.7708...    but to compare SU2 use 0.770153       
 betaDeg = 0;
-absVelocity = 161.204;  % correct value should be: 161.12...    but to compare SU2 use 161.204
-aInf  = 322.408;
-muInf = 3.43e-7;
+absVelocity = 68;       % correct value should be: 161.12...    but to compare SU2 use 161.204
+aInf  = [];
+muInf = [];             % previously was 1.642e-5 from openVSP
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
@@ -100,11 +101,12 @@ yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF','visual_lerxF'};   % if present can ADD: 'visual_lerxF'
-ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF',  'load_lerxF'  };   % if present can ADD: 'load_lerxF'
+ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF'};   % if present can ADD: 'visual_lerxF'
+ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF'};     % if present can ADD: 'load_lerxF'
 ppStability = {'load_aeroF'}';                                                     % only wing+tail, no lerx by default
-ppAnalysisList = [ppVisual,ppLoads,ppStability];
+%ppAnalysisList = [ppVisual,ppLoads,ppStability];
 %ppAnalysisList = {'visual_debug'};
+ppAnalysisList = {'visual_wingF','load_wingF','load_aeroF'};
 
 % Postprocessing settings:
 saveOutput = true;
