@@ -1,0 +1,25 @@
+! PRESET FIXED INPUT
+
+
+! VARIABLE TO ADD
+! comp_name = fuselage
+! geo_file = ./geometry-data/fuselage.in
+! ref_tag = Body
+!
+! comp_name = wing
+! geo_file  = output from wingFileMaker_DUST.m
+! ref_tag = Wing
+!
+! file_name = name defined INTERNALLY in preFileMaker_DUST.m
+
+
+! VARIABLE INPUT
+comp_name = wing_right
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/sensitivity-timestep/input-DUST/geometry-data/wingRight_tstep.in
+ref_tag = Wing
+comp_name = wing_left
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/sensitivity-timestep/input-DUST/geometry-data/wingLeft_tstep.in
+ref_tag = Wing
+! no fuselage geometry created
+
+file_name = geo_tstep.h5

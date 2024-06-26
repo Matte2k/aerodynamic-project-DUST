@@ -60,7 +60,7 @@ nexttile
     legend('CFD','DUST','AVL','XFLR5',location='southwest')
     xlabel('$\alpha$');      ylabel('$C_m$');
     
-set(m3,'units','centimeters','position',[0,0,30,9]);                 % TO BE SET
+set(m3,'units','centimeters','position',[0,0,30,9]);
 exportgraphics(m3,'figure\mach03_aeroloads.png','Resolution',1000);
 
 % figure("Name",'lift vs drag')
@@ -111,7 +111,7 @@ nexttile
     legend('CFD','DUST','AVL','XFLR5',location='southwest')
     xlabel('$\alpha$');      ylabel('$C_M$');
     
-set(m8,'units','centimeters','position',[0,0,30,9]);                 % TO BE SET
+set(m8,'units','centimeters','position',[0,0,30,9]); 
 exportgraphics(m8,'figure\mach08_aeroloads.png','Resolution',1000);
 
 % figure("Name",'lift vs drag')

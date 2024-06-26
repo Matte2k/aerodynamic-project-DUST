@@ -26,7 +26,7 @@
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
 
-clearvars;  close all;  clc
+clearvars;  %close all;  clc
 addpath(genpath("./src"));
 addpath(genpath("./design-aircraft"));
 currentPath = pwd;
@@ -36,14 +36,13 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = 2;
-%alphaDegVec = [5 10 15]';
-alphaDegVec = [2 5 10]';
-configurationName = 'eulerValidation_STAD';
+%alphaDegVec = 10;
+alphaDegVec = [0 5 10 15]';
+configurationName = 'eulerValidation_STAD_m03';
 
 % Wing geometry settings                        ---WING------------------------------------------
-wingOrigin   = [4.3679, 1.565, 0.1];            
-wingDesign   = 'wing3';                         %  'wing1'  |  can add more desing...
+wingOrigin   = [4.3679, 1.555, 0.1];
+wingDesign   = 'wing1';                         %  'wing1'  |  can add more desing...
 wingSymPoint = [0 -wingOrigin(2) 0];
 wingSymNorm  = [0 1 0];
 wingConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
@@ -54,7 +53,7 @@ lerxOrigin   = [3.3913, 1.545, 0.1];
 lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
-lerxConfig   = 'none';                          %  'none'   |   'right'  |   'left'  |   'sym'
+lerxConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
 lerxChordRes = 5;
 
 % Vortex geometry settings                      ---VORTEX----------------------------------------
@@ -84,15 +83,15 @@ fuselageConfig   = 'sym';                       %  'none'    |   'right'  |   'l
 % Reference values:
 Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
 Cref = 2.65;            
-PInf = [];              % correct value should be: 57181.965 at 15000ft and mach 0.5      
-rhoInf = 1.225;         % correct value should be: 0.7708 at 15000ft and mach 0.5       
+PInf = 57181.965;       % at 15000ft     
+rhoInf = 0.7708;        % at 15000ft
 betaDeg = 0;
-absVelocity = 68;       % correct value should be: 161.12 at 15000ft and mach 0.5   
-aInf  = [];             % correct value should be: 322.24 at 15000ft and mach 0.5   
-muInf = [];             % correct value should be: 1.642e-5 at 15000ft and mach 0.5   
+absVelocity = 96.672;   % at 15000ft and mach 0.3   
+aInf  = 322.24;         % at 15000ft
+muInf = 1.642e-5;       % at 15000ft  
 
 % DUST settings:
-runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory
+runDUST   = true ;                  % 'true' = run dust  |  'false' = use data already in memory
 clearData = true;                   % 'true' = clear current data  |  'false' = leaves old run data in memory
 xBoxStart = -5;
 xBoxEnd   = 20;
@@ -100,8 +99,8 @@ yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF'};   % if present can ADD: 'visual_lerxF'
-ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF'};     % if present can ADD: 'load_lerxF'
+ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF'};    % if present can ADD: 'visual_lerxF'
+ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF'};      % if present can ADD: 'load_lerxF'
 ppStability = {'load_aeroF'}';                                      % remember to add lerx if present
 ppAnalysisList = [ppVisual,ppLoads,ppStability];
 %ppAnalysisList = {'visual_debug'};

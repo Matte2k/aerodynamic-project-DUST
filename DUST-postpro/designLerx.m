@@ -20,10 +20,9 @@ cmap = cmap(1:length(alphaDegVec),:);
 
 % configuration without lerx
 [lerx0.wing,lerx0.tail,lerx0.fuselage] = dataParser_DUST(alphaDegVec,dataSubfolderName,'lerx0_aoa',reference);
-% [lerx0.wing] = meanAeroLoadsCorrector(lerx0.wing,reference,avgLoadIdx);
-% [lerx0.tail] = meanAeroLoadsCorrector(lerx0.tail,reference,avgLoadIdx);
-% [lerx0.lerx] = meanAeroLoadsCorrector(lerx0.lerx,reference,avgLoadIdx);
-% [lerx0.fuselage] = meanAeroLoadsCorrector(lerx0.fuselage,reference,avgLoadIdx);
+[lerx0.wing] = meanAeroLoadsCorrector(lerx0.wing,reference,avgLoadIdx);
+[lerx0.tail] = meanAeroLoadsCorrector(lerx0.tail,reference,avgLoadIdx);
+[lerx0.fuselage] = meanAeroLoadsCorrector(lerx0.fuselage,reference,avgLoadIdx);
 
 % Lerx 1
 [lerx1.wing,lerx1.tail,lerx1.fuselage,lerx1.lerx] = dataParser_DUST(alphaDegVec,dataSubfolderName,'lerx1_aoa',reference,lerxPart);

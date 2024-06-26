@@ -12,9 +12,9 @@ function [data] = outputCFD_wing_mach02()
 %                   - wing:     wing aerodynamic force and moment coefficient
 %
 %   NOTE:   all the data in this function has been reported manually from:
-%               > ./data/aircraft/mach-02/cfd/aoa2/lerx0_forces_breakdown.dat
-%               > ./data/aircraft/mach-02/cfd/aoa5/lerx0_forces_breakdown.dat
-%               > ./data/aircraft/mach-02/cfd/aoa10/lerx0_forces_breakdown.dat
+%               > ./data/wing/mach-02/cfd/aoa2/forces_breakdown.dat
+%               > ./data/wing/mach-02/cfd/aoa5/forces_breakdown.dat
+%               > ./data/wing/mach-02/cfd/aoa10/forces_breakdown.dat
 %           The current reference system directions are:
 %                   CURRENT REFERENCE: x-backward, y-right, z-up
 %

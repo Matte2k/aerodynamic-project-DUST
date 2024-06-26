@@ -26,7 +26,7 @@
 %                               Matteo Baio, Politecnico di Milano, 06/2024
 %
 
-clearvars;  close all;  clc
+clearvars;  %close all;  clc
 addpath(genpath("./src"));
 addpath(genpath("./sensitivity-gap"));
 currentPath = pwd;
@@ -53,15 +53,15 @@ fuselageSymNorm  = [0 1 0];
 fuselageConfig   = 'sym';                       % 'none'    |   'right'  |   'left'  |   'sym'
 
 % Reference values:
-Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
-Cref = 2.65;            % in the old sym was 5
-PInf = 57181.965;       
-rhoInf = 0.7708;        % in the old sym was 1.225
 alphaDeg = 5;
-betaDeg  = 0;
-absVelocity = 161.12;   % in the old sym was 50
-aInf  = 322.239;
-muInf = 3.43e-7;
+Sref = 26.56;           % symmetric wing = 26.56    |   half wing = 13.28
+Cref = 2.65;            
+PInf = 57181.965;       % at 15000ft     
+rhoInf = 0.7708;        % at 15000ft
+betaDeg = 0;
+absVelocity = 96.672;   % at 15000ft and mach 0.3   
+aInf  = 322.24;         % at 15000ft
+muInf = 1.642e-5;       % at 15000ft 
 
 % DUST settings:
 runDUST   = true;                   % 'true' = run dust  |  'false' = use data already in memory

@@ -1,0 +1,26 @@
+! PRESET FIXED INPUT
+reference_tag = Stability
+parent_tag = 0
+origin = (/5.9, 0.0, -0.5/)
+orientation = (/1.0,0.0,0.0, 0.0,1.0,0.0, 0.0,0.0,1.0/)
+multiple = F
+moving = F
+
+
+! VARIABLE TO ADD
+! reference_tag = Body
+! parent_tag = 0
+! origin = defined INTERNALLY in refFileMaker_DUST.m
+! orientation = defined INTERNALLY in refFileMaker_DUST.m
+! multiple = F
+! moving = F
+!
+! reference_tag = Wing
+! parent_tag = 0
+! origin = defined INTERNALLY in refFileMaker_DUST.m
+! orientation = defined INTERNALLY in refFileMaker_DUST.m
+! multiple = F
+! moving = F
+
+
+! VARIABLE INPUT

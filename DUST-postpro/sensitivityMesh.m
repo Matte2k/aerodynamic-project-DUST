@@ -56,7 +56,7 @@ nexttile(3);    % Fz
         legendCell{i} = sprintf('%s = %.4f',variableName,panelChord(i));
     end
     xlabel('$time$ [sec]');       ylabel('$F_{z}$ [N]');
-    ylim([5.5e4,8.5e4])
+    ylim([1.75e4,2.5e4])
 
 nexttile(6);    % My
     hold on;    grid minor;     axis padded;    box on;
@@ -65,7 +65,7 @@ nexttile(6);    % My
         legendCell{i} = sprintf('%s = %.4f',variableName,panelChord(i));
     end
     xlabel('$time$ [sec]');      ylabel('$M_{y}$ [N]');
-    ylim([2e5,3.5e5])
+    ylim([0.7e5,1e5])
     
 colormap(cmap)                              % apply colormap
 caxis([cbTicksPos(1),cbTicksPos(end)])      % to be changed in clim since Matlab R2022a
