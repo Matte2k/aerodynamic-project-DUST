@@ -36,9 +36,9 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = 10;
+%alphaDegVec = [0 5]';
 alphaDegVec = [0 5 10 15]';
-configurationName = 'eulerValidation_STAD_m03';
+configurationName = 'lerxDesign1_STAD_m03';
 
 % Wing geometry settings                        ---WING------------------------------------------
 wingOrigin   = [4.3679, 1.555, 0.1];
@@ -49,7 +49,7 @@ wingConfig   = 'sym';                           %  'none'   |   'right'  |   'le
 wingChordRes = 20;
 
 % Lerx geometry settings                        ---LERX------------------------------------------
-lerxOrigin   = [3.3913, 1.545, 0.1];
+lerxOrigin   = [3.3913, 1.545, 0.125];
 lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
@@ -99,9 +99,9 @@ yBoxLimit = 10;
 zBoxLimit = 10;
 
 %DUST_post settings:
-ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF'};    % if present can ADD: 'visual_lerxF'
-ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF'};      % if present can ADD: 'load_lerxF'
-ppStability = {'load_aeroF'}';                                      % remember to add lerx if present
+ppVisual    = {'visual_wingF','visual_tailF','visual_fuselageF','visual_lerxF'};    % if present can ADD: 'visual_lerxF'
+ppLoads     = {'load_wingF',  'load_tailF',  'load_fuselageF',  'load_lerxF'};      % if present can ADD: 'load_lerxF'
+ppStability = {'load_aeroF'}';                                                      % remember to add lerx if present
 ppAnalysisList = [ppVisual,ppLoads,ppStability];
 %ppAnalysisList = {'visual_debug'};
 
