@@ -22,9 +22,9 @@ function [data] = outputCFD_wing_mach02()
 %
        
     % wing loads
-    data.wing.Cl  = [ 0.061462,     0.000000,     0.264426];
-    data.wing.Cd  = [ 0.000764,     0.000000,     0.015777];
-    data.wing.Cm  = [-0.021703,     0.000000,    -0.075450];
+    data.wing.Cl  = [ 0.061462,     0.142055,     0.264426];
+    data.wing.Cd  = [ 0.000764,     0.003982,     0.015777];
+    data.wing.Cm  = [-0.021703,    -0.044092,    -0.075450];
     
 
 end

@@ -22,11 +22,13 @@ dataDUST.structLoads  = structLoads_box;    clear('structLoads_box');
 %% Plot
 
 % Plot variable initializaition
-timeStep     = cell2mat(dataDUST.rawRunData(:,5));
+boxLength     = cell2mat(dataDUST.rawRunData(:,5));
 variableName = 'Box length [m]';
-legendCell   = cell(length(timeStep),1);
-cmap = jet(numel(timeStep));      % discrete color map                     % TO BE SET
-    cbTicksCount = 1:length(timeStep);
+legendCell   = cell(length(boxLength),1);
+%cmap = jet(numel(boxLength));      % discrete color map                     % TO BE SET
+cmap = [0, 0.4470, 0.7410; 0.8500, 0.3250, 0.0980; 0.9290, 0.6940, 0.1250; 0.4940, 0.1840, 0.5560; 0.4660, 0.6740, 0.1880; 0.3010, 0.7450, 0.9330; 0.6350, 0.0780, 0.1840];
+cmap = cmap(1:length(boxLength),:);
+    cbTicksCount = 1:length(boxLength);
     cbTicksPos = [0.5, cbTicksCount, (cbTicksCount(end)+0.5)];
 
 % Figure init
@@ -38,7 +40,7 @@ tiledlayout(2,3)
 % timePlot = figure(Name='Cpu time');
 nexttile(1,[2 1])
 hold on;    grid minor;     axis padded;    box on;
-plot(timeStep,cell2mat(dataDUST.rawRunData(:,6)),'-o')
+plot(boxLength,cell2mat(dataDUST.rawRunData(:,6)),'-o')
 xlabel('$Domain$ $length$ [m]')
 ylabel('CPU $time$ [sec]')
 % set(timePlot,'units','centimeters','position',[0,0,10,9]);
@@ -50,18 +52,18 @@ ylabel('CPU $time$ [sec]')
 % tiledlayout(2,1);  
 nexttile(3);    % Fz
     hold on;    grid minor;     axis padded;    box on;
-    for i = 1:length(timeStep)
+    for i = 1:length(boxLength)
         plot(dataDUST.rawRunData{i,1}.time , dataDUST.rawRunData{i,1}.Fz,'Color',cmap(i,:));
-        legendCell{i} = sprintf('%s = %.4f',variableName,timeStep(i));
+        legendCell{i} = sprintf('%s = %.4f',variableName,boxLength(i));
     end
     xlabel('$time$ [sec]');       ylabel('$F_{z}$ [N]');
     ylim([6e4,8e4])
 
 nexttile(6);    % My
     hold on;    grid minor;     axis padded;    box on;
-    for i = 1:length(timeStep)
+    for i = 1:length(boxLength)
         plot(dataDUST.rawRunData{i,1}.time , dataDUST.rawRunData{i,1}.My,'Color',cmap(i,:));
-        legendCell{i} = sprintf('%s = %.4f',variableName,timeStep(i));
+        legendCell{i} = sprintf('%s = %.4f',variableName,boxLength(i));
     end
     xlabel('$time$ [sec]');      ylabel('$M_{y}$ [N]');
     ylim([-5e5,-3e5])
@@ -72,7 +74,7 @@ caxis([cbTicksPos(1),cbTicksPos(end)])      % to be changed in clim since Matlab
     cb.Label.Interpreter = 'latex';
     cb.Label.String = variableName;
     cb.Ticks = cbTicksPos;
-    cb.TickLabels = {'',num2str(timeStep),''};
+    cb.TickLabels = {'',num2str(boxLength),''};
     cb.Layout.Tile = 'east';
 set(cb,'TickLabelInterpreter','latex')
 % set(convergencePlot,'units','centimeters','position',[0,0,10,9]);
@@ -84,13 +86,13 @@ set(cb,'TickLabelInterpreter','latex')
 % tiledlayout(2,1);
 nexttile(2)    % Cz
     hold on;    grid minor;     axis padded;    box on;
-    plot(timeStep,dataDUST.structLoads.Cfz,'-o')
+    plot(boxLength,dataDUST.structLoads.Cfz,'-o')
     xlabel('$Domain$ $length$ [m]')
     ylabel('$C_z$')
 
 nexttile(5)    %Cm
     hold on;    grid minor;     axis padded;    box on;
-    plot(timeStep,dataDUST.structLoads.Cmy,'-o')
+    plot(boxLength,dataDUST.structLoads.Cmy,'-o')
     xlabel('$Domain$ $length$ [m]')
     ylabel('$C_m$')
 % set(adimensionalLoad,'units','centimeters','position',[0,0,10,9]);
