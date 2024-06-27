@@ -184,7 +184,10 @@ for i = 1:size(gapVector,1)
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
         reference_file = sprintf('reference_file = %s',refFilePath);
-        inDustVars  = {u_inf, wakeBox_min, wakeBox_max, geometry_file, reference_file};
+        inDustRefVars  = inDustRefInit(PInf,rhoInf,aInf,muInf);
+        inDustWakeVars = {wakeBox_min, wakeBox_max};
+        inDustGeomVars = {geometry_file, reference_file};
+        inDustVars = [u_inf,inDustRefVars,inDustWakeVars,inDustGeomVars];
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation

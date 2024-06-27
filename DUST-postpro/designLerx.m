@@ -6,11 +6,14 @@ initGraphic;
 
 %% Data import
 
-alphaDegVec  = [5 10 15]'; 
+% input
+alphaDegVec  = [0 5 10]'; 
 dataSubfolderName = 'lerx';
-lerxPart = true;
-[reference] = runReferenceValue(161.204, 0.770153, 2.65, 26.56);
+considerTail = false;
+[reference] = runReferenceValue(96.672, 0.770153, 2.65, 26.56);
 avgLoadIdx = 80;
+
+% variable init
 noLerxConfig = struct;
     noLerxConfig.wing = true;
     noLerxConfig.tail = true;
@@ -69,28 +72,55 @@ cmap = cmap(1:length(alphaDegVec),:);
 
 %%% Aerodynamic loads computation
 % Cl
-lerx0.aero.Cl = lerx0.wing.aeroLoads.Cl + lerx0.tail.aeroLoads.Cl;
-lerx1.aero.Cl = lerx1.wing.aeroLoads.Cl + lerx1.tail.aeroLoads.Cl + lerx1.lerx.aeroLoads.Cl;
-lerx2.aero.Cl = lerx2.wing.aeroLoads.Cl + lerx2.tail.aeroLoads.Cl + lerx2.lerx.aeroLoads.Cl;
-lerx3.aero.Cl = lerx3.wing.aeroLoads.Cl + lerx3.tail.aeroLoads.Cl + lerx3.lerx.aeroLoads.Cl;
-lerx4.aero.Cl = lerx4.wing.aeroLoads.Cl + lerx4.tail.aeroLoads.Cl + lerx4.lerx.aeroLoads.Cl;
-lerx5.aero.Cl = lerx5.wing.aeroLoads.Cl + lerx5.tail.aeroLoads.Cl + lerx5.lerx.aeroLoads.Cl;
+if considerTail == true
+    lerx0.aero.Cl = lerx0.wing.aeroLoads.Cl + lerx0.tail.aeroLoads.Cl;    % tail
+    lerx1.aero.Cl = lerx1.wing.aeroLoads.Cl + lerx1.tail.aeroLoads.Cl + lerx1.lerx.aeroLoads.Cl;
+    lerx2.aero.Cl = lerx2.wing.aeroLoads.Cl + lerx2.tail.aeroLoads.Cl + lerx2.lerx.aeroLoads.Cl;
+    lerx3.aero.Cl = lerx3.wing.aeroLoads.Cl + lerx3.tail.aeroLoads.Cl + lerx3.lerx.aeroLoads.Cl;
+    lerx4.aero.Cl = lerx4.wing.aeroLoads.Cl + lerx4.tail.aeroLoads.Cl + lerx4.lerx.aeroLoads.Cl;
+    lerx5.aero.Cl = lerx5.wing.aeroLoads.Cl + lerx5.tail.aeroLoads.Cl + lerx5.lerx.aeroLoads.Cl;
+else
+    lerx0.aero.Cl = lerx0.wing.aeroLoads.Cl;    % no tail
+    lerx1.aero.Cl = lerx1.wing.aeroLoads.Cl + lerx1.lerx.aeroLoads.Cl;
+    lerx2.aero.Cl = lerx2.wing.aeroLoads.Cl + lerx2.lerx.aeroLoads.Cl;
+    lerx3.aero.Cl = lerx3.wing.aeroLoads.Cl + lerx3.lerx.aeroLoads.Cl;
+    lerx4.aero.Cl = lerx4.wing.aeroLoads.Cl + lerx4.lerx.aeroLoads.Cl;
+    lerx5.aero.Cl = lerx5.wing.aeroLoads.Cl + lerx5.lerx.aeroLoads.Cl;
+end
 
 % Cm
-lerx0.aero.Cm = lerx0.wing.aeroLoads.Cm + lerx0.tail.aeroLoads.Cm;
-lerx1.aero.Cm = lerx1.wing.aeroLoads.Cm + lerx1.tail.aeroLoads.Cm + lerx1.lerx.aeroLoads.Cm;
-lerx2.aero.Cm = lerx2.wing.aeroLoads.Cm + lerx2.tail.aeroLoads.Cm + lerx2.lerx.aeroLoads.Cm;
-lerx3.aero.Cm = lerx3.wing.aeroLoads.Cm + lerx3.tail.aeroLoads.Cm + lerx3.lerx.aeroLoads.Cm;
-lerx4.aero.Cm = lerx4.wing.aeroLoads.Cm + lerx4.tail.aeroLoads.Cm + lerx4.lerx.aeroLoads.Cm;
-lerx5.aero.Cm = lerx5.wing.aeroLoads.Cm + lerx5.tail.aeroLoads.Cm + lerx5.lerx.aeroLoads.Cm;
+if considerTail == true
+    lerx0.aero.Cm = lerx0.wing.aeroLoads.Cm + lerx0.tail.aeroLoads.Cm;    % tail
+    lerx1.aero.Cm = lerx1.wing.aeroLoads.Cm + lerx1.tail.aeroLoads.Cm + lerx1.lerx.aeroLoads.Cm;
+    lerx2.aero.Cm = lerx2.wing.aeroLoads.Cm + lerx2.tail.aeroLoads.Cm + lerx2.lerx.aeroLoads.Cm;
+    lerx3.aero.Cm = lerx3.wing.aeroLoads.Cm + lerx3.tail.aeroLoads.Cm + lerx3.lerx.aeroLoads.Cm;
+    lerx4.aero.Cm = lerx4.wing.aeroLoads.Cm + lerx4.tail.aeroLoads.Cm + lerx4.lerx.aeroLoads.Cm;
+    lerx5.aero.Cm = lerx5.wing.aeroLoads.Cm + lerx5.tail.aeroLoads.Cm + lerx5.lerx.aeroLoads.Cm;
+else
+    lerx0.aero.Cm = lerx0.wing.aeroLoads.Cm;    % no tail
+    lerx1.aero.Cm = lerx1.wing.aeroLoads.Cm + lerx1.lerx.aeroLoads.Cm;
+    lerx2.aero.Cm = lerx2.wing.aeroLoads.Cm + lerx2.lerx.aeroLoads.Cm;
+    lerx3.aero.Cm = lerx3.wing.aeroLoads.Cm + lerx3.lerx.aeroLoads.Cm;
+    lerx4.aero.Cm = lerx4.wing.aeroLoads.Cm + lerx4.lerx.aeroLoads.Cm;
+    lerx5.aero.Cm = lerx5.wing.aeroLoads.Cm + lerx5.lerx.aeroLoads.Cm;
+end
 
 % Cd
-lerx0.aero.Cd = lerx0.wing.aeroLoads.Cd + lerx0.tail.aeroLoads.Cd;
-lerx1.aero.Cd = lerx1.wing.aeroLoads.Cd + lerx1.tail.aeroLoads.Cd + lerx1.lerx.aeroLoads.Cd;
-lerx2.aero.Cd = lerx2.wing.aeroLoads.Cd + lerx2.tail.aeroLoads.Cd + lerx2.lerx.aeroLoads.Cd;
-lerx3.aero.Cd = lerx3.wing.aeroLoads.Cd + lerx3.tail.aeroLoads.Cd + lerx3.lerx.aeroLoads.Cd;
-lerx4.aero.Cd = lerx4.wing.aeroLoads.Cd + lerx4.tail.aeroLoads.Cd + lerx4.lerx.aeroLoads.Cd;
-lerx5.aero.Cd = lerx5.wing.aeroLoads.Cd + lerx5.tail.aeroLoads.Cd + lerx5.lerx.aeroLoads.Cd;
+if considerTail == true
+    lerx0.aero.Cd = lerx0.wing.aeroLoads.Cd + lerx0.tail.aeroLoads.Cd;    % tail
+    lerx1.aero.Cd = lerx1.wing.aeroLoads.Cd + lerx1.tail.aeroLoads.Cd + lerx1.lerx.aeroLoads.Cd;
+    lerx2.aero.Cd = lerx2.wing.aeroLoads.Cd + lerx2.tail.aeroLoads.Cd + lerx2.lerx.aeroLoads.Cd;
+    lerx3.aero.Cd = lerx3.wing.aeroLoads.Cd + lerx3.tail.aeroLoads.Cd + lerx3.lerx.aeroLoads.Cd;
+    lerx4.aero.Cd = lerx4.wing.aeroLoads.Cd + lerx4.tail.aeroLoads.Cd + lerx4.lerx.aeroLoads.Cd;
+    lerx5.aero.Cd = lerx5.wing.aeroLoads.Cd + lerx5.tail.aeroLoads.Cd + lerx5.lerx.aeroLoads.Cd;
+else
+    lerx0.aero.Cd = lerx0.wing.aeroLoads.Cd;    % no tail
+    lerx1.aero.Cd = lerx1.wing.aeroLoads.Cd + lerx1.lerx.aeroLoads.Cd;
+    lerx2.aero.Cd = lerx2.wing.aeroLoads.Cd + lerx2.lerx.aeroLoads.Cd;
+    lerx3.aero.Cd = lerx3.wing.aeroLoads.Cd + lerx3.lerx.aeroLoads.Cd;
+    lerx4.aero.Cd = lerx4.wing.aeroLoads.Cd + lerx4.lerx.aeroLoads.Cd;
+    lerx5.aero.Cd = lerx5.wing.aeroLoads.Cd + lerx5.lerx.aeroLoads.Cd;
+end
 
 %%% Aerodynamic loads delta with lerx0 case
 % Cl
@@ -120,9 +150,16 @@ for i = 1:length(alphaDegVec)
     lerx1.convergence.Fx(:,i) = lerx1.tail.designData{i,1}.Fx + lerx1.wing.designData{i,1}.Fx + lerx1.lerx.designData{i,1}.Fx;
     lerx1.convergence.My(:,i) = lerx1.tail.designData{i,1}.My + lerx1.wing.designData{i,1}.My + lerx1.lerx.designData{i,1}.My;
 end
-lerx1.convegence.mFz = lerx1.wing.aeroLoads.Fz + lerx1.tail.aeroLoads.Fz + lerx1.lerx.aeroLoads.Fz;
-lerx1.convegence.mFx = lerx1.wing.aeroLoads.Fx + lerx1.tail.aeroLoads.Fx + lerx1.lerx.aeroLoads.Fx;
-lerx1.convegence.mMy = lerx1.wing.aeroLoads.My + lerx1.tail.aeroLoads.My + lerx1.lerx.aeroLoads.My;
+if considerTail == true
+    lerx1.convegence.mFz = lerx1.wing.aeroLoads.Fz + lerx1.tail.aeroLoads.Fz + lerx1.lerx.aeroLoads.Fz;
+    lerx1.convegence.mFx = lerx1.wing.aeroLoads.Fx + lerx1.tail.aeroLoads.Fx + lerx1.lerx.aeroLoads.Fx;
+    lerx1.convegence.mMy = lerx1.wing.aeroLoads.My + lerx1.tail.aeroLoads.My + lerx1.lerx.aeroLoads.My;
+else
+    lerx1.convegence.mFz = lerx1.wing.aeroLoads.Fz + lerx1.lerx.aeroLoads.Fz;
+    lerx1.convegence.mFx = lerx1.wing.aeroLoads.Fx + lerx1.lerx.aeroLoads.Fx;
+    lerx1.convegence.mMy = lerx1.wing.aeroLoads.My + lerx1.lerx.aeroLoads.My;
+end
+
 
 
 %% Convergence plot (for lerx1)
@@ -166,7 +203,7 @@ caxis([cbTicksPos(1),cbTicksPos(end)])      % to be changed in clim since Matlab
     cb.Layout.Tile = 'east';
 set(cb,'TickLabelInterpreter','latex')
 set(convergencePlot,'units','centimeters','position',[0,0,30,10]);
-% exportgraphics(convergencePlot,'figure\lerx1_convergence.png','Resolution',1000);
+exportgraphics(convergencePlot,'figure\lerx1_convergence.png','Resolution',1000);
 
 
 %% Chord iteration - plot
@@ -182,7 +219,7 @@ nexttile(1)     % Cl
     plot(alphaDegVec, lerx3.aero.Cl,'-o')
     plot(alphaDegVec, lerx0.aero.Cl,'-o')
     xlabel('$\alpha$ [deg]');       ylabel('$C_L$');
-    legend('chord long','chord mid','chord short','no lerx',Location='best');
+    legend('chord long','chord mid','chord short','no lerx',Location='northwest');
 
 nexttile(2)     % Cd
     grid minor; hold on; axis padded; box on;
@@ -191,7 +228,7 @@ nexttile(2)     % Cd
     plot(alphaDegVec, lerx3.aero.Cd,'-o')
     plot(alphaDegVec, lerx0.aero.Cd,'-o')
     xlabel('$\alpha$ [deg]');       ylabel('$C_D$');
-    legend('chord long','chord mid','chord short','no lerx',Location='best');
+    legend('chord long','chord mid','chord short','no lerx',Location='northwest');
 
 nexttile(3)     % Cm
     grid minor; hold on; axis padded; box on;
@@ -200,10 +237,10 @@ nexttile(3)     % Cm
     plot(alphaDegVec, lerx3.aero.Cm,'-o')
     plot(alphaDegVec, lerx0.aero.Cm,'-o')
     xlabel('$\alpha$ [deg]');       ylabel('$C_M$');
-    legend('chord long','chord mid','chord short','no lerx',Location='best');
+    legend('chord long','chord mid','chord short','no lerx',Location='southwest');
 
 set(integralAeroLoadsChords,'units','centimeters','position',[0,0,30,10]);
-% exportgraphics(integralAeroLoadsChords,'figure\box_convergence.png','Resolution',1000);
+exportgraphics(integralAeroLoadsChords,'figure\lerxLoadsValue_chord.png','Resolution',1000);
 
 
 %%% Integral loads difference compare
@@ -215,27 +252,27 @@ nexttile(1)     % Cl
     plot(alphaDegVec, lerx1.aero.dCl,'-o')
     plot(alphaDegVec, lerx2.aero.dCl,'-o')
     plot(alphaDegVec, lerx3.aero.dCl,'-o')
-    xlabel('$\alpha$ [deg]');       ylabel('$C_L$');
-    legend('chord long','chord mid','chord short',Location='best');
+    xlabel('$\alpha$ [deg]');       ylabel('$\Delta$ $C_L$');
+    legend('chord long','chord mid','chord short',Location='northwest');
 
 nexttile(2)     % Cd
     grid minor; hold on; axis padded; box on;
     plot(alphaDegVec, lerx1.aero.dCd,'-o')
     plot(alphaDegVec, lerx2.aero.dCd,'-o')
     plot(alphaDegVec, lerx3.aero.dCd,'-o')
-    xlabel('$\alpha$ [deg]');       ylabel('$C_D$');
-    legend('chord long','chord mid','chord short',Location='best');
+    xlabel('$\alpha$ [deg]');       ylabel('$\Delta$ $C_D$');
+    legend('chord long','chord mid','chord short',Location='northwest');
 
 nexttile(3)     % Cm
     grid minor; hold on; axis padded; box on;
     plot(alphaDegVec, lerx1.aero.dCm,'-o')
     plot(alphaDegVec, lerx2.aero.dCm,'-o')
     plot(alphaDegVec, lerx3.aero.dCm,'-o')
-    xlabel('$\alpha$ [deg]');       ylabel('$C_M$');
-    legend('chord long','chord mid','chord short',Location='best');
+    xlabel('$\alpha$ [deg]');       ylabel('$\Delta$ $C_M$');
+    legend('chord long','chord mid','chord short',Location='northwest');
 
 set(integralAeroLoadsChords,'units','centimeters','position',[0,0,30,10]);
-% exportgraphics(integralAeroLoadsChords,'figure\box_convergence.png','Resolution',1000);
+exportgraphics(integralAeroLoadsChords,'figure\lerxLoadsDiff_chord.png','Resolution',1000);
 
 
 
@@ -252,7 +289,7 @@ nexttile(1)     % Cl
     plot(alphaDegVec, lerx5.aero.Cl,'-o')
     plot(alphaDegVec, lerx0.aero.Cl,'-o')
     xlabel('$\alpha$ [deg]');       ylabel('$C_L$');
-    legend('sweep 70','sweep 65','sweep 75','no lerx',Location='best');
+    legend('sweep 70','sweep 65','sweep 75','no lerx',Location='northwest');
 
 nexttile(2)     % Cd
     grid minor; hold on; axis padded; box on;
@@ -261,7 +298,7 @@ nexttile(2)     % Cd
     plot(alphaDegVec, lerx5.aero.Cd,'-o')
     plot(alphaDegVec, lerx0.aero.Cd,'-o')
     xlabel('$\alpha$ [deg]');       ylabel('$C_D$');
-    legend('sweep 70','sweep 65','sweep 75','no lerx',Location='best');
+    legend('sweep 70','sweep 65','sweep 75','no lerx',Location='northwest');
 
 nexttile(3)     % Cm
     grid minor; hold on; axis padded; box on;
@@ -270,14 +307,14 @@ nexttile(3)     % Cm
     plot(alphaDegVec, lerx5.aero.Cm,'-o')
     plot(alphaDegVec, lerx0.aero.Cm,'-o')
     xlabel('$\alpha$ [deg]');       ylabel('$C_M$');
-    legend('sweep 70','sweep 65','sweep 75','no lerx',Location='best');
+    legend('sweep 70','sweep 65','sweep 75','no lerx',Location='southwest');
 
 set(integralAeroLoadsChords,'units','centimeters','position',[0,0,30,10]);
-% exportgraphics(integralAeroLoadsChords,'figure\box_convergence.png','Resolution',1000);
+exportgraphics(integralAeroLoadsChords,'figure\lerxLoadsValue_sweep.png','Resolution',1000);
 
 
 %%% Integral loads difference compare
-integralAeroLoadsChords = figure(Name='Integral loads difference vs chord');
+integralAeroLoadsChords = figure(Name='Integral loads difference vs sweep');
 tiledlayout(1,3);
 
 nexttile(1)     % Cl
@@ -285,26 +322,26 @@ nexttile(1)     % Cl
     plot(alphaDegVec, lerx1.aero.dCl,'-o')
     plot(alphaDegVec, lerx4.aero.dCl,'-o')
     plot(alphaDegVec, lerx5.aero.dCl,'-o')
-    xlabel('$\alpha$ [deg]');       ylabel('$C_L$');
-    legend('sweep 70','sweep 65','sweep 75',Location='best');
+    xlabel('$\alpha$ [deg]');       ylabel('$\Delta$ $C_L$');
+    legend('sweep 70','sweep 65','sweep 75',Location='northwest');
 
 nexttile(2)     % Cd
     grid minor; hold on; axis padded; box on;
     plot(alphaDegVec, lerx1.aero.dCd,'-o')
     plot(alphaDegVec, lerx4.aero.dCd,'-o')
     plot(alphaDegVec, lerx5.aero.dCd,'-o')
-    xlabel('$\alpha$ [deg]');       ylabel('$C_D$');
-    legend('sweep 70','sweep 65','sweep 75',Location='best');
+    xlabel('$\alpha$ [deg]');       ylabel('$\Delta$ $C_D$');
+    legend('sweep 70','sweep 65','sweep 75',Location='northwest');
 
 nexttile(3)     % Cm
     grid minor; hold on; axis padded; box on;
     plot(alphaDegVec, lerx1.aero.dCm,'-o')
     plot(alphaDegVec, lerx4.aero.dCm,'-o')
     plot(alphaDegVec, lerx5.aero.dCm,'-o')
-    xlabel('$\alpha$ [deg]');       ylabel('$C_M$');
-    legend('sweep 70','sweep 65','sweep 75',Location='best');
+    xlabel('$\alpha$ [deg]');       ylabel('$\Delta$ $C_M$');
+    legend('sweep 70','sweep 65','sweep 75',Location='northwest');
 
 set(integralAeroLoadsChords,'units','centimeters','position',[0,0,30,10]);
-% exportgraphics(integralAeroLoadsChords,'figure\box_convergence.png','Resolution',1000);
+exportgraphics(integralAeroLoadsChords,'figure\lerxLoadsDiff_sweep.png','Resolution',1000);
 
 

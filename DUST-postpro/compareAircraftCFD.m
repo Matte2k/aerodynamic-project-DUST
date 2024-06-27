@@ -142,6 +142,7 @@ set(aircraftLoads,'units','centimeters','position',[0,0,30,9]);
 exportgraphics(aircraftLoads,'figure\mach03_aircraftLoads.png','Resolution',1000);
 % -------------------------------------------
 
+return
 
 %% Aircraft loads @MACH 05
 clearvars;

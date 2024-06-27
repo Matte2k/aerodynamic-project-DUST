@@ -195,9 +195,11 @@ for i = 1:size(tstepVector,1)
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
         reference_file = sprintf('reference_file = %s',refFilePath);
         inDustTimeVars = inDustTimeInit(tstepVector(i),tlimit);
+        inDustRefVars  = inDustRefInit(PInf,rhoInf,aInf,muInf);
         inDustWakeVars = {wakeBox_min, wakeBox_max};
         inDustGeomVars = {geometry_file, reference_file};
-        inDustVars = [inDustTimeVars,u_inf,inDustWakeVars,inDustGeomVars];
+        inDustVars = [inDustTimeVars,u_inf,inDustRefVars,inDustWakeVars,inDustGeomVars];
+
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation

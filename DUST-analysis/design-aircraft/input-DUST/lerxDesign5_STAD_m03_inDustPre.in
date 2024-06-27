@@ -1,0 +1,43 @@
+! PRESET FIXED INPUT
+
+
+! VARIABLE TO ADD
+! comp_name = fuselage
+! geo_file = ./geometry-data/fuselage.in
+! ref_tag = Body
+!
+! comp_name = wing
+! geo_file  = output from wingFileMaker_DUST.m
+! ref_tag = Wing
+!
+! file_name = name defined INTERNALLY in preFileMaker_DUST.m
+
+
+! VARIABLE INPUT
+comp_name = wing_right
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/wingRight_aoa.in
+ref_tag = Wing
+comp_name = wing_left
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/wingLeft_aoa.in
+ref_tag = Wing
+comp_name = lerx_right
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/lerxRight_aoa.in
+ref_tag = Lerx
+comp_name = lerx_left
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/lerxLeft_aoa.in
+ref_tag = Lerx
+! no vortex geometry created
+comp_name = tail_right
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/tailRight_aoa.in
+ref_tag = Tail
+comp_name = tail_left
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/tailLeft_aoa.in
+ref_tag = Tail
+comp_name = fuselage_right
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/fuselageRight_aoa.in
+ref_tag = Body
+comp_name = fuselage_left
+geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/fuselageLeft_aoa.in
+ref_tag = Body
+
+file_name = geo_lerxDesign5_STAD_m03.h5

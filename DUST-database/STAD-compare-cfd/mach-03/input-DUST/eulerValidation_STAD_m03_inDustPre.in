@@ -20,12 +20,7 @@ ref_tag = Wing
 comp_name = wing_left
 geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/wingLeft_aoa.in
 ref_tag = Wing
-comp_name = lerx_right
-geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/lerxRight_aoa.in
-ref_tag = Lerx
-comp_name = lerx_left
-geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/lerxLeft_aoa.in
-ref_tag = Lerx
+! no lerx geometry created
 ! no vortex geometry created
 comp_name = tail_right
 geo_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geometry-data/tailRight_aoa.in

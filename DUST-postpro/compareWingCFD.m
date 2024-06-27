@@ -126,6 +126,7 @@ set(wingLoads,'units','centimeters','position',[0,0,30,9]);
 exportgraphics(wingLoads,'figure\mach03_wingLoads.png','Resolution',1000);
 % -------------------------------------------
 
+return
 
 %% Wing loads @MACH 05
 clearvars;

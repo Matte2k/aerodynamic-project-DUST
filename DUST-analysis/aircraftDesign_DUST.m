@@ -36,9 +36,8 @@ currentPath = pwd;
 
 % Parametric analysis input:                    # possible input for different preset: #
 analysisName = 'aoa';
-%alphaDegVec = [0 5]';
 alphaDegVec = [0 5 10 15]';
-configurationName = 'lerxDesign1_STAD_m03';
+configurationName = 'lerxDesign5_STAD_m03';
 
 % Wing geometry settings                        ---WING------------------------------------------
 wingOrigin   = [4.3679, 1.555, 0.1];
@@ -50,7 +49,7 @@ wingChordRes = 20;
 
 % Lerx geometry settings                        ---LERX------------------------------------------
 lerxOrigin   = [3.3913, 1.545, 0.125];
-lerxDesign   = 'lerx1';                         %  'lerx1'      |   can add more desing...
+lerxDesign   = 'lerx5';                         %  'lerx1'      |   can add more desing...
 lerxSymPoint = [0 -lerxOrigin(2) 0];
 lerxSymNorm  = [0 1 0];
 lerxConfig   = 'sym';                           %  'none'   |   'right'  |   'left'  |   'sym'
@@ -341,7 +340,10 @@ for i = 1:size(alphaDegVec,1)
         % Dust.in generation
         geometry_file  = sprintf('geometry_file = %s', modelFilePath);
         reference_file = sprintf('reference_file = %s',refFilePath);
-        inDustVars  = {u_inf{i}, wakeBox_min, wakeBox_max, geometry_file, reference_file};
+        inDustRefVars  = inDustRefInit(PInf,rhoInf,aInf,muInf);
+        inDustWakeVars = {wakeBox_min, wakeBox_max};
+        inDustGeomVars = {geometry_file, reference_file};
+        inDustVars = [u_inf{i},inDustRefVars,inDustWakeVars,inDustGeomVars];
         [dustFilePath,outputPath] = inputFileMaker_DUST(inDustVars,runNameCell{i});
 
         % Dust_post.in generation

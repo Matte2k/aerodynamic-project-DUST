@@ -32,6 +32,10 @@ autoscale_te = F
 ! VARIABLE INPUT
 
 u_inf = (/96.3041, 0.0000, 8.4255/)
+P_inf = 57181.965000
+rho_inf = 0.770800
+a_inf = 322.240000
+mu_inf = 0.000016
 particles_box_min = (/-5.000000,-10.000000,-10.000000/)
 particles_box_max = (/20.000000,10.000000,10.000000/)
 geometry_file = /home/matteo/Git/aerodynamic-project-DUST/DUST-analysis/design-aircraft/input-DUST/geo_eulerValidation_STAD_m03.h5
