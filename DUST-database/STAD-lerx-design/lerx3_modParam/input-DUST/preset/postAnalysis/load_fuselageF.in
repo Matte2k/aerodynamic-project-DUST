@@ -1,0 +1,13 @@
+analysis = {
+  type = integral_loads
+  name = loadsFuselage
+  start_res = 1 
+  end_res   = 129
+  step_res  = 1
+  format    = dat
+
+  component = fuselage_right
+  component = fuselage_left
+  reference_tag = Stability
+
+}

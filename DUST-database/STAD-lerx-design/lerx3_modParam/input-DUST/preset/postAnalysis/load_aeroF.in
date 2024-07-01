@@ -1,0 +1,20 @@
+analysis = {
+  type = integral_loads
+  name = loadsAero
+  start_res = 1 
+  end_res   = 129
+  step_res  = 1
+  format    = dat
+
+  component = wing_right
+  component = wing_left
+  component = tail_right
+  component = tail_left
+  
+  ! uncomment to add lerx if present
+  component = lerx_right
+  component = lerx_left
+  
+  reference_tag = Stability
+
+}
