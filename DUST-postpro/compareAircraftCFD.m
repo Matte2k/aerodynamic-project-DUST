@@ -12,7 +12,8 @@ clearvars;
 alphaDegVec  = [2 5 10]'; 
 dataSubfolderName = 'aircraft/mach-02';
 variableName = 'aoa';
-avgLoadIdx = 80;
+avgLoadIdx = 100;
+considerTail = false;
 components = struct;
     components.wing = true;
     components.tail = true;
@@ -33,12 +34,21 @@ components = struct;
 
 
 %%% Aerodynamic surface loads computation
-dust.aero.Cl = dust.wing.aeroLoads.Cl + dust.tail.aeroLoads.Cl;
-dust.aero.Cm = dust.wing.aeroLoads.Cm + dust.tail.aeroLoads.Cm;
-dust.aero.Cd = dust.wing.aeroLoads.Cd + dust.tail.aeroLoads.Cd;
-cfd.aero.Cl  = cfd.wing.Cl + cfd.tail.Cl;
-cfd.aero.Cd  = cfd.wing.Cd + cfd.tail.Cd;
-cfd.aero.Cm  = cfd.wing.Cm + cfd.tail.Cm;
+if considerTail == true
+    dust.aero.Cl = dust.wing.aeroLoads.Cl + dust.tail.aeroLoads.Cl;
+    dust.aero.Cm = dust.wing.aeroLoads.Cm + dust.tail.aeroLoads.Cm;
+    dust.aero.Cd = dust.wing.aeroLoads.Cd + dust.tail.aeroLoads.Cd;
+    cfd.aero.Cl  = cfd.wing.Cl + cfd.tail.Cl;
+    cfd.aero.Cd  = cfd.wing.Cd + cfd.tail.Cd;
+    cfd.aero.Cm  = cfd.wing.Cm + cfd.tail.Cm;
+else
+    dust.aero.Cl = dust.wing.aeroLoads.Cl;
+    dust.aero.Cm = dust.wing.aeroLoads.Cm;
+    dust.aero.Cd = dust.wing.aeroLoads.Cd;
+    cfd.aero.Cl  = cfd.wing.Cl;
+    cfd.aero.Cd  = cfd.wing.Cd;
+    cfd.aero.Cm  = cfd.wing.Cm;
+end
 
 
 %%% Aerodynamic surface loads plot
@@ -82,6 +92,7 @@ alphaDegVec  = [0 5 10 15]';
 dataSubfolderName = 'aircraft/mach-03';
 variableName = 'aoa';
 avgLoadIdx = 90;
+considerTail = false;
 components = struct;
     components.wing = true;
     components.tail = true;
@@ -102,12 +113,21 @@ components = struct;
 
 
 %%% Aerodynamic surface loads computation
-dust.aero.Cl = dust.wing.aeroLoads.Cl + dust.tail.aeroLoads.Cl;
-dust.aero.Cm = dust.wing.aeroLoads.Cm + dust.tail.aeroLoads.Cm;
-dust.aero.Cd = dust.wing.aeroLoads.Cd + dust.tail.aeroLoads.Cd;
-cfd.aero.Cl  = cfd.wing.Cl + cfd.tail.Cl;
-cfd.aero.Cd  = cfd.wing.Cd + cfd.tail.Cd;
-cfd.aero.Cm  = cfd.wing.Cm + cfd.tail.Cm;
+if considerTail == true
+    dust.aero.Cl = dust.wing.aeroLoads.Cl + dust.tail.aeroLoads.Cl;
+    dust.aero.Cm = dust.wing.aeroLoads.Cm + dust.tail.aeroLoads.Cm;
+    dust.aero.Cd = dust.wing.aeroLoads.Cd + dust.tail.aeroLoads.Cd;
+    cfd.aero.Cl  = cfd.wing.Cl + cfd.tail.Cl;
+    cfd.aero.Cd  = cfd.wing.Cd + cfd.tail.Cd;
+    cfd.aero.Cm  = cfd.wing.Cm + cfd.tail.Cm;
+else
+    dust.aero.Cl = dust.wing.aeroLoads.Cl;
+    dust.aero.Cm = dust.wing.aeroLoads.Cm;
+    dust.aero.Cd = dust.wing.aeroLoads.Cd;
+    cfd.aero.Cl  = cfd.wing.Cl;
+    cfd.aero.Cd  = cfd.wing.Cd;
+    cfd.aero.Cm  = cfd.wing.Cm;
+end
 
 
 %%% Aerodynamic surface loads plot
@@ -117,7 +137,7 @@ tiledlayout(1,3)
 nexttile    % Cl
     hold on;    grid minor;    axis padded;    box on;
     plot(alphaDegVec, dust.aero.Cl,'-o');
-    plot(alphaDegVec, cfd.aero.Cl,'-o');
+    plot(alphaDegVec, cfd.aero.Cl(1:length(alphaDegVec)),'-o');
     legend('DUST','SU2',location='northwest')
     xlabel('$${\alpha}$$',interpreter='latex')
     ylabel('$$C_L$$',interpreter='latex')
@@ -125,7 +145,7 @@ nexttile    % Cl
 nexttile    % Cd
     hold on;    grid minor;    axis padded;    box on;
     plot(alphaDegVec, dust.aero.Cd,'-o');
-    plot(alphaDegVec, cfd.aero.Cd,'-o');
+    plot(alphaDegVec, cfd.aero.Cd(1:length(alphaDegVec)),'-o');
     legend('DUST','SU2',location='northwest')
     xlabel('$${\alpha}$$',interpreter='latex')
     ylabel('$$C_D$$',interpreter='latex')
@@ -133,7 +153,7 @@ nexttile    % Cd
 nexttile    % Cm
     hold on;    grid minor;    axis padded;    box on;
     plot(alphaDegVec, dust.aero.Cm,'-o');
-    plot(alphaDegVec, cfd.aero.Cm,'-o');
+    plot(alphaDegVec, cfd.aero.Cm(1:length(alphaDegVec)),'-o');
     legend('DUST','SU2',location='southwest')
     xlabel('$${\alpha}$$',interpreter='latex')
     ylabel('$$C_M$$',interpreter='latex')

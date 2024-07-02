@@ -7,11 +7,11 @@ initGraphic;
 %% Data import
 
 % input
-alphaDegVec  = [0 5 10 15]'; 
+alphaDegVec  = [0 5 10]'; 
 dataSubfolderName = 'lerx';
-considerTail = true;
+considerTail = 0;
 [reference] = runReferenceValue(96.672, 0.770153, 2.65, 26.56);
-avgLoadIdx = 110;
+avgLoadIdx = 100;
 
 % variable init
 noLerxConfig = struct;

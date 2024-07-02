@@ -1,0 +1,36 @@
+! CONFIG INPUT
+mesh_file_type = parametric
+el_type = v
+
+type_chord = uniform
+starting_point = (/0.432744,0.0,0.0/)   ! set x gap from air intake
+reference_chord_fraction = 0.0
+scale_te = 0.3
+nelem_chord = 3
+
+! Inner wing
+chord = 0.472743
+twist = 0.0		
+airfoil = NACA0012
+
+! Section1-Section2 region
+span = 0.23724   
+sweep = 70.0         
+dihed = 0.0          
+nelem_span = 5     
+type_span = uniform 
+
+! Section1
+chord = 0.020
+twist = 0.0		
+airfoil = NACA0012
+
+
+! VARIABLE TO ADD
+! nelem_chord = defined in design-aircraft
+! mesh_mirror = F for right wing and T for left wing
+! mirror_point  = defiend in lerxFileMaker_DUST.m
+! mirror_normal = defiend in lerxFileMaker_DUST.m
+
+! VARIABLE INPUT
+! nelem_chord already set
