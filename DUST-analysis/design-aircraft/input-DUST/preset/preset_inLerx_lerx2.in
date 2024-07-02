@@ -6,6 +6,7 @@ type_chord = uniform
 starting_point = (/0.216372,0.0,0.0/)   ! set x gap from air intake
 reference_chord_fraction = 0.0
 scale_te = 0.3
+nelem_chord = 4
 
 ! Inner wing
 chord = 0.689115

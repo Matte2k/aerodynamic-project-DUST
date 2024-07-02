@@ -6,6 +6,7 @@ type_chord = uniform
 starting_point = (/0.001,0.0,0.0/)   ! set x gap from air intake
 reference_chord_fraction = 0.0
 scale_te = 0.3
+nelem_chord = 5
 
 ! Inner wing
 chord = 0.905387
@@ -16,7 +17,7 @@ airfoil = NACA0012
 span = 0.463947   
 sweep = 70.0         
 dihed = 0.0          
-nelem_span = 8       
+nelem_span = 9       
 type_span = uniform 
 
 ! Section1

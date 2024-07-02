@@ -1,0 +1,34 @@
+! CONFIG INPUT
+mesh_file_type = parametric
+el_type = p
+
+type_chord = cosineLE
+starting_point = (/0.0,0.0,0.0/)
+reference_chord_fraction = 0.0
+
+! Inner wing
+chord = 2.4
+twist = 0.0
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_65A006.dat
+
+! Section1-Section2 region
+span = 1.92768      
+sweep = 40.0         
+dihed = 0.0          
+nelem_span = 20      
+type_span = uniform 
+
+! Section1
+chord = 0.96
+twist = 0.0		
+airfoil = ./geometry-data/airfoil-lib/DUST-NACA_65A006.dat
+
+
+! VARIABLE TO ADD
+! nelem_chord = defined in design-aircraft
+! mesh_mirror = F for right wing and T for left wing
+! mirror_point  = defiend in tailFileMaker_DUST.m
+! mirror_normal = defiend in tailFileMaker_DUST.m
+
+! VARIABLE INPUT
+nelem_chord = 15

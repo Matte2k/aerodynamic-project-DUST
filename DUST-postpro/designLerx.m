@@ -7,11 +7,11 @@ initGraphic;
 %% Data import
 
 % input
-alphaDegVec  = [0 5 10]'; 
+alphaDegVec  = [0 5 10 15]'; 
 dataSubfolderName = 'lerx';
-considerTail = false;
+considerTail = true;
 [reference] = runReferenceValue(96.672, 0.770153, 2.65, 26.56);
-avgLoadIdx = 80;
+avgLoadIdx = 110;
 
 % variable init
 noLerxConfig = struct;
@@ -146,9 +146,15 @@ lerx5.aero.dCm = lerx5.aero.Cm - lerx0.aero.Cm;
 
 %%% Convergence data on lerx1
 for i = 1:length(alphaDegVec)
-    lerx1.convergence.Fz(:,i) = lerx1.tail.designData{i,1}.Fz + lerx1.wing.designData{i,1}.Fz + lerx1.lerx.designData{i,1}.Fz;
-    lerx1.convergence.Fx(:,i) = lerx1.tail.designData{i,1}.Fx + lerx1.wing.designData{i,1}.Fx + lerx1.lerx.designData{i,1}.Fx;
-    lerx1.convergence.My(:,i) = lerx1.tail.designData{i,1}.My + lerx1.wing.designData{i,1}.My + lerx1.lerx.designData{i,1}.My;
+    if considerTail == true
+        lerx1.convergence.Fz(:,i) = lerx1.tail.designData{i,1}.Fz + lerx1.wing.designData{i,1}.Fz + lerx1.lerx.designData{i,1}.Fz;
+        lerx1.convergence.Fx(:,i) = lerx1.tail.designData{i,1}.Fx + lerx1.wing.designData{i,1}.Fx + lerx1.lerx.designData{i,1}.Fx;
+        lerx1.convergence.My(:,i) = lerx1.tail.designData{i,1}.My + lerx1.wing.designData{i,1}.My + lerx1.lerx.designData{i,1}.My;
+    else
+        lerx1.convergence.Fz(:,i) = lerx1.wing.designData{i,1}.Fz + lerx1.lerx.designData{i,1}.Fz;
+        lerx1.convergence.Fx(:,i) = lerx1.wing.designData{i,1}.Fx + lerx1.lerx.designData{i,1}.Fx;
+        lerx1.convergence.My(:,i) = lerx1.wing.designData{i,1}.My + lerx1.lerx.designData{i,1}.My;
+    end
 end
 if considerTail == true
     lerx1.convegence.mFz = lerx1.wing.aeroLoads.Fz + lerx1.tail.aeroLoads.Fz + lerx1.lerx.aeroLoads.Fz;
@@ -173,7 +179,7 @@ nexttile(1);    % Fz
         yline(lerx1.convegence.mFz(i),'--','Color',cmap(i,:))
     end
     xlabel('$time$ [sec]');       ylabel('$F_{z}$ [N]');
-    %ylim([0e4,2e4])
+    ylim([-1e4,6e4])
 
 nexttile(2);    % Fx
     hold on;    grid minor;     axis padded;    box on;
@@ -182,7 +188,7 @@ nexttile(2);    % Fx
         yline(lerx1.convegence.mFx(i),'--','Color',cmap(i,:))
     end
     xlabel('$time$ [sec]');      ylabel('$F_{x}$ [N]');
-    %ylim([-1e5,0e5])
+    ylim([-1.5e4,2e3])
 
 nexttile(3);    % My
     hold on;    grid minor;     axis padded;    box on;
@@ -191,7 +197,7 @@ nexttile(3);    % My
         yline(lerx1.convegence.mMy(i),'--','Color',cmap(i,:))
     end
     xlabel('$time$ [sec]');      ylabel('$M_{y}$ [N]');
-    %ylim([-1e5,0e5])
+    ylim([-4e4,0.5e4])
     
 colormap(cmap)                              % apply colormap
 caxis([cbTicksPos(1),cbTicksPos(end)])      % to be changed in clim since Matlab R2022a
@@ -345,3 +351,4 @@ set(integralAeroLoadsChords,'units','centimeters','position',[0,0,30,10]);
 exportgraphics(integralAeroLoadsChords,'figure\lerxLoadsDiff_sweep.png','Resolution',1000);
 
 
+%% selected lerx general plot
