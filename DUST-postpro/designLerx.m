@@ -7,11 +7,11 @@ initGraphic;
 %% Data import
 
 % input
-alphaDegVec  = [0 5 10]'; 
+alphaDegVec  = [0 5 10 15]'; 
 dataSubfolderName = 'lerx';
-considerTail = 0;
+considerTail = false;
 [reference] = runReferenceValue(96.672, 0.770153, 2.65, 26.56);
-avgLoadIdx = 100;
+avgLoadIdx = 90;
 
 % variable init
 noLerxConfig = struct;
@@ -70,7 +70,34 @@ cmap = cmap(1:length(alphaDegVec),:);
 
 %% Data post-process
 
-%%% Aerodynamic loads computation
+%%% Friction drag empiric computation
+% Lerx 1
+lerx1.surface = (0.925387 * 0.463947);
+friction.lerx1 = empiricFrictionDrag(0.3, 40, lerx1.surface, reference.Sref, reference.Cref);
+lerx1.lerx.aeroLoads.Cd = lerx1.lerx.aeroLoads.Cd + friction.lerx1;
+
+% Lerx 2
+lerx2.surface = (0.709115 * 0.35062);
+friction.lerx2 = empiricFrictionDrag(0.3, 40, lerx2.surface, reference.Sref, reference.Cref);
+lerx2.lerx.aeroLoads.Cd = lerx2.lerx.aeroLoads.Cd + friction.lerx2;
+
+% Lerx 3
+lerx3.surface = (0.492743 * 0.23724);
+friction.lerx3 = empiricFrictionDrag(0.3, 40, lerx3.surface, reference.Sref, reference.Cref);
+lerx3.lerx.aeroLoads.Cd = lerx3.lerx.aeroLoads.Cd + friction.lerx3;
+
+% Lerx 4
+lerx4.surface = (0.925387 * 0.678246);
+friction.lerx4 = empiricFrictionDrag(0.3, 40, lerx4.surface, reference.Sref, reference.Cref);
+lerx4.lerx.aeroLoads.Cd = lerx4.lerx.aeroLoads.Cd + friction.lerx4;
+
+% Lerx 5
+lerx5.surface = (0.925387 * 0.30605);
+friction.lerx5 = empiricFrictionDrag(0.3, 40, lerx5.surface, reference.Sref, reference.Cref);
+lerx5.lerx.aeroLoads.Cd = lerx5.lerx.aeroLoads.Cd + friction.lerx5;
+
+
+%%% Total aerodynamic loads computation
 % Cl
 if considerTail == true
     lerx0.aero.Cl = lerx0.wing.aeroLoads.Cl + lerx0.tail.aeroLoads.Cl;    % tail
@@ -179,7 +206,7 @@ nexttile(1);    % Fz
         yline(lerx1.convegence.mFz(i),'--','Color',cmap(i,:))
     end
     xlabel('$time$ [sec]');       ylabel('$F_{z}$ [N]');
-    ylim([-1e4,6e4])
+    ylim([-0.5e4,5.5e4])
 
 nexttile(2);    % Fx
     hold on;    grid minor;     axis padded;    box on;
@@ -188,7 +215,7 @@ nexttile(2);    % Fx
         yline(lerx1.convegence.mFx(i),'--','Color',cmap(i,:))
     end
     xlabel('$time$ [sec]');      ylabel('$F_{x}$ [N]');
-    ylim([-1.5e4,2e3])
+    ylim([-1.3e4,1.5e3])
 
 nexttile(3);    % My
     hold on;    grid minor;     axis padded;    box on;
@@ -197,7 +224,7 @@ nexttile(3);    % My
         yline(lerx1.convegence.mMy(i),'--','Color',cmap(i,:))
     end
     xlabel('$time$ [sec]');      ylabel('$M_{y}$ [N]');
-    ylim([-4e4,0.5e4])
+    ylim([-1.75e4,0.25e4])
     
 colormap(cmap)                              % apply colormap
 caxis([cbTicksPos(1),cbTicksPos(end)])      % to be changed in clim since Matlab R2022a
